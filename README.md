@@ -11,7 +11,7 @@ This mp3-asp-mvc web app for my final exam in my university.
 
 To run this project, ensure that you have [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) installed on your system.
 
-In debug mode, you can run in Visual Studio 2022 and using dotnet cli command:
+In debug mode, you can run in Visual Studio 2022 or use dotnet cli command:
 
 ```command
 dotnet run mp3.mvc.sln
