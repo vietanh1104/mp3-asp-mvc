@@ -16,3 +16,7 @@ In debug mode, you can run in Visual Studio 2022 and using dotnet cli command:
 ```command
 dotnet run mp3.mvc.sln
 ```
+
+## Author
+
+This project was created by [Vanh Can](https://github.com/vietanh1104).
