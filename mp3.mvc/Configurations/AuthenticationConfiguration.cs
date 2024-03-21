@@ -41,7 +41,7 @@ namespace mp3.mvc.Configurations
                             return Task.CompletedTask;
                         }
                     };
-                    options.ExpireTimeSpan = TimeSpan.FromSeconds(10);
+                    options.ExpireTimeSpan = TimeSpan.FromDays(10);
                     options.LoginPath = new PathString("/user/login");
                     options.ReturnUrlParameter = "/home";
                     options.SlidingExpiration = true;

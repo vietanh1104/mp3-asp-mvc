@@ -14,7 +14,7 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
 .hover-text :hover {
@@ -23,4 +23,63 @@ body {
 
 .color-common {
     background-color: #9747FF;
+}
+
+.image-card {
+    height: 200px;
+    width: 200px;
+    position: relative;
+}
+
+.card-list-container {
+    display: flex;
+    margin: 10px auto;
+    flex-wrap: wrap; /* Allow items to wrap to the next line if needed */
+    justify-content: flex-start; /* Adjust as needed, e.g., space-around, space-evenly */
+}
+
+.card-container {
+    width: 200px;
+    position: relative;
+    margin-bottom: 20px; /* Adjust margin between items vertically */
+    margin-right: 20px;
+}
+
+.card-content {
+    width: 200px;
+    position: relative;
+}
+
+.play-btn {
+    margin: auto;
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1; /* Ensure play button is on top of other content */
+}
+
+.card-content:hover .play-btn {
+    display: block;
+}
+
+.card-title {
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis;
+    font-size: 16px;
+    margin-bottom: 0px;
+}
+
+.card-body {
+    padding: 10px 5px;
+}
+
+.card-author {
+    font-size:14px;
+}
+
+.card-author:hover {
+    color: black;
 }

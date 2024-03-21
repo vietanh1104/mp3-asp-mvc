@@ -1,31 +1,68 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization;
+﻿@model mp3.mvc.Infrastructure.Entities.Media
+
 @{
     ViewData["Title"] = "Home Page";
 }
 
-@inject IViewLocalizer Localizer
-
-<div>@ViewData["Greeting"]</div>
-
-<div class="text-center">
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="/image" alt="Card image cap">
+<div class="card-list-container">
+    <div class="card card-container">
+        <div class="card-content">
+            <a href="#" class="btn btn-primary play-btn">Play</a>
+            <img src="@Model.MediaContent[0].Value" class="card-img-top image-card" alt="...">
+        </div>
         <div class="card-body">
-            <h5 class="card-title">@Localizer["Greeting"]</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <a class="card-title text-black" href="#">@Model.Name</a>  
+            <a class="card-author" href="#">@Model.Author?.Name</a>
         </div>
     </div>
-  
-    <div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-body">
-            Hello, world! This is a toast message.
+    <div class="card card-container">
+        <div class="card-content">
+            <a href="#" class="btn btn-primary play-btn">Play</a>
+            <img src="@Model.MediaContent[0].Value" class="card-img-top image-card" alt="...">
         </div>
-        <div class="d-flex">
-            <div class="toast-body">
-                Hello, world! This is a toast message.
-            </div>
-            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        <div class="card-body">
+            <a class="card-title text-black" href="#">@Model.Name</a>
+            <a class="card-author" href="#">@Model.Author?.Name</a>
+        </div>
+    </div>
+    <div class="card card-container">
+        <div class="card-content">
+            <a href="#" class="btn btn-primary play-btn">Play</a>
+            <img src="@Model.MediaContent[0].Value" class="card-img-top image-card" alt="...">
+        </div>
+        <div class="card-body">
+            <a class="card-title text-black" href="#">@Model.Name</a>  
+            <a class="card-author" href="#">@Model.Author?.Name</a>
+        </div>
+    </div>
+    <div class="card card-container">
+        <div class="card-content">
+            <a href="#" class="btn btn-primary play-btn">Play</a>
+            <img src="@Model.MediaContent[0].Value" class="card-img-top image-card" alt="...">
+        </div>
+        <div class="card-body">
+            <a class="card-title text-black" href="#">@Model.Name</a>  
+            <a class="card-author" href="#">@Model.Author?.Name</a>
+        </div>
+    </div>
+    <div class="card card-container">
+        <div class="card-content">
+            <a href="#" class="btn btn-primary play-btn">Play</a>
+            <img src="@Model.MediaContent[0].Value" class="card-img-top image-card" alt="...">
+        </div>
+        <div class="card-body">
+            <a class="card-title text-black" href="#">@Model.Name</a>
+            <a class="card-author" href="#">@Model.Author?.Name</a>
+        </div>
+    </div>
+    <div class="card card-container">
+        <div class="card-content">
+            <a href="#" class="btn btn-primary play-btn">Play</a>
+            <img src="@Model.MediaContent[0].Value" class="card-img-top image-card" alt="...">
+        </div>
+        <div class="card-body">
+            <a class="card-title text-black" href="#">@Model.Name</a>
+            <a class="card-author" href="#">@Model.Author?.Name</a>
         </div>
     </div>
 </div>
