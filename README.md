@@ -14,6 +14,7 @@ To run this project, ensure that you have [.NET 6](https://dotnet.microsoft.com/
 In debug mode, you can run in Visual Studio 2022 or use dotnet cli command:
 
 ```command
+cd mp3.mvc
 dotnet run mp3.mvc.sln
 ```
 
