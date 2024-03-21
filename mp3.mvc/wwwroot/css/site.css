@@ -1,0 +1,26 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.hover-text :hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.color-common {
+    background-color: #9747FF;
+}

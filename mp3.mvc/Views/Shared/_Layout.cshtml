@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MineMusic</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/login-form.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/mp3.mvc.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light color-common">
+            <div class="container-fluid mx-5">
+                <a class="navbar-brand text-light" href="#">
+                    <span>MineMusic</span>
+                    <img width="20" height="20" fill="currentColor" src="~/images/logo.png" />
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-light">
+                        <li class="nav-item hover-text">
+                            <a class="nav-link text-dark" href="/home">Home</a>
+                        </li>
+                        <li class="nav-item hover-text">
+                            <a class="nav-link text-light" href="/features">Features</a>
+                        </li>
+                        <li class="nav-item dropdown hover-text">
+                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Explore
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Pop</a></li>
+                                <li><a class="dropdown-item" href="#">Folk </a></li>
+                                <li><a class="dropdown-item" href="#">Country </a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">More</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item hover-text">
+                            <a class="nav-link text-light" href="#" tabindex="-1">Collection</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex hover-text">
+                        <input class="form-control me-2" type="search" placeholder="Music name, singer,..." aria-label="Search">
+                        <button class="btn btn-outline-light" type="submit">Search</button>
+                    </form>
+                    @{
+                        var cookie = Context.Request.Cookies["authorize"];
+                        if (!string.IsNullOrEmpty(cookie))
+                        {
+                            <div class="d-flex dropdown">
+                                <img class="avatar hover-text bg-info rounded-circle mx-1" id="navbarDropdown" aria-expanded="false"
+                                     data-bs-toggle="dropdown" style="max-width:40px; max-height:40px;" src="images/avatars/demo-avatar.jpg" />
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="#">My info</a></li>
+                                    <li><a class="dropdown-item" href="#">My purchase</a></li>
+                                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                                    <li><a class="dropdown-item" href="/user/setlanguage">Change Language</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="/user/logout">Logout</a></li>
+                                </ul>
+                            </div>
+                            <a class="nav-link text-light hover-text" href="#">Upload</a> 
+                        }
+                        else
+                        {
+                            <a class="text-light mx-1" href="/user/login">Login</a>
+                        }
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted color-common">
+        <div class="container text-light">
+            &copy; 2024 - mp3.mvc - <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-light"><u>Privacy</u></a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
