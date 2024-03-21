@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using mp3.mvc.Models.UserModels;
+using mp3.mvc.Models;
 using System.Security.Claims;
 namespace mp3.mvc.Controllers
 {
@@ -53,8 +53,7 @@ namespace mp3.mvc.Controllers
                     principal: principal,
                     properties: new AuthenticationProperties
                     {
-                        //IsPersistent = true, // for 'remember me' feature
-                        ExpiresUtc = DateTime.UtcNow.AddMinutes(1)
+                        IsPersistent = model.isRememeberMe, // for 'remember me' feature
                     });
             _logger.LogDebug($"User with username: {model.username} logined.");
             _notyfService.Success("Login successfully.");
@@ -67,6 +66,34 @@ namespace mp3.mvc.Controllers
                     scheme: "CookieSecurityScheme");
 
             return RedirectToAction("Login");
+        }
+        public IActionResult Register()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            // create claims
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, model.username)
+            };
+
+            // create identity
+            ClaimsIdentity identity = new ClaimsIdentity(claims, "cookie");
+
+            // create principal
+            ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+
+            // sign-in
+            await HttpContext.SignInAsync(
+                    scheme: "CookieSecurityScheme",
+                    principal: principal);
+            _logger.LogDebug($"User with username: {model.username} logined.");
+            _notyfService.Success("Register successfully.");
+            return View();
         }
         public IActionResult SetLanguage()
         {

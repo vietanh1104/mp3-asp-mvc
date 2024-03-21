@@ -16,6 +16,8 @@
     <Folder Include="Base\" />
     <Folder Include="Consts\" />
     <Folder Include="Helpers\" />
+    <Folder Include="Models\UserModels\" />
+    <Folder Include="Views\PartrialViews\" />
   </ItemGroup>
 
 </Project>
