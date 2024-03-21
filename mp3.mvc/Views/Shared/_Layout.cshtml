@@ -50,9 +50,8 @@
                         <button class="btn btn-outline-light" type="submit">Search</button>
                     </form>
                     @{
-                        var cookie = Context.Request.Cookies["authorize"];
-                        if (!string.IsNullOrEmpty(cookie))
-                        {
+                        if (User == null || User.Identity == null || User.Identity.IsAuthenticated)
+                                    {
                             <div class="d-flex dropdown">
                                 <img class="avatar hover-text bg-info rounded-circle mx-1" id="navbarDropdown" aria-expanded="false"
                                      data-bs-toggle="dropdown" style="max-width:40px; max-height:40px;" src="images/avatars/demo-avatar.jpg" />
@@ -90,6 +89,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    @await Component.InvokeAsync("Notyf")
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

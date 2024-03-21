@@ -1,4 +1,4 @@
-﻿@model mp3.mvc.Models.UserModels.LoginForm
+﻿@model mp3.mvc.Models.UserModels.LoginViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -12,11 +12,12 @@
         <h4>Login</h4>
         <!-- Login Form -->
         <form method="post" asp-action="login">
+            <input type="hidden" name="requestpath" id="requestpath" value="@ViewBag.RequestPath" />
             <div class="mb-3 mx-3 fadeIn first ">
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Username or email">
+                <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Username or email">
             </div>
             <div class="mb-3 mx-3 fadeIn second">
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
             </div>
             <input type="submit" class="fadeIn fourth" value="Log In">
         </form>
