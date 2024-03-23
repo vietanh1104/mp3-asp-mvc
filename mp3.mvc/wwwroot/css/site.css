@@ -18,7 +18,13 @@ body {
 }
 
 .hover-text :hover {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px rgba(1, 1, 1, 0.5);
+    text-decoration: none;
+    color:black;
+}
+
+a :hover{
+    text-decoration: none;
 }
 
 .color-common {
@@ -82,4 +88,9 @@ body {
 
 .card-author:hover {
     color: black;
+}
+
+.carousel-item-img{
+    width: 200px;
+    height: 200px;
 }

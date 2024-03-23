@@ -21,7 +21,7 @@ namespace mp3.mvc.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            return View(MockData.MediaData[0]);
+            return View(MockData.MediaData);
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
