@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\PartrialViews\**" />
+    <Content Remove="Views\PartrialViews\**" />
+    <EmbeddedResource Remove="Views\PartrialViews\**" />
+    <None Remove="Views\PartrialViews\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AspNetCoreHero.ToastNotification" Version="1.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
   </ItemGroup>
@@ -15,7 +22,6 @@
   <ItemGroup>
     <Folder Include="Consts\" />
     <Folder Include="Models\UserModels\" />
-    <Folder Include="Views\PartrialViews\" />
   </ItemGroup>
 
 </Project>
