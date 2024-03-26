@@ -27,6 +27,11 @@ a :hover{
     text-decoration: none;
 }
 
+.container {
+    background-color: #DEE2E6;
+    padding: 20px;
+}
+
 .color-common {
     background-color: #9747FF;
 }

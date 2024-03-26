@@ -1,5 +1,6 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using mp3.mvc.Models;
@@ -38,7 +39,8 @@ namespace mp3.mvc.Controllers
             // create claims
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, model.username)
+                new Claim(ClaimTypes.Name, model.username),
+                new Claim(ClaimTypes.NameIdentifier, new Guid().ToString(), ClaimValueTypes.String)
             };
 
             // create identity
@@ -78,7 +80,8 @@ namespace mp3.mvc.Controllers
             // create claims
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, model.username)
+                new Claim(ClaimTypes.Name, model.username),
+                new Claim(ClaimTypes.NameIdentifier, new Guid().ToString(), ClaimValueTypes.String)
             };
 
             // create identity
@@ -104,6 +107,12 @@ namespace mp3.mvc.Controllers
             );
 
             return RedirectToAction("index", "home");
+        }
+        [Authorize]
+        public IActionResult GetOwnerProfile()
+        {
+            var id = HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier);
+            return View(MockData.UserData[0]);
         }
     }
 }
