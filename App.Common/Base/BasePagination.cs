@@ -1,4 +1,4 @@
-﻿namespace mp3.mvc.Base
+﻿namespace App.Common.Base
 {
     public class BasePagination<T>
     {

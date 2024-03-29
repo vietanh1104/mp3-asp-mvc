@@ -1,9 +1,9 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace mp3.mvc.Helpers
+namespace App.Common.Helpers
 {
-    public class PasswordHelper
+    public static class TokenHelper
     {
         public static string sha256_hash(string value)
         {

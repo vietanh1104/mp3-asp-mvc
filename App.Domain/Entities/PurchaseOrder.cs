@@ -1,7 +1,7 @@
-﻿using mp3.mvc.Base;
+﻿using App.Common.Base;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace mp3.mvc.Infrastructure.Entities
+namespace App.Domain.Entities
 {
     [Table("purchaseOrders")]
     public class PurchaseOrder : BaseEntity

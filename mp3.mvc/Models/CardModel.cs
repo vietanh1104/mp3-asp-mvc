@@ -1,4 +1,4 @@
-﻿using mp3.mvc.Infrastructure.Entities;
+﻿using App.Domain.Entities;
 
 namespace mp3.mvc.Models
 {

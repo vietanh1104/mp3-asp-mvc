@@ -1,4 +1,4 @@
-﻿namespace mp3.mvc.Infrastructure.Entities
+﻿namespace App.Domain.Entities
 {
     public class Transaction
     {

@@ -7,25 +7,28 @@
             // Add localization config
             services.AddLocalizationConfiguration();
 
-
             // Add authentication config
             services.AddAuthenticationConfiguration();
 
             // Add notification config
             services.AddNotificationConfiguration();
 
+            // Add database config
+            services.AddDatabaseConfiguration(configuration);
+
+            LoggerConfiguraton.AddSerilogConfiguration(configuration);
             return services;
         }
 
         public static IApplicationBuilder AddApplicationBuilderExtensions(this IApplicationBuilder app)
         {
             app.UseCors();
-            app.AddLocalizationConfiguration();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
             app.AddAuthenticationConfiguration();
             app.AddNotificationConfiguration();
+            app.AddDatabaseConfiguration();
 
             return app;
 

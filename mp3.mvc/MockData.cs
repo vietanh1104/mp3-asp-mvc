@@ -1,5 +1,5 @@
-﻿using mp3.mvc.Enums;
-using mp3.mvc.Infrastructure.Entities;
+﻿using App.Domain.Entities;
+using mp3.mvc.Enums;
 
 namespace mp3.mvc
 {
@@ -167,7 +167,7 @@ namespace mp3.mvc
                 AuthorId = AuthorData[1].Id,
                 Author = AuthorData[1],
                 CategoryId = CategoryData[1].Id,
-                Category = CategoryData[1],             
+                Category = CategoryData[1],
             },
             new Media
             {
