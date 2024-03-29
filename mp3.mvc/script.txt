@@ -1,0 +1,1 @@
+﻿dotnet ef migrations add init --project ../App.PostgreSQL --startup-project . --context DatabaseContext

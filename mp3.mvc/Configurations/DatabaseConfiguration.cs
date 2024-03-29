@@ -1,5 +1,7 @@
 ﻿using App.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using PostgreSQLProjectAssembly = App.PostgreSQL.MigrationAssembly;
+using SqlServerSQLProjectAssembly = App.SQLServer.MigrationAssembly;
 
 namespace mp3.mvc.Configurations
 {
@@ -7,7 +9,8 @@ namespace mp3.mvc.Configurations
     {
         public static IServiceCollection AddDatabaseConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            string connectionString = configuration.GetConnectionString("DatabaseConnection");
+            string connectionString = configuration.GetConnectionString("DatabaseConnection")
+                ?? throw new ArgumentException("Missing database connection string.");
             string typeOfDatabase = configuration["DatabaseSettings:DatabaseType"]
                 ?? throw new ArgumentException("Missing database type.");
 
@@ -17,15 +20,15 @@ namespace mp3.mvc.Configurations
                 {
                     "postgres" =>
                         options.UseNpgsql(
-                          configuration.GetConnectionString(connectionString),
-                          x => x.MigrationsAssembly("typeof(PostgresProject).Namespace")),
+                        connectionString,
+                        x => x.MigrationsAssembly(typeof(PostgreSQLProjectAssembly).Assembly.FullName)),
                     "sqlserver" =>
                         options.UseSqlServer(
-                                configuration.GetConnectionString(connectionString),
-                                x => x.MigrationsAssembly("typeof(SqlServerProject).Namespace")),
+                        connectionString,
+                        x => x.MigrationsAssembly(typeof(SqlServerSQLProjectAssembly).Assembly.FullName)),
                     _ =>
                         options.UseInMemoryDatabase(
-                                configuration.GetConnectionString(connectionString))
+                        connectionString)
                 });
 
 
