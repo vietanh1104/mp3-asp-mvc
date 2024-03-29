@@ -99,3 +99,12 @@ a :hover{
     width: 180px;
     height: 180px;
 }
+
+.search-btn:hover {
+    box-shadow: 0 0 10px rgba(1, 1, 1, 0.5);
+    color: #9747FF;
+}
+
+.search-btn {
+    border: 1px solid rgb(248, 249, 250);
+}
