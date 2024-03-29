@@ -31,5 +31,10 @@ namespace mp3.mvc.Controllers
             var res = new BasePagination<Media>(total, totalItems, page, pageSize, items);
             return View(res);
         }
+        public IActionResult Play(Guid id)
+        {
+            var music = MockData.MediaData.FirstOrDefault(p => p.Id == id);
+            return View(music);
+        }
     }
 }

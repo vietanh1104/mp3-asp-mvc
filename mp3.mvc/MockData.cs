@@ -150,7 +150,7 @@ namespace mp3.mvc
                     {
                         Id = Guid.Parse("00000001-0001-0000-0000-000000000002"),
                         MediaId = Guid.Parse("00000001-0000-0000-0000-000000000001"),
-                        Value = "/images/media/chung_ta_cua_hien_tai.jpg",
+                        Value = "/images/media/blue.jpg",
                         Type = (int) MediaContentType.image,
                         CreatedAt = DateTime.Now,
                         UpdatedAt = DateTime.Now,
