@@ -9,16 +9,16 @@ namespace mp3.mvc
         {
             new User
             {
-                Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
-                Username = "user1",
-                DisplayName = "Cấn Việt Anh 1",
+                Id = Guid.Parse("44db2929-809b-41f8-9ce4-61446981112f"),
+                Username = "anhcanviet",
+                DisplayName = "Cấn Việt Anh",
                 Gender = (int)GenderType.male,
-                Address = "Kim Quan, Thạch Thất, Hà Nội",
+                Address = "Thạch Thất, Hà Nội",
                 AvatarUrl = "/images/avatars/user1.jpg",
                 Balance = 1000000,
                 Dob = DateTime.Now,
-                PhoneNumber = "1234567890",
-                Email = "abc@gmail.com",
+                PhoneNumber = "0123456111",
+                Email = "anhcanviet@gmail.com",
                 IsAdmin = false,
                 IsLocked = false,
                 CreatedAt = DateTime.Now,
@@ -26,16 +26,16 @@ namespace mp3.mvc
             },
             new User
             {
-                Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),
-                Username = "user2",
-                DisplayName = "Cấn Việt Anh 2",
-                Gender = (int)GenderType.female,
-                Address = "Lập Thạch, Vĩnh Phúc",
+                Id = Guid.Parse("6dbdf1c9-5f97-41bf-876b-712d2143ab44"),
+                Username = "hieulevan",
+                DisplayName = "Lê Văn Hiếu",
+                Gender = (int)GenderType.male,
+                Address = "Cẩm Giàng, Hải Dương",
                 AvatarUrl = "/images/avatars/user1.jpg",
                 Balance = 2000000,
                 Dob = DateTime.Now,
-                PhoneNumber = "1234567890",
-                Email = "abc@gmail.com",
+                PhoneNumber = "0123456222",
+                Email = "hieulevan@gmail.com",
                 IsAdmin = false,
                 IsLocked = false,
                 CreatedAt = DateTime.Now,
@@ -43,16 +43,16 @@ namespace mp3.mvc
             },
             new User
             {
-                Id = Guid.Parse("00000000-0000-0000-0000-000000000003"),
-                Username = "user3",
-                DisplayName = "Cấn Việt Anh 3",
-                Gender = (int)GenderType.male,
+                Id = Guid.Parse("fd998c87-d3db-4703-abcb-02463aaf9cd2"),
+                Username = "bnguyenthi",
+                DisplayName = "Nguyễn Thị B",
+                Gender = (int)GenderType.female,
                 Address = "Thạch Thất, Hà Nội",
                 AvatarUrl ="/images/avatars/user1.jpg",
                 Balance = 0,
                 Dob = DateTime.Now,
-                PhoneNumber = "1234567890",
-                Email = "abc@gmail.com",
+                PhoneNumber = "0123456333",
+                Email = "bnguyenthi@gmail.com",
                 IsAdmin = false,
                 IsLocked = true,
                 CreatedAt = DateTime.Now,
@@ -60,16 +60,16 @@ namespace mp3.mvc
             },
             new User
             {
-                Id = Guid.Parse("00000000-0000-0000-0000-000000000004"),
+                Id = Guid.Parse("800eac18-f5c3-4f83-a64b-92f1b92c5afb"),
                 Username = "admin",
-                DisplayName = "Cấn Việt Anh",
+                DisplayName = "Admin",
                 Gender = (int)GenderType.male,
-                Address = "Kim Quan, Thạch Thất, Hà Nội",
+                Address = "Thạch Thất, Hà Nội",
                 AvatarUrl = "/images/avatars/user1.jpg",
                 Balance = 1000000,
                 Dob = DateTime.Now,
-                PhoneNumber = "1234567890",
-                Email = "abc@gmail.com",
+                PhoneNumber = "0123456444",
+                Email = "admin@gmail.com",
                 IsAdmin = true,
                 IsLocked = false,
                 CreatedAt = DateTime.Now,
@@ -80,22 +80,22 @@ namespace mp3.mvc
         {
             new Author()
             {
-                Id = Guid.Parse("00000002-0000-0000-0000-000000000001"),
+                Id = Guid.Parse("19898cd2-75b4-4d3c-86bd-0d111392ae62"),
                 Name = "anonymous",
             },
             new Author()
             {
-                Id = Guid.Parse("00000002-0000-0000-0000-000000000002"),
+                Id = Guid.Parse("19898cd2-75b4-4d3c-86bd-0d111392ae63"),
                 Name = "Sơn Tùng MTP",
             },
             new Author()
             {
-                Id = Guid.Parse("00000002-0000-0000-0000-000000000003"),
+                Id = Guid.Parse("19898cd2-75b4-4d3c-86bd-0d111392ae64"),
                 Name = "Đen Vâu",
             },
             new Author()
             {
-                Id = Guid.Parse("00000002-0000-0000-0000-000000000004"),
+                Id = Guid.Parse("a54c0c25-6172-43ee-8d5f-e1be77d21204"),
                 Name = "BigBang",
             },
         };
@@ -103,27 +103,27 @@ namespace mp3.mvc
         {
             new Category
             {
-                Id = Guid.Parse("00000003-0000-0000-0000-000000000001"),
+                Id = Guid.Parse("fe37b02d-ef94-4e3b-b685-46bb8f7b57dc"),
                 Name = "Unknown"
             },
             new Category
             {
-                Id = Guid.Parse("00000003-0000-0000-0000-000000000002"),
+                Id = Guid.Parse("7fdbc6fa-c648-4944-be6a-00c9a6785fce"),
                 Name = "Pop"
             },
             new Category
             {
-                Id = Guid.Parse("00000003-0000-0000-0000-000000000003"),
+                Id = Guid.Parse("d7d58d7b-f11c-4ec0-8409-939914aa9c1a"),
                 Name = "Folk"
             },
             new Category
             {
-                Id = Guid.Parse("00000003-0000-0000-0000-000000000004"),
+                Id = Guid.Parse("ea367dd6-f8d7-4e08-b4f2-d537763cb64e"),
                 Name = "Country"
             },
             new Category
             {
-                Id = Guid.Parse("00000003-0000-0000-0000-000000000005"),
+                Id = Guid.Parse("6d23da42-426f-4572-a7e1-baace7460841"),
                 Name = "Rap"
             },
         };
@@ -131,7 +131,7 @@ namespace mp3.mvc
         {
             new Media
             {
-                Id = Guid.Parse("00000001-0000-0000-0000-000000000001"),
+                Id = Guid.Parse("e0f37b00-d617-4122-ae63-f766c91ea64e"),
                 UserId = UserData[0].Id,
                 User = UserData[0],
                 Name = "Chúng ta của hiện tại",
@@ -139,8 +139,8 @@ namespace mp3.mvc
                 {
                     new MediaContent
                     {
-                        Id = Guid.Parse("00000001-0001-0000-0000-000000000001"),
-                        MediaId = Guid.Parse("00000001-0000-0000-0000-000000000001"),
+                        Id = Guid.Parse("d235b516-fe6d-44cc-86c6-24bac034b588"),
+                        MediaId = Guid.Parse("e0f37b00-d617-4122-ae63-f766c91ea64e"),
                         Value = "/images/media/chung_ta_cua_hien_tai.jpg",
                         Type = (int) MediaContentType.image,
                         CreatedAt = DateTime.Now,
@@ -148,8 +148,8 @@ namespace mp3.mvc
                     },
                     new MediaContent
                     {
-                        Id = Guid.Parse("00000001-0001-0000-0000-000000000002"),
-                        MediaId = Guid.Parse("00000001-0000-0000-0000-000000000001"),
+                        Id = Guid.Parse("d235b516-fe6d-44cc-86c6-24bac034b589"),
+                        MediaId = Guid.Parse("e0f37b00-d617-4122-ae63-f766c91ea64e"),
                         Value = "/images/media/blue.jpg",
                         Type = (int) MediaContentType.image,
                         CreatedAt = DateTime.Now,
@@ -171,7 +171,7 @@ namespace mp3.mvc
             },
             new Media
             {
-                Id = Guid.Parse("00000001-0000-0000-0000-000000000002"),
+                Id = Guid.Parse("bfac4cfe-1ad6-4b8e-9c22-45d51acd20fb"),
                 UserId = UserData[0].Id,
                 User = UserData[0],
                 Name = "Chắc ai đó sẽ về",
@@ -179,8 +179,8 @@ namespace mp3.mvc
                 {
                     new MediaContent
                     {
-                        Id = Guid.Parse("00000001-0001-0000-0000-000000000003"),
-                        MediaId = Guid.Parse("00000001-0000-0000-0000-000000000002"),
+                        Id = Guid.Parse("98f5ca24-1d91-40e5-b0ea-9abf908d24cb"),
+                        MediaId = Guid.Parse("bfac4cfe-1ad6-4b8e-9c22-45d51acd20fb"),
                         Value = "/images/media/chac_ai_do_se_ve.jpg",
                         Type = (int) MediaContentType.image,
                         CreatedAt = DateTime.Now,
@@ -188,8 +188,8 @@ namespace mp3.mvc
                     },
                     new MediaContent
                     {
-                        Id = Guid.Parse("00000001-0001-0000-0000-000000000004"),
-                        MediaId = Guid.Parse("00000001-0000-0000-0000-000000000002"),
+                        Id = Guid.Parse("98f5ca24-1d91-40e5-b0ea-9abf908d24cd"),
+                        MediaId = Guid.Parse("bfac4cfe-1ad6-4b8e-9c22-45d51acd20fb"),
                         Value = "/images/media/chac_ai_do_se_ve.jpg",
                         Type = (int) MediaContentType.image,
                         CreatedAt = DateTime.Now,
@@ -211,7 +211,7 @@ namespace mp3.mvc
             },
             new Media
             {
-                Id = Guid.Parse("00000001-0000-0000-0000-000000000003"),
+                Id = Guid.Parse("f7450d9a-ab05-4b02-9bbe-473e334b06fd"),
                 UserId = UserData[0].Id,
                 User = UserData[0],
                 Name = "Blue",
@@ -219,8 +219,8 @@ namespace mp3.mvc
                 {
                     new MediaContent
                     {
-                        Id = Guid.Parse("00000001-0001-0000-0000-000000000005"),
-                        MediaId = Guid.Parse("00000001-0000-0000-0000-000000000003"),
+                        Id = Guid.Parse("0cf89168-d600-435e-80c1-09f1b3035d20"),
+                        MediaId = Guid.Parse("f7450d9a-ab05-4b02-9bbe-473e334b06fd"),
                         Value = "/images/media/blue.jpg",
                         Type = (int) MediaContentType.image,
                         CreatedAt = DateTime.Now,
@@ -228,8 +228,8 @@ namespace mp3.mvc
                     },
                     new MediaContent
                     {
-                        Id = Guid.Parse("00000001-0001-0000-0000-000000000006"),
-                        MediaId = Guid.Parse("00000001-0000-0000-0000-000000000003"),
+                        Id = Guid.Parse("0cf89168-d600-435e-80c1-09f1b3035d21"),
+                        MediaId = Guid.Parse("f7450d9a-ab05-4b02-9bbe-473e334b06fd"),
                         Value = "/images/media/blue.jpg",
                         Type = (int) MediaContentType.image,
                         CreatedAt = DateTime.Now,
@@ -251,7 +251,7 @@ namespace mp3.mvc
             },
             new Media
             {
-                Id = Guid.Parse("00000001-0000-0000-0000-000000000004"),
+                Id = Guid.Parse("5087667c-2f59-473a-9e78-9e871cb6b3b2"),
                 UserId = UserData[1].Id,
                 User = UserData[1],
                 Name = "Let not fall in love",
@@ -259,8 +259,8 @@ namespace mp3.mvc
                 {
                     new MediaContent
                     {
-                        Id = Guid.Parse("00000001-0001-0000-0000-000000000007"),
-                        MediaId = Guid.Parse("00000001-0000-0000-0000-000000000004"),
+                        Id = Guid.Parse("4ae773b0-8db3-4dc8-b371-832af3613ee9"),
+                        MediaId = Guid.Parse("5087667c-2f59-473a-9e78-9e871cb6b3b2"),
                         Value = "/images/media/let_not_fall_in_love.jpg",
                         Type = (int) MediaContentType.image,
                         CreatedAt = DateTime.Now,
@@ -268,8 +268,8 @@ namespace mp3.mvc
                     },
                     new MediaContent
                     {
-                        Id = Guid.Parse("00000001-0001-0000-0000-000000000008"),
-                        MediaId = Guid.Parse("00000001-0000-0000-0000-000000000004"),
+                        Id = Guid.Parse("4ae773b0-8db3-4dc8-b371-832af3613ee8"),
+                        MediaId = Guid.Parse("5087667c-2f59-473a-9e78-9e871cb6b3b2"),
                         Value = "/images/media/let_not_fall_in_love.jpg",
                         Type = (int) MediaContentType.image,
                         CreatedAt = DateTime.Now,
@@ -291,7 +291,7 @@ namespace mp3.mvc
             },
             new Media
             {
-                Id = Guid.Parse("00000001-0000-0000-0000-000000000005"),
+                Id = Guid.Parse("315dc472-f790-47f3-9473-79edcc4ca060"),
                 UserId = UserData[2].Id,
                 User = UserData[2],
                 Name = "Chạy ngay đi",
@@ -299,8 +299,8 @@ namespace mp3.mvc
                 {
                     new MediaContent
                     {
-                        Id = Guid.Parse("00000001-0001-0000-0000-000000000009"),
-                        MediaId = Guid.Parse("00000001-0000-0000-0000-000000000005"),
+                        Id = Guid.Parse("142ad6ec-a913-4771-9df3-20f1d3ed8390"),
+                        MediaId = Guid.Parse("315dc472-f790-47f3-9473-79edcc4ca060"),
                         Value = "/images/media/chay_ngay_di.jpg",
                         Type = (int) MediaContentType.image,
                         CreatedAt = DateTime.Now,
@@ -308,8 +308,8 @@ namespace mp3.mvc
                     },
                     new MediaContent
                     {
-                        Id = Guid.Parse("00000001-0001-0000-0000-000000000010"),
-                        MediaId = Guid.Parse("00000001-0000-0000-0000-000000000005"),
+                        Id = Guid.Parse("142ad6ec-a913-4771-9df3-20f1d3ed8391"),
+                        MediaId = Guid.Parse("315dc472-f790-47f3-9473-79edcc4ca060"),
                         Value = "/images/media/chay_ngay_di.jpg",
                         Type = (int) MediaContentType.image,
                         CreatedAt = DateTime.Now,
