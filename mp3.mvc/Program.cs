@@ -2,19 +2,21 @@ using mp3.mvc.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 var env = builder.Environment;
+var services = builder.Services;
+
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
-builder.Services.AddControllersWithViews();
-builder.Services.AddSwaggerGen();
+services.AddRazorPages();
+services.AddControllersWithViews();
+services.AddSwaggerGen();
 
-//builder.Configuration.SetBasePath(env.ContentRootPath)
-//        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-//        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-//        .AddEnvironmentVariables();
+builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env}.json", optional: true, reloadOnChange: true);
 
 // Add service collection extensions
-builder.Services.AddServiceCollectionExtensions(builder.Configuration);
+services.AddServiceCollectionExtensions(builder.Configuration, env);
 
 var app = builder.Build();
 
@@ -30,6 +32,5 @@ app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
 
 app.Run();

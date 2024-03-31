@@ -1,8 +1,11 @@
-﻿namespace mp3.mvc.Configurations
+﻿using App.Infrastructure;
+
+namespace mp3.mvc.Configurations
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddServiceCollectionExtensions(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddServiceCollectionExtensions(this IServiceCollection services, 
+            IConfiguration configuration, IHostEnvironment environment)
         {
             // Add localization config
             services.AddLocalizationConfiguration();
@@ -14,7 +17,7 @@
             services.AddNotificationConfiguration();
 
             // Add database config
-            services.AddDatabaseConfiguration(configuration);
+            services.AddDatabaseConfiguration<DatabaseContext>(configuration, environment);
 
             LoggerConfiguraton.AddSerilogConfiguration(configuration);
             return services;
@@ -28,7 +31,7 @@
             app.UseRouting();
             app.AddAuthenticationConfiguration();
             app.AddNotificationConfiguration();
-            app.AddDatabaseConfiguration();
+            app.UseApplicationDatabase<DatabaseContext>();
 
             return app;
 
