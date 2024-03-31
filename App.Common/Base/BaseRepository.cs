@@ -1,0 +1,87 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+
+namespace App.Common.Base
+{
+    public class BaseRepository<T, TContext>
+        where TContext : DbContext
+        where T: class
+    {
+        protected readonly TContext _context;
+        protected readonly ILogger<T> _logger;
+
+        public BaseRepository(TContext context, ILogger<T> logger)
+        {
+            _context = context;
+            _logger = logger;
+        }
+        public virtual async Task<T> GetByIdAsync(Guid id)
+        {
+            return await _context.Set<T>().FirstOrDefaultAsync(p => EF.Property<Guid>(p, "Id") == id) 
+                ?? throw new ArgumentException($"{nameof(T)} with id = {id} not found.");
+        }
+
+        public virtual async Task<List<T>> GetByIdListAsync(List<Guid> idList)
+        {
+            return await _context.Set<T>().Where(p => idList.Contains(EF.Property<Guid>(p, "Id"))).ToListAsync();
+        }
+
+        public virtual async Task<int> DeleteByIdAsync(Guid id)
+        {
+            try
+            {
+                var item = await _context.Set<T>().FirstOrDefaultAsync(p => EF.Property<Guid>(p, "Id") == id)
+               ?? throw new ArgumentException($"{nameof(T)} with id = {id} not found.");
+                _context.Set<T>().Remove(item);
+                return await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException($"Failed while deleting {nameof(T)} with id = {id}, message = {ex.Message}");
+            }
+        }
+
+        public virtual async Task<int> DeleteByIdListAsync(List<Guid> idList)
+        {
+            try
+            {
+                var itemList = await _context.Set<T>().Where(p => idList.Contains(EF.Property<Guid>(p, "Id"))).ToListAsync();
+                _context.Set<T>().RemoveRange(itemList);
+                return await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException($"Failed while deleting {nameof(T)}, message = {ex.Message}");
+            }
+        }
+
+        public virtual async Task<T> InsertOne(T entity)
+        {
+            try
+            {
+                await _context.Set<T>().AddAsync(entity);
+                await _context.SaveChangesAsync();
+                return entity;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException($"Failed while inserting new {nameof(T)}: {JsonConvert.SerializeObject(entity)}, message = {ex.Message}");
+            }
+        }
+
+        public virtual async Task<List<T>> InsertMany(List<T> entities)
+        {
+            try
+            {
+                await _context.Set<T>().AddRangeAsync(entities);
+                await _context.SaveChangesAsync();
+                return entities;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException($"Failed while inserting new list of {nameof(T)}, message = {ex.Message}");
+            }
+        }
+    }
+}

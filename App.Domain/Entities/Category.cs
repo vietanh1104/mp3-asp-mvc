@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace mp3.mvc.Infrastructure.Entities
+namespace App.Domain.Entities
 {
-    [Table("authors")]
-    public class Author
+    [Table("categories")]
+    public class Category
     {
         [Key]
         public Guid Id { get; set; }
-        public string? Name { get; set; }    
+        public string? Name { get; set; }
     }
 }

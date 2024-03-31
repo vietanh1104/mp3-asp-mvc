@@ -114,5 +114,10 @@ namespace mp3.mvc.Controllers
             var id = HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier);
             return View(MockData.UserData[0]);
         }
+
+        public Task<Guid> GetRandom()
+        {
+            return Task.FromResult(Guid.NewGuid());
+        }
     }
 }

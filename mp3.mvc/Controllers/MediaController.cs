@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using App.Common.Base;
+using App.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using mp3.mvc.Base;
-using mp3.mvc.Infrastructure.Entities;
 using System.Security.Claims;
 
 namespace mp3.mvc.Controllers

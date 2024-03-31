@@ -1,8 +1,7 @@
-﻿@model List<mp3.mvc.Infrastructure.Entities.Media>;
+﻿@model List<App.Domain.Entities.Media>;
 
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Home";  
 }
 <h1>@ViewData["Title"]</h1>
-
 <partial name="./Common/Media/Carousel/_SlidesWithControlPartial" model="Model" />
