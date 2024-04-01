@@ -17,6 +17,7 @@ namespace App.Domain.Entities
         public bool IsLocked { get; set; } = false;
         public bool IsAdmin { get; set; } = false;
         public decimal Balance { get; set; } = 0;
+        public string? Password { get; set;}
 
     }
 }

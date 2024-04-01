@@ -4,14 +4,14 @@ using Newtonsoft.Json;
 
 namespace App.Common.Base
 {
-    public class BaseRepository<T, TContext>
+    public abstract class BaseRepository<T, TContext>
         where TContext : DbContext
         where T: class
     {
         protected readonly TContext _context;
-        protected readonly ILogger<T> _logger;
+        protected readonly ILogger<BaseRepository<T, TContext>> _logger;
 
-        public BaseRepository(TContext context, ILogger<T> logger)
+        public BaseRepository(TContext context, ILogger<BaseRepository<T, TContext>> logger)
         {
             _context = context;
             _logger = logger;
