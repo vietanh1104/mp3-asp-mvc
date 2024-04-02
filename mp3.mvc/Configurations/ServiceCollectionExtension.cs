@@ -1,4 +1,5 @@
 ﻿using App.Infrastructure;
+using App.Infrastructure.Extensions;
 
 namespace mp3.mvc.Configurations
 {
@@ -18,6 +19,9 @@ namespace mp3.mvc.Configurations
 
             // Add database config
             services.AddDatabaseConfiguration<DatabaseContext>(configuration, environment);
+
+            // Add infrastructure config
+            services.AddInfrastructure();
 
             LoggerConfiguraton.AddSerilogConfiguration(configuration);
             return services;

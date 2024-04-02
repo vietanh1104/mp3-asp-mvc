@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using App.Common.Helpers;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
@@ -11,7 +12,11 @@ namespace App.Common.Base
     {
         protected readonly TContext _context;
         protected readonly ILogger<BaseRepository<T, TContext>> _logger;
-
+        public BaseRepository(TContext context, ILogger<BaseRepository<T, TContext>> logger)
+        {
+            _context = context;
+            _logger = logger;
+        }
         public async Task<T> GetAsync(Expression<Func<T, bool>> predicate)
         {
             IQueryable<T> query = _context.Set<T>();
@@ -23,11 +28,7 @@ namespace App.Common.Base
             
                 ?? throw new Exception();
         }
-        public BaseRepository(TContext context, ILogger<BaseRepository<T, TContext>> logger)
-        {
-            _context = context;
-            _logger = logger;
-        }
+        
         public virtual async Task<T> GetByIdAsync(Guid id)
         {
             return await _context.Set<T>().FirstOrDefaultAsync(p => EF.Property<Guid>(p, "Id") == id) 
@@ -50,7 +51,7 @@ namespace App.Common.Base
             }
             catch (Exception ex)
             {
-                throw new ArgumentException($"Failed while deleting {nameof(T)} with id = {id}, message = {ex.Message}");
+                throw new ArgumentException($"Failed while deleting {typeof(T)} with id = {id}, message = {ex.Message}");
             }
         }
 
@@ -93,6 +94,31 @@ namespace App.Common.Base
             catch (Exception ex)
             {
                 throw new ArgumentException($"Failed while inserting new list of {nameof(T)}, message = {ex.Message}");
+            }
+        }
+
+        public virtual async Task<BasePagination<T>> SearchWithPagination(Expression<Func<T, bool>> predicate, string? orderBy, int page = 1, int pageSize = 10)
+        {
+            try
+            {
+                IQueryable<T> query = _context.Set<T>().AsQueryable();
+
+                if(predicate != null)
+                {
+                    query = query.Where(predicate);
+                }
+
+                query = query.Distinct();
+
+                var totalItems = query.Count();
+
+                var items = await query.GetPagination(page, pageSize).ToListAsync();
+
+                return new BasePagination<T>(totalItems, page, pageSize, items);
+            }
+            catch(Exception ex)
+            {
+                throw new ArgumentException(ex.Message);
             }
         }
     }

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using App.Application.Contracts.Infrastructure;
+using App.Infrastructure.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace App.Infrastructure.Extensions
 {
@@ -9,6 +11,9 @@ namespace App.Infrastructure.Extensions
             // register automapper
 
             // di
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IMediaRepository, MediaRepository>();
+            services.AddScoped<IAuthorRepository, AuthorRepository>();
 
             // register mediatR
 

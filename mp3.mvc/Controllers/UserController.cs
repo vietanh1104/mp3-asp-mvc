@@ -21,6 +21,11 @@ namespace mp3.mvc.Controllers
             _notyfService = notyfService;
             _userRepository = userRepository;
         }
+        private Guid getUserId()
+        {
+            var Idclaim = HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier);
+            return Guid.Parse(Idclaim!.Value);
+        }
 
         public IActionResult Index()
         {
@@ -41,8 +46,8 @@ namespace mp3.mvc.Controllers
                 // create claims
                 List<Claim> claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, user.Username),
-                    new Claim(ClaimTypes.NameIdentifier, user.Password, ClaimValueTypes.String)
+                    new Claim(ClaimTypes.Name, user.Username!),
+                    new Claim(ClaimTypes.NameIdentifier, user.Password!, ClaimValueTypes.String)
                 };
 
                 // create identity
@@ -97,7 +102,7 @@ namespace mp3.mvc.Controllers
                 {
                     Username = model.username,
                     DisplayName = model.displayName,
-                    Password = TokenHelper.md5_hash(model.password),
+                    Password = TokenHelper.md5_hash(model.password!),
                     Address = model.address,
                     Gender = model.gender,
                     Dob = model.dob,
@@ -145,9 +150,7 @@ namespace mp3.mvc.Controllers
         [Authorize]
         public async Task<IActionResult> GetOwnerProfile()
         {
-            var id = HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier)
-                ?? throw new ArgumentException("User not found");
-            var user = await _userRepository.GetByIdAsync(new Guid(id.Value));
+            var user = await _userRepository.GetByIdAsync(getUserId());
             return View(user);
         }
     }

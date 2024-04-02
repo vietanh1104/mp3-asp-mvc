@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Localization;
-using Microsoft.Extensions.Options;
 using System.Globalization;
 
 namespace mp3.mvc.Configurations

@@ -14,11 +14,12 @@ namespace App.Infrastructure
         {
         }
 
-        public virtual DbSet<Author> Addresses { get; set; } = null!;
+        public virtual DbSet<Author> Authors { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Media> Media { get; set; } = null!;
         public virtual DbSet<MediaContent> MediaContents { get; set; } = null!;
         public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; } = null!;
+        public virtual DbSet<PurchaseOrderItem> PurchaseOrderItems{ get; set; } = null!;
         public virtual DbSet<Transaction> Transactions { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
 

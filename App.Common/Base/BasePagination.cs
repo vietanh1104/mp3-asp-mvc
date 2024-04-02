@@ -2,9 +2,9 @@
 {
     public class BasePagination<T>
     {
-        public BasePagination(long totalPage, long totalItems, long page, long pageSize, IEnumerable<T> items)
+        public BasePagination(long totalItems, long page, long pageSize, IEnumerable<T> items)
         {
-            TotalPage = totalPage;
+            TotalPage = (totalItems + pageSize - 1) / pageSize;
             TotalItems = totalItems;
             Page = page;
             PageSize = pageSize;
