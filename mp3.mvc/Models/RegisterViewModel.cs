@@ -17,7 +17,8 @@ namespace mp3.mvc.Models
         public string address { get; set; } = "";
         [Required(ErrorMessage = "{0} is required.")]
         [StringLength(200)]
-        public string password { get; set; }
+        [MinLength(6, ErrorMessage = "{0} is at least 6 characters.")]
+        public string? password { get; set; }
         [Required(ErrorMessage = "{0} is required.")]
         [StringLength(200)]
         [Compare("password", ErrorMessage = "Repeated password doesn't match, Type again !")]

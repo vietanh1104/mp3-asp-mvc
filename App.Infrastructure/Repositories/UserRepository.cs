@@ -1,6 +1,7 @@
 ﻿using App.Application.Contracts.Infrastructure;
 using App.Common.Base;
 using App.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace App.Infrastructure.Repositories
@@ -13,6 +14,16 @@ namespace App.Infrastructure.Repositories
         {
             _context = context;
             _logger = logger;
+        }
+
+        public async Task<User> Login(string username, string password)
+        {
+            var userLogin = await _context.Users.FirstOrDefaultAsync(p => p.Username == username.Trim() && p.Password == password);
+            if (userLogin == null)
+            {
+                throw new ArgumentNullException($"Failed to login with username: {username}");
+            }
+            return userLogin;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System.Linq.Expressions;
 
 namespace App.Common.Base
 {
@@ -11,6 +12,17 @@ namespace App.Common.Base
         protected readonly TContext _context;
         protected readonly ILogger<BaseRepository<T, TContext>> _logger;
 
+        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate)
+        {
+            IQueryable<T> query = _context.Set<T>();
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+            return await query.FirstOrDefaultAsync()
+            
+                ?? throw new Exception();
+        }
         public BaseRepository(TContext context, ILogger<BaseRepository<T, TContext>> logger)
         {
             _context = context;

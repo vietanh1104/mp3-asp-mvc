@@ -1,4 +1,7 @@
-﻿using AspNetCoreHero.ToastNotification.Abstractions;
+﻿using App.Application.Contracts.Infrastructure;
+using App.Common.Helpers;
+using App.Domain.Entities;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Localization;
@@ -11,10 +14,12 @@ namespace mp3.mvc.Controllers
     {
         private readonly ILogger<UserController> _logger;
         private readonly INotyfService _notyfService;
-        public UserController(ILogger<UserController> logger, INotyfService notyfService)
+        private readonly IUserRepository _userRepository;
+        public UserController(ILogger<UserController> logger, INotyfService notyfService, IUserRepository userRepository)
         {
             _logger = logger;
             _notyfService = notyfService;
+            _userRepository = userRepository;
         }
 
         public IActionResult Index()
@@ -26,41 +31,45 @@ namespace mp3.mvc.Controllers
         {
             return View();
         }
-        private bool IsAuthenticated(string username, string password)
-        {
-            return (username == "cva" && password == "a");
-        }
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (!IsAuthenticated(model.username, model.password))
-                return View();
-
-            // create claims
-            List<Claim> claims = new List<Claim>
+            try
             {
-                new Claim(ClaimTypes.Name, model.username),
-                new Claim(ClaimTypes.NameIdentifier, new Guid().ToString(), ClaimValueTypes.String)
-            };
+                var user = await _userRepository.Login(model.username, TokenHelper.md5_hash(model.password));
 
-            // create identity
-            ClaimsIdentity identity = new ClaimsIdentity(claims, "cookie");
+                // create claims
+                List<Claim> claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim(ClaimTypes.NameIdentifier, user.Password, ClaimValueTypes.String)
+                };
 
-            // create principal
-            ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+                // create identity
+                ClaimsIdentity identity = new ClaimsIdentity(claims, "cookie");
 
-            // sign-in
-            await HttpContext.SignInAsync(
-                    scheme: "CookieSecurityScheme",
-                    principal: principal,
-                    properties: new AuthenticationProperties
-                    {
-                        IsPersistent = model.isRememeberMe, // for 'remember me' feature
-                    });
-            _logger.LogDebug($"User with username: {model.username} logined.");
-            _notyfService.Success("Login successfully.");
+                // create principal
+                ClaimsPrincipal principal = new ClaimsPrincipal(identity);
 
-            return Redirect(model.RequestPath ?? "/home");
+                // sign-in
+                await HttpContext.SignInAsync(
+                        scheme: "CookieSecurityScheme",
+                        principal: principal,
+                        properties: new AuthenticationProperties
+                        {
+                            IsPersistent = model.isRememeberMe, // for 'remember me' feature
+                        });
+                _logger.LogDebug($"User with username: {model.username} logined.");
+                _notyfService.Success("Login successfully.");
+
+                return Redirect(model.RequestPath ?? "/home");
+            }
+            catch(Exception ex)
+            {
+                _notyfService.Error("Username doesnot exist or password is incorrect.");
+                _logger.LogError(ex.Message);
+                return View();
+            }
         }
         public async Task<IActionResult> Logout(string requestPath)
         {
@@ -77,26 +86,51 @@ namespace mp3.mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            // create claims
-            List<Claim> claims = new List<Claim>
+            try
             {
-                new Claim(ClaimTypes.Name, model.username),
-                new Claim(ClaimTypes.NameIdentifier, new Guid().ToString(), ClaimValueTypes.String)
-            };
+                if (!ModelState.IsValid)
+                {
+                    return View();
+                }
 
-            // create identity
-            ClaimsIdentity identity = new ClaimsIdentity(claims, "cookie");
+                var newUser = new User
+                {
+                    Username = model.username,
+                    DisplayName = model.displayName,
+                    Password = TokenHelper.md5_hash(model.password),
+                    Address = model.address,
+                    Gender = model.gender,
+                    Dob = model.dob,
+                };
 
-            // create principal
-            ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+                await _userRepository.InsertOne(newUser);
 
-            // sign-in
-            await HttpContext.SignInAsync(
-                    scheme: "CookieSecurityScheme",
-                    principal: principal);
-            _logger.LogDebug($"User with username: {model.username} logined.");
-            _notyfService.Success("Register successfully.");
-            return View();
+                // create claims
+                List<Claim> claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, model.username),
+                    new Claim(ClaimTypes.NameIdentifier, newUser.Id.ToString(), ClaimValueTypes.String)
+                };
+
+                // create identity
+                ClaimsIdentity identity = new ClaimsIdentity(claims, "cookie");
+
+                // create principal
+                ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+
+                // sign-in
+                await HttpContext.SignInAsync(
+                        scheme: "CookieSecurityScheme",
+                        principal: principal);
+                _logger.LogDebug($"User with username: {model.username} logined.");
+                _notyfService.Success("Register successfully.");
+                return RedirectToAction("Index", "Home");
+            }catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return RedirectToAction("Error", "Home");
+            }
+
         }
         public IActionResult SetLanguage()
         {
@@ -109,15 +143,12 @@ namespace mp3.mvc.Controllers
             return RedirectToAction("index", "home");
         }
         [Authorize]
-        public IActionResult GetOwnerProfile()
+        public async Task<IActionResult> GetOwnerProfile()
         {
-            var id = HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier);
-            return View(MockData.UserData[0]);
-        }
-
-        public Task<Guid> GetRandom()
-        {
-            return Task.FromResult(Guid.NewGuid());
+            var id = HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier)
+                ?? throw new ArgumentException("User not found");
+            var user = await _userRepository.GetByIdAsync(new Guid(id.Value));
+            return View(user);
         }
     }
 }
