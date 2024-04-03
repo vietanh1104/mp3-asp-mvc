@@ -28,14 +28,13 @@ namespace App.Infrastructure.Repositories
                                            && (categoryId == Guid.Empty || m.CategoryId == categoryId)
                                            select a;
                 query = query.Distinct();
-                query = query.OrderByFieldName(orderBy, isAsc);
-                
                 var totalItems = query.Count();
-                var items = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+                var items = await query.GetPagination(page, pageSize, orderBy, isAsc).ToListAsync();
                 return new BasePagination<Author>(totalItems, page, pageSize, items);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 throw new ArgumentException(ex.Message);
             }
         }

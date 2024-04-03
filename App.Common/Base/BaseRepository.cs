@@ -97,7 +97,7 @@ namespace App.Common.Base
             }
         }
 
-        public virtual async Task<BasePagination<T>> SearchWithPagination(Expression<Func<T, bool>> predicate, string? orderBy, int page = 1, int pageSize = 10)
+        public virtual async Task<BasePagination<T>> SearchWithPagination(Expression<Func<T, bool>> predicate, string? orderBy, bool isAsc = true, int page = 1, int pageSize = 10)
         {
             try
             {
@@ -111,6 +111,11 @@ namespace App.Common.Base
                 query = query.Distinct();
 
                 var totalItems = query.Count();
+
+                if (!string.IsNullOrWhiteSpace(orderBy))
+                {
+                    query = query.OrderByFieldName(orderBy, isAsc);
+                }
 
                 var items = await query.GetPagination(page, pageSize).ToListAsync();
 

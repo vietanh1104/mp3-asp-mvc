@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.SQLServer.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240402084137_init")]
+    [Migration("20240403081733_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,22 @@ namespace App.SQLServer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("categories");
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.FavouriteCollection", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("MediaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("UserId", "MediaId");
+
+                    b.ToTable("favourite_collections");
                 });
 
             modelBuilder.Entity("App.Domain.Entities.Media", b =>
@@ -133,6 +149,35 @@ namespace App.SQLServer.Migrations
                     b.ToTable("mediaContent");
                 });
 
+            modelBuilder.Entity("App.Domain.Entities.MediaInteraction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsAnonymous")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("MediaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("media_interactions");
+                });
+
             modelBuilder.Entity("App.Domain.Entities.PurchaseOrder", b =>
                 {
                     b.Property<Guid>("Id")
@@ -156,6 +201,34 @@ namespace App.SQLServer.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("purchaseOrders");
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.PurchaseOrderItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("MediaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("PurchaseOrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MediaId");
+
+                    b.ToTable("purchaseOrderItems");
                 });
 
             modelBuilder.Entity("App.Domain.Entities.Transaction", b =>
@@ -278,6 +351,17 @@ namespace App.SQLServer.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.PurchaseOrderItem", b =>
+                {
+                    b.HasOne("App.Domain.Entities.Media", "Media")
+                        .WithMany()
+                        .HasForeignKey("MediaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Media");
                 });
 
             modelBuilder.Entity("App.Domain.Entities.Transaction", b =>

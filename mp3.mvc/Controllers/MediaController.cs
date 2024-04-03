@@ -29,15 +29,15 @@ namespace mp3.mvc.Controllers
             return Guid.Parse(Idclaim!.Value);
         }
         [Authorize]
-        public IActionResult Index(int page = 1, int pageSize = 10)
+        public async Task<IActionResult> Index(int page = 1, int pageSize = 10)
         {
-            var model = _mediaRepository.GetPurchasedItemList(getUserId());
+            var model = await _mediaRepository.GetAvailableItemList(getUserId());
             return View(model);
         }
         [Authorize]
-        public IActionResult Collection(int page = 1, int pageSize = 10)
+        public async Task<IActionResult> Collection(int page = 1, int pageSize = 10)
         {
-            var model = _mediaRepository.GetPurchasedItemList(getUserId());
+            var model = await _mediaRepository.GetAvailableItemList(getUserId(), page: page, pageSize: pageSize);
             return View(model);
         }
         public IActionResult Play(Guid id)

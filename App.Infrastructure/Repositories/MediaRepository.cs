@@ -17,7 +17,32 @@ namespace App.Infrastructure.Repositories
             _logger = logger;
         }
 
-        public async Task<BasePagination<Media>> GetPurchasedItemList(Guid userId, int page = 1, int pageSize = 8)
+        public async Task<BasePagination<Media>> GetAvailableItemList(Guid userId, string orderBy = "name", bool isAsc = true, int page = 1, int pageSize = 8)
+        {
+            try
+            {
+                var query = (from m in _context.Media
+                             join pi in _context.PurchaseOrderItems on m.Id equals pi.MediaId
+                             join p in _context.PurchaseOrders on pi.PurchaseOrderId equals p.Id
+                             where (p.ExpiredAt < DateTime.Now && userId == p.UserId) || m.Price == 0
+                             select m).Distinct();
+
+                var totalItems = query.Count();
+                var items = await query.Include(p => p.me).GetPagination(page, pageSize, orderBy, isAsc).ToListAsync();
+                return new BasePagination<Media>(totalItems, page, pageSize, items);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public Task<BasePagination<Media>> GetFavouriteItemList(Guid userId, string orderBy = "name", bool isAsc = true, int page = 1, int pageSize = 8)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<BasePagination<Media>> GetPurchasedItemList(Guid userId, string orderBy = "name", bool isAsc = true, int page = 1, int pageSize = 8)
         {
             try
             {
@@ -28,7 +53,7 @@ namespace App.Infrastructure.Repositories
                             select m).Distinct();
                 
                 var totalItems = query.Count();
-                var items = await query.GetPagination(page, pageSize).ToListAsync();
+                var items = await query.Include(p => p.MediaContent).GetPagination(page, pageSize).ToListAsync();
                 return new BasePagination<Media>(totalItems, page, pageSize, items);
             }
             catch (Exception ex)

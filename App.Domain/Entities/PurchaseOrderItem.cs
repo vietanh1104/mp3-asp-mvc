@@ -9,7 +9,6 @@ namespace App.Domain.Entities
         public Guid MediaId { get; set; }
         public Media? Media { get; set; }
         public Guid PurchaseOrderId { get; set; }
-        public PurchaseOrder? PurchaseOrder { get; set; }
         public decimal? Price { get; set; }
     }
 }

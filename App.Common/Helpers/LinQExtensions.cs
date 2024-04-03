@@ -38,8 +38,12 @@ namespace App.Common.Helpers
             return Expression.Lambda<Func<T, object>>(propAsObject, parameter);
         }
 
-        public static IQueryable<T> OrderByFieldName<T>(this IQueryable<T> queryable, string fieldName, bool isAsc = false)
+        public static IQueryable<T> OrderByFieldName<T>(this IQueryable<T> queryable, string? fieldName, bool isAsc = true)
         {
+            if (string.IsNullOrWhiteSpace(fieldName))
+            {
+                return queryable;
+            }
             if (isAsc)
             {
                 return queryable.OrderBy(ToLambda<T>(fieldName));
@@ -47,8 +51,12 @@ namespace App.Common.Helpers
             return queryable.OrderByDescending(ToLambda<T>(fieldName));
         }
 
-        public static IQueryable<T> OrderByFieldName2<T>(this IQueryable<T> queryable, string fieldName, bool isAsc = false)
+        public static IQueryable<T> OrderByFieldName2<T>(this IQueryable<T> queryable, string? fieldName, bool isAsc = true)
         {
+            if (string.IsNullOrWhiteSpace(fieldName))
+            {
+                return queryable;
+            }
             if (isAsc)
             {
                 return queryable.OrderBy(p => EF.Property<Guid>(p!, fieldName));
@@ -59,6 +67,15 @@ namespace App.Common.Helpers
         public static IQueryable<T> GetPagination<T>(this IQueryable<T> queryable, int page, int pageSize)
         {
             return queryable.Skip((page - 1) * pageSize).Take(pageSize);
+        }
+
+        public static IQueryable<T> GetPagination<T>(this IQueryable<T> queryable, int page, int pageSize, string fieldName, bool isAsc = true)
+        {
+            if (isAsc)
+            {
+                return queryable.OrderBy(ToLambda<T>(fieldName)).GetPagination(page, pageSize);
+            }
+            return queryable.OrderByDescending(ToLambda<T>(fieldName)).GetPagination(page, pageSize);
         }
     }
 }

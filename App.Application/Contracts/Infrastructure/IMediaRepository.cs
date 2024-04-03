@@ -8,6 +8,8 @@ namespace App.Application.Contracts.Infrastructure
         Task<Media> GetByIdAsync(Guid id);
         Task<Media> InsertOne(Media entity);
         Task<List<Media>> InsertMany(List<Media> entities);
-        Task<BasePagination<Media>> GetPurchasedItemList(Guid userId, int page = 1, int pageSize = 8);
+        Task<BasePagination<Media>> GetPurchasedItemList(Guid userId, string orderBy = "name", bool isAsc = true, int page = 1, int pageSize = 8);
+        Task<BasePagination<Media>> GetAvailableItemList(Guid userId, string orderBy = "name", bool isAsc = true, int page = 1, int pageSize = 8);
+        Task<BasePagination<Media>> GetFavouriteItemList(Guid userId, string orderBy = "name", bool isAsc = true, int page = 1, int pageSize = 8);
     }
 }
