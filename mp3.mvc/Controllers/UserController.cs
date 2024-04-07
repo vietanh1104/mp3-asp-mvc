@@ -47,7 +47,7 @@ namespace mp3.mvc.Controllers
                 List<Claim> claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.Username!),
-                    new Claim(ClaimTypes.NameIdentifier, user.Password!, ClaimValueTypes.String)
+                    new Claim(ClaimTypes.NameIdentifier, user.Id!.ToString(), ClaimValueTypes.String)
                 };
 
                 // create identity
@@ -69,7 +69,7 @@ namespace mp3.mvc.Controllers
 
                 return Redirect(model.RequestPath ?? "/home");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _notyfService.Error("Username doesnot exist or password is incorrect.");
                 _logger.LogError(ex.Message);
@@ -130,7 +130,8 @@ namespace mp3.mvc.Controllers
                 _logger.LogDebug($"User with username: {model.username} logined.");
                 _notyfService.Success("Register successfully.");
                 return RedirectToAction("Index", "Home");
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return RedirectToAction("Error", "Home");

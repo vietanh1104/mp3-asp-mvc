@@ -7,6 +7,6 @@ namespace App.Application.Contracts.Infrastructure
     {
         Task<Author> GetByIdAsync(Guid id);
         Task<List<Author>> GetByIdListAsync(List<Guid> idList);
-        Task<BasePagination<Author>> SearchAuthor(Guid categoryId, string? name, string orderBy = "name", bool isAsc = false, int page = 1, int pageSize = 10); 
+        Task<BasePagination<Author>> SearchAuthor(Guid categoryId, string? name, string orderBy = "name", bool isAsc = false, int page = 1, int pageSize = 10);
     }
 }

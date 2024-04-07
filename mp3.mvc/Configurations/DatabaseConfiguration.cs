@@ -7,7 +7,7 @@ namespace mp3.mvc.Configurations
 {
     public static class DatabaseConfiguration
     {
-        public static IServiceCollection AddDatabaseConfiguration<T>(this IServiceCollection services, 
+        public static IServiceCollection AddDatabaseConfiguration<T>(this IServiceCollection services,
             IConfiguration configuration, IHostEnvironment environment)
             where T : DbContext
         {
@@ -36,7 +36,7 @@ namespace mp3.mvc.Configurations
             bool autoMigration = configuration.GetValue<bool>("DatabaseSettings:AutoMigration");
             if (autoMigration)
             {
-                using(var serviceProvider = services.BuildServiceProvider())
+                using (var serviceProvider = services.BuildServiceProvider())
                 {
                     MigrateDatabase<T>(serviceProvider, environment);
                 }
@@ -54,7 +54,7 @@ namespace mp3.mvc.Configurations
             return services;
         }
         private static void MigrateDatabase<T>(IServiceProvider serviceProvider, IHostEnvironment environment)
-            where T: DbContext
+            where T : DbContext
         {
             if (environment.IsDevelopment() || environment.IsProduction())
             {
@@ -65,9 +65,9 @@ namespace mp3.mvc.Configurations
                     context.Database.Migrate();
                 }
             }
-        } 
+        }
         private static void SeedData<T>(IServiceProvider serviceProvider)
-            where T: DbContext
+            where T : DbContext
         {
             using (var scope = serviceProvider.CreateScope())
             {
@@ -98,7 +98,7 @@ namespace mp3.mvc.Configurations
 
         public static IApplicationBuilder UseApplicationDatabase<T>(this IApplicationBuilder app)
             where T : DbContext
-        {   
+        {
             return app;
         }
     }

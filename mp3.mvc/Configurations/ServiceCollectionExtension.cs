@@ -5,7 +5,7 @@ namespace mp3.mvc.Configurations
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddServiceCollectionExtensions(this IServiceCollection services, 
+        public static IServiceCollection AddServiceCollectionExtensions(this IServiceCollection services,
             IConfiguration configuration, IHostEnvironment environment)
         {
             // Add localization config

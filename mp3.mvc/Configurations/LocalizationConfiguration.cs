@@ -7,7 +7,7 @@ namespace mp3.mvc.Configurations
     {
         public static IServiceCollection AddLocalizationConfiguration(this IServiceCollection services)
         {
-                
+
 
             services.Configure<RequestLocalizationOptions>(options =>
             {

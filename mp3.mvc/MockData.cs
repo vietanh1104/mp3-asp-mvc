@@ -1,4 +1,5 @@
-﻿using App.Domain.Entities;
+﻿using App.Common.Helpers;
+using App.Domain.Entities;
 using mp3.mvc.Enums;
 
 namespace mp3.mvc
@@ -7,6 +8,24 @@ namespace mp3.mvc
     {
         public static List<User> UserData = new List<User>()
         {
+            new User
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-61446981112f"),
+                Username = "anonymous",
+                DisplayName = "Anonymous",
+                Gender = (int)GenderType.male,
+                Address = "Thạch Thất, Hà Nội",
+                AvatarUrl = "/images/avatars/empty.jpg",
+                Balance = 1000000,
+                Dob = DateTime.Now,
+                PhoneNumber = "",
+                Email = "",
+                IsAdmin = false,
+                IsLocked = false,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Password = ""
+            },
             new User
             {
                 Id = Guid.Parse("44db2929-809b-41f8-9ce4-61446981112f"),
@@ -23,6 +42,7 @@ namespace mp3.mvc
                 IsLocked = false,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
+                Password = TokenHelper.md5_hash("abc1234")
             },
             new User
             {
@@ -31,7 +51,7 @@ namespace mp3.mvc
                 DisplayName = "Lê Văn Hiếu",
                 Gender = (int)GenderType.male,
                 Address = "Cẩm Giàng, Hải Dương",
-                AvatarUrl = "/images/avatars/user1.jpg",
+                AvatarUrl = "/images/avatars/empty.jpg",
                 Balance = 2000000,
                 Dob = DateTime.Now,
                 PhoneNumber = "0123456222",
@@ -40,6 +60,7 @@ namespace mp3.mvc
                 IsLocked = false,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
+                Password = TokenHelper.md5_hash("abc1234")
             },
             new User
             {
@@ -48,7 +69,7 @@ namespace mp3.mvc
                 DisplayName = "Nguyễn Thị B",
                 Gender = (int)GenderType.female,
                 Address = "Thạch Thất, Hà Nội",
-                AvatarUrl ="/images/avatars/user1.jpg",
+                AvatarUrl ="/images/avatars/empty.jpg",
                 Balance = 0,
                 Dob = DateTime.Now,
                 PhoneNumber = "0123456333",
@@ -57,6 +78,7 @@ namespace mp3.mvc
                 IsLocked = true,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
+                Password = TokenHelper.md5_hash("abc1234")
             },
             new User
             {
@@ -65,7 +87,7 @@ namespace mp3.mvc
                 DisplayName = "Admin",
                 Gender = (int)GenderType.male,
                 Address = "Thạch Thất, Hà Nội",
-                AvatarUrl = "/images/avatars/user1.jpg",
+                AvatarUrl = "/images/avatars/empty.jpg",
                 Balance = 1000000,
                 Dob = DateTime.Now,
                 PhoneNumber = "0123456444",
@@ -74,6 +96,7 @@ namespace mp3.mvc
                 IsLocked = false,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
+                Password = TokenHelper.md5_hash("abc1234")
             }
         };
         public static List<Author> AuthorData = new List<Author>()
@@ -236,9 +259,9 @@ namespace mp3.mvc
                         UpdatedAt = DateTime.Now,
                     }
                 },
-                Price = 500000,
+                Price = 0,
                 Type = (int)MediaType.audio,
-                ContentUrl = "",
+                ContentUrl = "/media/audio/blue.mp3",
                 Description = "",
                 IsHidden = false,
                 IsLocked = false,
@@ -318,7 +341,7 @@ namespace mp3.mvc
                 },
                 Price = 500000,
                 Type = (int)MediaType.audio,
-                ContentUrl = "",
+                ContentUrl = "/media/audio/blue.mp3",
                 Description = "",
                 IsHidden = false,
                 IsLocked = false,

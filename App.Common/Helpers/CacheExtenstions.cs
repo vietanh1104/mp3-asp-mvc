@@ -11,7 +11,7 @@ namespace App.Common.Helpers
             byte[] cacheData = await distributedCache.GetAsync(key);
             if (cacheData != null)
             {
-                return JsonSerializer.Deserialize<T>(Encoding.UTF8.GetString(cacheData)) 
+                return JsonSerializer.Deserialize<T>(Encoding.UTF8.GetString(cacheData))
                     ?? throw new ArgumentException();
             }
 

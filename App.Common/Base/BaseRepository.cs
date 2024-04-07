@@ -8,7 +8,7 @@ namespace App.Common.Base
 {
     public abstract class BaseRepository<T, TContext>
         where TContext : DbContext
-        where T: class
+        where T : class
     {
         protected readonly TContext _context;
         protected readonly ILogger<BaseRepository<T, TContext>> _logger;
@@ -25,13 +25,13 @@ namespace App.Common.Base
                 query = query.Where(predicate);
             }
             return await query.FirstOrDefaultAsync()
-            
+
                 ?? throw new Exception();
         }
-        
+
         public virtual async Task<T> GetByIdAsync(Guid id)
         {
-            return await _context.Set<T>().FirstOrDefaultAsync(p => EF.Property<Guid>(p, "Id") == id) 
+            return await _context.Set<T>().FirstOrDefaultAsync(p => EF.Property<Guid>(p, "Id") == id)
                 ?? throw new ArgumentException($"{nameof(T)} with id = {id} not found.");
         }
 
@@ -103,7 +103,7 @@ namespace App.Common.Base
             {
                 IQueryable<T> query = _context.Set<T>().AsQueryable();
 
-                if(predicate != null)
+                if (predicate != null)
                 {
                     query = query.Where(predicate);
                 }
@@ -121,7 +121,7 @@ namespace App.Common.Base
 
                 return new BasePagination<T>(totalItems, page, pageSize, items);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new ArgumentException(ex.Message);
             }
