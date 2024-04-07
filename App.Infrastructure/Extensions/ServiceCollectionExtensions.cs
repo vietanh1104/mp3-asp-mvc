@@ -13,6 +13,7 @@ namespace App.Infrastructure.Extensions
             // di
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMediaRepository, MediaRepository>();
+            services.AddScoped<IMediaViewHistoryRepository, MediaViewHistoryRepository>();
             services.AddScoped<IAuthorRepository, AuthorRepository>();
 
             // register mediatR

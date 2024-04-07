@@ -11,5 +11,6 @@ namespace App.Application.Contracts.Infrastructure
         Task<BasePagination<Media>> GetPurchasedItemList(Guid userId, string orderBy = "name", bool isAsc = true, int page = 1, int pageSize = 8);
         Task<BasePagination<Media>> GetAvailableItemList(Guid userId, string orderBy = "name", bool isAsc = true, int page = 1, int pageSize = 8);
         Task<BasePagination<Media>> GetFavouriteItemList(Guid userId, string orderBy = "name", bool isAsc = true, int page = 1, int pageSize = 8);
+        Task<List<Media>> GetTrendingItemList(bool isAsc = true, int page = 1, int pageSize = 8);
     }
 }
