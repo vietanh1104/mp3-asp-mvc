@@ -8,7 +8,6 @@ namespace App.Domain.Entities
     {
         public int Type { get; set; }
         public string? Value { get; set; }
-        public Guid MediaId { get; set; }
-        public Media? Media { get; set; }
+        public Guid  MediaId { get; set; }
     }
 }

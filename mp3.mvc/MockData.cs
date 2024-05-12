@@ -121,6 +121,11 @@ namespace mp3.mvc
                 Id = Guid.Parse("a54c0c25-6172-43ee-8d5f-e1be77d21204"),
                 Name = "BigBang",
             },
+            new Author()
+            {
+                Id = Guid.Parse("a54c0c25-6172-43ee-8d5f-e1be77d21205"),
+                Name = "Nguyễn Hải Phong",
+            },
         };
         public static List<Category> CategoryData = new List<Category>()
         {
@@ -168,15 +173,6 @@ namespace mp3.mvc
                         Type = (int) MediaContentType.image,
                         CreatedAt = DateTime.Now,
                         UpdatedAt = DateTime.Now,
-                    },
-                    new MediaContent
-                    {
-                        Id = Guid.Parse("d235b516-fe6d-44cc-86c6-24bac034b589"),
-                        MediaId = Guid.Parse("e0f37b00-d617-4122-ae63-f766c91ea64e"),
-                        Value = "/images/media/blue.jpg",
-                        Type = (int) MediaContentType.image,
-                        CreatedAt = DateTime.Now,
-                        UpdatedAt = DateTime.Now,
                     }
                 },
                 Price = 1000000,
@@ -203,15 +199,6 @@ namespace mp3.mvc
                     new MediaContent
                     {
                         Id = Guid.Parse("98f5ca24-1d91-40e5-b0ea-9abf908d24cb"),
-                        MediaId = Guid.Parse("bfac4cfe-1ad6-4b8e-9c22-45d51acd20fb"),
-                        Value = "/images/media/chac_ai_do_se_ve.jpg",
-                        Type = (int) MediaContentType.image,
-                        CreatedAt = DateTime.Now,
-                        UpdatedAt = DateTime.Now,
-                    },
-                    new MediaContent
-                    {
-                        Id = Guid.Parse("98f5ca24-1d91-40e5-b0ea-9abf908d24cd"),
                         MediaId = Guid.Parse("bfac4cfe-1ad6-4b8e-9c22-45d51acd20fb"),
                         Value = "/images/media/chac_ai_do_se_ve.jpg",
                         Type = (int) MediaContentType.image,
@@ -248,15 +235,6 @@ namespace mp3.mvc
                         Type = (int) MediaContentType.image,
                         CreatedAt = DateTime.Now,
                         UpdatedAt = DateTime.Now,
-                    },
-                    new MediaContent
-                    {
-                        Id = Guid.Parse("0cf89168-d600-435e-80c1-09f1b3035d21"),
-                        MediaId = Guid.Parse("f7450d9a-ab05-4b02-9bbe-473e334b06fd"),
-                        Value = "/images/media/blue.jpg",
-                        Type = (int) MediaContentType.image,
-                        CreatedAt = DateTime.Now,
-                        UpdatedAt = DateTime.Now,
                     }
                 },
                 Price = 0,
@@ -283,15 +261,6 @@ namespace mp3.mvc
                     new MediaContent
                     {
                         Id = Guid.Parse("4ae773b0-8db3-4dc8-b371-832af3613ee9"),
-                        MediaId = Guid.Parse("5087667c-2f59-473a-9e78-9e871cb6b3b2"),
-                        Value = "/images/media/let_not_fall_in_love.jpg",
-                        Type = (int) MediaContentType.image,
-                        CreatedAt = DateTime.Now,
-                        UpdatedAt = DateTime.Now,
-                    },
-                    new MediaContent
-                    {
-                        Id = Guid.Parse("4ae773b0-8db3-4dc8-b371-832af3613ee8"),
                         MediaId = Guid.Parse("5087667c-2f59-473a-9e78-9e871cb6b3b2"),
                         Value = "/images/media/let_not_fall_in_love.jpg",
                         Type = (int) MediaContentType.image,
@@ -328,10 +297,63 @@ namespace mp3.mvc
                         Type = (int) MediaContentType.image,
                         CreatedAt = DateTime.Now,
                         UpdatedAt = DateTime.Now,
-                    },
+                    }
+                },
+                Price = 500000,
+                Type = (int)MediaType.audio,
+                ContentUrl = "/media/audio/blue.mp3",
+                Description = "",
+                IsHidden = false,
+                IsLocked = false,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                AuthorId = AuthorData[1].Id,
+                Author = AuthorData[1],
+                CategoryId = CategoryData[1].Id,
+                Category = CategoryData[1],
+            },
+            new Media
+            {
+                Id = Guid.Parse("315dc472-f790-47f3-9473-79edcc4ca061"),
+                UserId = UserData[2].Id,
+                User = UserData[2],
+                Name = "Ba kể con nghe",
+                MediaContent = new List<MediaContent>
+                {
                     new MediaContent
                     {
-                        Id = Guid.Parse("142ad6ec-a913-4771-9df3-20f1d3ed8391"),
+                        Id = Guid.Parse("142ad6ec-a913-4771-9df3-20f1d3ed8390"),
+                        MediaId = Guid.Parse("315dc472-f790-47f3-9473-79edcc4ca060"),
+                        Value = "/images/media/chay_ngay_di.jpg",
+                        Type = (int) MediaContentType.image,
+                        CreatedAt = DateTime.Now,
+                        UpdatedAt = DateTime.Now,
+                    }
+                },
+                Price = 500000,
+                Type = (int)MediaType.audio,
+                ContentUrl = "/media/audio/blue.mp3",
+                Description = "",
+                IsHidden = false,
+                IsLocked = false,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                AuthorId = AuthorData[1].Id,
+                Author = AuthorData[1],
+                CategoryId = CategoryData[1].Id,
+                Category = CategoryData[1],
+            },
+            new Media
+            {
+                Id = Guid.Parse("315dc472-f790-47f3-9473-79edcc4ca062"),
+                UserId = UserData[2].Id,
+                User = UserData[2],
+                Name = "Ba kể con nghe",
+                MediaContent = new List<MediaContent>
+                {
+                    new MediaContent
+                    {
+                        Id = Guid.Parse("142ad6ec-a913-4771-9df3-20f1d3ed8390"),
                         MediaId = Guid.Parse("315dc472-f790-47f3-9473-79edcc4ca060"),
                         Value = "/images/media/chay_ngay_di.jpg",
                         Type = (int) MediaContentType.image,

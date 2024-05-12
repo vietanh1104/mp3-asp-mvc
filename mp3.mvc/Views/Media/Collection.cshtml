@@ -4,8 +4,8 @@
     ViewData["Title"] = "Collection";
     var nextPageEnable = Model.Page == Model.TotalPage ? "disabled" : "";
     var previousPageBtnEnable = Model.Page > 1 ? "" : "disabled";
-    var previousPageLink = $"/collection/index?page={Model.Page - 1}";
-    var nextPageLink = $"/collection/index?page={Model.Page + 1}";
+    var previousPageLink = $"/media/collection?page={Model.Page - 1}";
+    var nextPageLink = $"/media/collection?page={Model.Page + 1}";
 }
 <h3 style="text-align:center;">Collection</h3>
 <div class="card-list-container d-flex justify-content-center">
