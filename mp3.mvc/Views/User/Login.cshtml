@@ -1,6 +1,6 @@
 ﻿@model mp3.mvc.Models.LoginViewModel
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Đăng nhập";
 }
 <div class="wrapper fadeInDown">
     <div id="formContent">
@@ -9,28 +9,30 @@
         <div class="fadeIn first">
             <img src="/images/logo.png" style="max-width:60px;" id="icon" alt="User Icon" />
         </div>
-        <h4>Login</h4>
+        <h4>Đăng nhập</h4>
         <!-- Login Form -->
         <form method="post" asp-action="login">
             <input type="hidden" name="requestpath" id="requestpath" value="@ViewBag.RequestPath" />
             <div class="mb-3 mx-3 fadeIn first ">
-                <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Username or email">
+                <input type="text" name="username" class="form-control" 
+                id="exampleInputEmail1" aria-describedby="emailHelp" 
+                placeholder="Tên người dùng hoặc email">
             </div>
             <div class="mb-3 mx-3 fadeIn second">
-                <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Mật khẩu">
             </div>
             <div class="mb-3 mx-3 fadeIn second">
-                <input type="checkbox" name="isRememeberMe" value="true" class="form-check-input" id="exampleInputPassword1" placeholder="Password">
-                <span>Remember me</span>
+                <input type="checkbox" name="isRememeberMe" value="true" class="form-check-input" id="exampleInputPassword1">
+                <span>Nhớ tài khoản</span>
             </div>
-            <input type="submit" class="fadeIn fourth" value="Log In">
+            <input type="submit" class="fadeIn fourth" value="Đăng nhập">
         </form>
 
         <!-- Remind Passowrd -->
         <div id="formFooter">
-            <a class="underlineHover" href="#">Forgot Password?</a>
+            <a class="underlineHover" href="#">Quên mật khẩu?</a>
             <br/>
-            <a class="underlineHover" asp-action="register">Register</a>
+            <a class="underlineHover" asp-action="register">Đăng ký</a>
         </div>
 
     </div>

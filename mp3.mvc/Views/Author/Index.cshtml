@@ -1,0 +1,68 @@
+﻿@{
+    ViewData["Title"] = "Danh sách ca sĩ";
+    var data = ViewBag.AuthorData;
+    var nextPageEnable = data.Page == data.TotalPage ? "disabled" : "";
+    var previousPageBtnEnable = data.Page > 1 ? "" : "disabled";
+    var previousPageLink = $"/author/index?searchText={ViewData["searchAuthor"]}&page={data.Page - 1}";
+    var nextPageLink = $"/author/index?searchText={ViewData["searchAuthor"]}&page={data.Page + 1}";
+}
+
+<div class="content-container">
+    <h3>Danh sách ca sĩ</h3>
+    <table class="table" style="background-color: white; border-radius: 4px;">
+        <thead>
+            <tr>
+                <th scope="col">Số thứ tự</th>
+                <th scope="col">Tên ca sĩ</th>
+                <th scope="col">Số bài hát</th>
+                <th scope="col">Số lượt nghe</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @for (var i = 0; i < data.Items.Count; i++)
+            {
+                var item = data.Items[i];
+                var index = i + 1 + (data.Page - 1) * data.PageSize;
+                <tr>
+                    <th scope="row">
+                        @index
+                    </th>
+                    <td>
+                        <a href="/author/getdetail?id=@item.Id" class="text-dark">@item.Name</a>
+                    </td>
+                    <td>
+                        @item.NumberOfTracks
+                    </td>
+                    <td>
+                        @item.Views
+                    </td>
+                </tr>
+            }
+        </tbody>
+        
+    </table>
+    <div class="d-flex justify-content-end">
+        <a href="@previousPageLink" class="page-link rounded-3 @previousPageBtnEnable">Trang trước</a>
+        <div class="page-link page-number rounded-3 text-black">@data.Page / @data.TotalPage</div>
+        <a href="@nextPageLink" class="page-link rounded-3 @nextPageEnable">Trang sau</a>
+    </div>
+
+</div>
+<style>
+    .page-link {
+        width: 120px;
+        text-align: center;
+    }
+
+    .page-number {
+        width: auto;
+        text-align: center;
+    }
+
+    a.disabled {
+        pointer-events: none;
+        cursor: default;
+        color: gray;
+    }
+</style>

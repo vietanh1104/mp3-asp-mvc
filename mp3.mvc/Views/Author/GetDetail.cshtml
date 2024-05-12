@@ -1,0 +1,47 @@
+﻿@{
+    var data = ViewBag.Author;
+    ViewData["Title"] = data.Name;
+    var tracks = ViewBag.Tracks;
+}
+
+<h3>
+    @data.Name
+</h3>
+
+<h5>Số bài hát: @ViewBag.Tracks.Count</h5>
+<h5>Số lượt nghe: @ViewData["Views"] </h5>
+
+<h4>Danh sách bài hát đã phát hành</h4>
+<table class="table" style="background-color: white; border-radius: 4px;">
+    <thead>
+        <tr>
+            <th scope="col">Số thứ tự</th>
+            <th></th>
+            <th scope="col">Tên bài hát</th>
+            <th scope="col">Ngày ra mắt</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @for (var i = 0; i < tracks.Count; i++)
+        {
+            var item = tracks[i];
+            var index = i + 1;
+            <tr>
+                <td scope="row">
+                    @index
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                    <a href="/media/play?id=@item.Id" class="text-dark">@item.Name</a>
+                </td>
+                <td>
+                    @item.CreatedAt.ToString("dd-MM-yyyy")
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

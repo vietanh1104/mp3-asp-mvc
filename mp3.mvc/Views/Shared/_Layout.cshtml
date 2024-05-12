@@ -14,7 +14,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-light color-common">
             <div class="container-fluid mx-5">
-                <a class="navbar-brand text-light" href="#">
+                <a class="navbar-brand text-light" href="/home">
                     <span>MineMusic</span>
                     <img width="20" height="20" fill="currentColor" src="~/images/logo.png" />
                 </a>
@@ -24,30 +24,35 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-light">
                         <li class="nav-item hover-text">
-                            <a class="nav-link text-dark" href="/home">Home</a>
+                            <a class="nav-link text-light @ViewData["HomePage"]" href="/home">Trang chủ</a>
                         </li>
-                        <li class="nav-item hover-text">
-                            <a class="nav-link text-light" href="/features">Features</a>
-                        </li>
-                        <li class="nav-item dropdown hover-text">
+                        @*<li class="nav-item dropdown hover-text">
                             <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Explore
+                                Khám phá
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="#">Pop</a></li>
-                                <li><a class="dropdown-item" href="#">Folk </a></li>
-                                <li><a class="dropdown-item" href="#">Country </a></li>
+                                <li><a class="dropdown-item" href="#">Rap </a></li>
+                                <li><a class="dropdown-item" href="#">Nhạc vàng </a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">More</a></li>
+                                <li><a class="dropdown-item" href="#">Xem thêm</a></li>
                             </ul>
-                        </li>
+                        </li>*@
                         <li class="nav-item hover-text">
-                            <a class="nav-link text-light" href="/media/collection" tabindex="-1">Collection</a>
+                            <a class="nav-link text-light @ViewData["ExplorePage"]" href="/home/search">Khám phá</a>
                         </li>
+                        @if (User == null || User.Identity == null || User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item hover-text">
+
+                                <a class="nav-link text-light @ViewData["CollectionPage"]" href="/media/collection" tabindex="-1">Bộ sưu tập</a>
+                            </li>
+                        }
+
                     </ul>
-                    <form class="d-flex hover-text">
-                        <input class="form-control me-2" type="search" placeholder="Music name, singer,..." aria-label="Search">
-                        <a class="btn search-btn text-light" href="#" type="submit">Search</a>
+                    <form class="d-flex hover-text" asp-controller="home" asp-action="searchAction" method="post">
+                        <input name="searchText" class="form-control me-2" type="search" placeholder="Tên bài hát, ca sĩ,..." aria-label="Search">
+                        <button class="btn search-btn text-light" href="#" type="submit">Tìm</button>
                     </form>
                     @{
                         if (User == null || User.Identity == null || User.Identity.IsAuthenticated)
@@ -56,19 +61,18 @@
                                 <img class="avatar hover-text bg-info rounded-circle mx-1" id="navbarDropdown" aria-expanded="false"
                                      data-bs-toggle="dropdown" style="max-width:40px; max-height:40px;" src="/images/avatars/user1.jpg" />
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="/user/GetOwnerProfile">My info</a></li>
-                                    <li><a class="dropdown-item" href="#">My purchase</a></li>
-                                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                                    <li><a class="dropdown-item" href="/user/setlanguage">Change Language</a></li>
+                                    <li><a class="dropdown-item" href="/user/GetOwnerProfile">Thông tin tài khoản</a></li>
+                                    <li><a class="dropdown-item" href="#">Cài đặt</a></li>
+                                    <li><a class="dropdown-item" href="/user/setlanguage">Đổi ngôn ngữ</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="/user/logout">Logout</a></li>
+                                    <li><a class="dropdown-item" href="/user/logout">Đăng xuất</a></li>
                                 </ul>
                             </div>
-                            <a class="nav-link text-light hover-text" href="#">Upload</a> 
+                            <a class="nav-link text-light hover-text" href="#">Tải lên</a> 
                         }
                         else
                         {
-                            <a class="text-light mx-1" href="/user/login">Login</a>
+                            <a class="text-light mx-1" href="/user/login">Đăng nhập</a>
                         }
                     }
                 </div>

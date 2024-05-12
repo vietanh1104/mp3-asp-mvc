@@ -1,7 +1,9 @@
-﻿<div class="card card-container">
+﻿<div class="card card-container" style="overflow:clip;">
     <div class="card-content">
-        <a href="/media/play?id=@Model.Id" class="btn btn-primary play-btn">Play</a>
-        <partial name="./Common/Media/_musicAvatarPreviewPartial" model="@Model.MediaContent" />
+        <a href="/media/play?id=@Model.Id" class="btn btn-primary play-btn">
+            <img src="~/images/icons/play.png" id="icon-play"/>
+        </a>
+        <partial class="formContent" name="./Common/Media/_musicAvatarPreviewPartial" model="@Model.MediaContent" />
     </div>
     <div class="card-body">
         <a class="card-title text-black" href="#">@Model.Name</a>
@@ -9,3 +11,11 @@
         <a class="card-author" href="#">@Model.Author?.Name</a>
     </div>
 </div>
+
+<style>
+    .btn-primary {
+        color: #fff;
+        background-color: transparent !important;
+        border-color: transparent !important;
+    }
+</style>

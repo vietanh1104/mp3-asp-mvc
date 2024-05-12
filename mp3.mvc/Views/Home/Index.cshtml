@@ -1,7 +1,10 @@
 ﻿@model List<App.Domain.Entities.Media>;
 
 @{
-    ViewData["Title"] = "Home";  
+    ViewData["Title"] = "Trang chủ";  
 }
-<h1>@ViewData["Title"]</h1>
+<h3>Những bài hát thịnh hành nhất</h3>
+<partial name="./Common/Media/Carousel/_SlidesWithControlPartial" model="Model" />
+
+<h3 style="margin-top: 10px;">Top bài hát được yêu thích nhất</h3>
 <partial name="./Common/Media/Carousel/_SlidesWithControlPartial" model="Model" />

@@ -18,7 +18,9 @@ namespace App.Infrastructure.Repositories
         }
         public override async Task<Media> GetByIdAsync(Guid id)
         {
-            return await _context.Media.Include(p => p.MediaContent).FirstOrDefaultAsync(p => EF.Property<Guid>(p, "Id") == id)
+            return await _context.Media.Include(p => p.MediaContent)
+                .Include(p => p.Author)
+                .Include(p => p.Category).FirstOrDefaultAsync(p => EF.Property<Guid>(p, "Id") == id)
                 ?? throw new ArgumentException($"Cannot find media with id = {id}");
         }
 
@@ -70,7 +72,7 @@ namespace App.Infrastructure.Repositories
         {
             try
             {
-                var query = _context.Media.Include(p => p.MediaContent)
+                var query = _context.Media
                     .GroupJoin(_context.PurchaseOrderItems, m => m.Id, pi => pi.MediaId, (m, pi_jointable) => new { m, pi_jointable })
                     .SelectMany(x => x.pi_jointable.DefaultIfEmpty(), (x, pi) => new { x.m, pi })
                     .GroupJoin(_context.PurchaseOrders, x => x.pi.PurchaseOrderId, po => po.Id, (x, po_jointable) => new { x.m, x.pi, po_jointable })
@@ -79,7 +81,7 @@ namespace App.Infrastructure.Repositories
                     .Select(x => x.m);
 
                 var totalItems = query.Count();
-                var items = await query.GetPagination(page, pageSize).ToListAsync();
+                var items = await query.Include(p => p.MediaContent).Include(p => p.Author).GetPagination(page, pageSize).ToListAsync();
                 return new BasePagination<Media>(totalItems, page, pageSize, items);
             }
             catch (Exception ex)

@@ -47,8 +47,18 @@ namespace mp3.mvc.Controllers
                 List<Claim> claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.Username!),
-                    new Claim(ClaimTypes.NameIdentifier, user.Id!.ToString(), ClaimValueTypes.String)
+                    new Claim(ClaimTypes.NameIdentifier, user.Id!.ToString(), ClaimValueTypes.String),
                 };
+
+                // check if user is admin
+                if (user.IsAdmin)
+                {
+                    claims.Add(new Claim("role", "admin"));
+                }
+                else
+                {
+                    claims.Add(new Claim("role", "user"));
+                }
 
                 // create identity
                 ClaimsIdentity identity = new ClaimsIdentity(claims, "cookie");

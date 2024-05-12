@@ -10,23 +10,23 @@
         <div class="fadeIn first">
             <img src="/images/logo.png" style="max-width:60px;" id="icon" alt="User Icon" />
         </div>
-        <h4>Register</h4>
+        <h4>Đăng ký</h4>
         <!-- Register Form -->
         <form method="post" asp-action="register">
             <input type="hidden" name="requestpath" id="requestpath" value="@ViewBag.RequestPath" />
             <div class="mb-1 mx-3 fadeIn first">
-                <input type="text" name="username" class="form-control"  aria-describedby="emailHelp" placeholder="Username">
+                <input type="text" name="username" class="form-control"  aria-describedby="emailHelp" placeholder="Tên người dùng">
                 <span asp-validation-for="username" class="text-danger"></span>
             </div>
             <div class="mb-1 mx-3 fadeIn first">
-                <input type="text" name="displayName" class="form-control" aria-describedby="emailHelp" placeholder="Display name">
+                <input type="text" name="displayName" class="form-control" aria-describedby="emailHelp" placeholder="Tên hiển thị">
                 <span asp-validation-for="displayName" class="text-danger"></span>
             </div>
             <div class="mb-1 mx-3 fadeIn first">
                 <select class="form-select custom-select" name="gender" aria-label="Default select example">
-                    <option selected value="0">Male</option>
-                    <option value="1">Female</option>
-                    <option value="2">Other</option>
+                    <option selected value="0">Nam</option>
+                    <option value="1">Nữ</option>
+                    <option value="2">Khác</option>
                 </select>
             </div>
             
@@ -35,24 +35,24 @@
                 <span asp-validation-for="dob" class="text-danger"></span>
             </div>
             <div class="mb-1 mx-3 fadeIn second">
-                <input type="password" name="password" class="form-control" placeholder="Password">
+                <input type="password" name="password" class="form-control" placeholder="Mật khẩu">
                 <span asp-validation-for="password" class="text-danger"></span>
             </div>
             <div class="mb-1 mx-3 fadeIn second">
-                <input type="password" name="repeatedPassword" class="form-control"  placeholder="ConfirmPassword">
+                <input type="password" name="repeatedPassword" class="form-control"  placeholder="Nhập lại mật khẩu">
                 <span asp-validation-for="repeatedPassword" class="text-danger"></span>
             </div>
             <div class="mb-1 mx-3 fadeIn second">
-                <input type="text" name="address" class="form-control" placeholder="Address">
+                <input type="text" name="address" class="form-control" placeholder="Địa chỉ">
                 <span asp-validation-for="address" class="text-danger"></span>
             </div>
-            <input type="submit" class="fadeIn fourth" value="Register">
+            <input type="submit" class="fadeIn fourth" value="Đăng ký">
         </form>
 
         <!-- Remind Passowrd -->
         <div id="formFooter">
-            <div class="text-dark" style="font-size:12px;">Already have an account? </div>
-            <a class="underlineHover" asp-action="login"> Login</a>
+            <p class="text-dark" style="font-size:12px;">Bạn đã có tài khoản? </p>
+            <a class="underlineHover" asp-action="login"> Đăng nhập</a>
         </div>
 
     </div>
