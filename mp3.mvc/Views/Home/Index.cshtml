@@ -1,7 +1,8 @@
 ﻿@model List<App.Domain.Entities.Media>;
 
 @{
-    ViewData["Title"] = "Trang chủ";  
+    ViewData["Title"] = "Trang chủ";
+    ViewData["HomePage"] = "text-dark";
 }
 <h3>Những bài hát thịnh hành nhất</h3>
 <partial name="./Common/Media/Carousel/_SlidesWithControlPartial" model="Model" />

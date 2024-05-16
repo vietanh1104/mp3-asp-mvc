@@ -35,6 +35,7 @@ namespace mp3.mvc.Controllers
             var Idclaim = HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier);
             return Guid.Parse(Idclaim!.Value);
         }
+
         [Authorize]
         public async Task<IActionResult> Index(int page = 1, int pageSize = 10)
         {

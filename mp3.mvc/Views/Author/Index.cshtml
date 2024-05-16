@@ -5,6 +5,9 @@
     var previousPageBtnEnable = data.Page > 1 ? "" : "disabled";
     var previousPageLink = $"/author/index?searchText={ViewData["searchAuthor"]}&page={data.Page - 1}";
     var nextPageLink = $"/author/index?searchText={ViewData["searchAuthor"]}&page={data.Page + 1}";
+    var roleClaim = User.Claims.FirstOrDefault(p => p.Type == "role");
+    var isAdminRole = roleClaim != null && roleClaim.Value == "admin";
+    ViewData["ManagePage"] = isAdminRole ? "text-dark" : "";
 }
 
 <div class="content-container">
@@ -16,6 +19,10 @@
                 <th scope="col">Tên ca sĩ</th>
                 <th scope="col">Số bài hát</th>
                 <th scope="col">Số lượt nghe</th>
+                @if (isAdminRole)
+                {
+                    <th scope="col">Hành động</th>
+                }
             </tr>
         </thead>
 
@@ -25,9 +32,9 @@
                 var item = data.Items[i];
                 var index = i + 1 + (data.Page - 1) * data.PageSize;
                 <tr>
-                    <th scope="row">
+                    <td scope="row">
                         @index
-                    </th>
+                    </td>
                     <td>
                         <a href="/author/getdetail?id=@item.Id" class="text-dark">@item.Name</a>
                     </td>
@@ -37,6 +44,14 @@
                     <td>
                         @item.Views
                     </td>
+                    @if (isAdminRole)
+                    {
+                        <td class="d-flex">
+                            <a class="d-block rounded-3 btn btn-primary mx-1" href="/author/getdetail?id=@item.Id">Xem</a>
+                            <a class="d-block rounded-3 btn btn-warning mx-1" href="#">Sửa</a>
+                            <a class="d-block rounded-3 btn btn-danger mx-1" href="#">Xóa</a>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>
@@ -64,5 +79,6 @@
         pointer-events: none;
         cursor: default;
         color: gray;
+        text-decoration: none;
     }
 </style>

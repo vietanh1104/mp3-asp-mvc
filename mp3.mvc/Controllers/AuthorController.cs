@@ -3,12 +3,14 @@ using App.Common.Base;
 using App.Common.Helpers;
 using App.Infrastructure;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using mp3.mvc.Models;
 
 namespace mp3.mvc.Controllers
 {
+    [Authorize]
     public class AuthorController : Controller
     {
         private readonly ILogger<AuthorController> _logger;
