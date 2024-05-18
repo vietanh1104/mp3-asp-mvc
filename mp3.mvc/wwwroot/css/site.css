@@ -51,28 +51,14 @@ a :hover{
 
 .card-container {
     width: 200px;
-    position: relative;
     margin-bottom: 20px; /* Adjust margin between items vertically */
     margin-right: 20px;
 }
 
 .card-content {
-    width: 200px;
-    position: relative;
-}
-
-.play-btn {
-    margin: auto;
-    display: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1; /* Ensure play button is on top of other content */
-}
-
-.card-content:hover .play-btn {
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }
 
 .card-title {
@@ -107,4 +93,9 @@ a :hover{
 
 .search-btn {
     border: 1px solid rgb(248, 249, 250);
+}
+
+.table {
+    background-color: white; 
+    border-radius: 4px;
 }

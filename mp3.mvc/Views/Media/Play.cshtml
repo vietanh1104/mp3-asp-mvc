@@ -1,7 +1,9 @@
 ﻿@model App.Domain.Entities.Media
 
 @{
-    ViewData["Title"] = "Play";
+    ViewData["Title"] = "Phát - " + Model.Name;
+    var roleClaim = User.Claims.FirstOrDefault(p => p.Type == "role");
+    var isAdminRole = roleClaim != null && roleClaim.Value == "admin";
 }
 
 <div class="d-flex">
@@ -14,6 +16,13 @@
         <p>Mô tả: <br/> @Model.Description</p>
     </div>
 </div>
+@if (isAdminRole)
+{
+    <div class="d-flex">
+        <a style="width: 100px;" class="d-block rounded-3 btn btn-warning mx-1" href="/media/update?id=@Model.Id">Sửa</a>
+        <a style="width: 100px;" class="d-block rounded-3 btn btn-danger mx-1" href="/media/delete?id=@Model.Id">Xóa</a>
+    </div>
+}
 <audio id="audioPlayer" class="invisible" controls>
     <source src="@Model.ContentUrl" type="audio/mpeg">
     Your browser does not support the audio element.

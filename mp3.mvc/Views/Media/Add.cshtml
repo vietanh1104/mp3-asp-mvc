@@ -1,0 +1,92 @@
+﻿@model mp3.mvc.Models.MediaAddViewModel
+@{
+    ViewData["Title"] = "Thêm mới ca sĩ ";
+}
+
+<h3>
+    Thêm mới bài hát
+</h3>
+
+<form asp-action="Add" asp-controller="Media" method="post" enctype="multipart/form-data">
+    <table class="table">
+        <tr>
+            <td style="text-align:center; align-content:center;">
+                Tên bài hát
+            </td>
+            <td>
+                <input asp-for="Name" class="form-control"  required/>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:center; align-content:center;">
+                Mô tả:
+            </td>
+            <td>
+                <input asp-for="Description" class="form-control" required />
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:center; align-content:center;">
+                Thể loại:
+            </td>
+            <td>
+                <select class="form-select custom-select" asp-for="CategoryId" aria-label="Tên thể loại">
+                    @for(var i = 0; i < ViewBag.CategoryData.Count; i++)
+                    {
+                        var item = ViewBag.CategoryData[i];
+                        if(i == 0)
+                        {
+                            <option selected value="@item.Id">@item.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:center; align-content:center;">
+                Ca sĩ:
+            </td>
+            <td>
+                <select class="form-select custom-select" asp-for="AuthorId" aria-label="Tên ca sĩ">
+                    @for (var i = 0; i < ViewBag.AuthorData.Count; i++)
+                    {
+                        var item = ViewBag.AuthorData[i];
+                        if (i == 0)
+                        {
+                            <option selected value="@item.Id">@item.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:center; align-content:center;">
+                File:
+            </td>
+            <td>
+                <input asp-for="ContentFile" type="file" class="form-control" multiple required />
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:center; align-content:center;">
+                Ảnh:
+            </td>
+            <td>
+                <input name="Avatar" type="file" class="form-control" multiple required />
+            </td>
+        </tr>
+    </table>
+
+    <div class="d-flex flex-row-reverse">
+        <button style="width: 100px;" class="d-block rounded-3 btn btn-primary mx-1" type="submit">Lưu</button>
+        <a style="width: 100px;" class="d-block rounded-3 btn btn-danger mx-1" href="/media/manage">Hủy</a>
+    </div>
+</form>

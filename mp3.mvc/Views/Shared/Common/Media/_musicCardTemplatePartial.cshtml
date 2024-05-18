@@ -1,14 +1,14 @@
-﻿<div class="card card-container" style="overflow:clip;">
+﻿<div class="card card-container" style="overflow:hidden;">
     <div class="card-content">
-        <a href="/media/play?id=@Model.Id" class="btn btn-primary play-btn">
-            <img src="~/images/icons/play.png" id="icon-play"/>
+        <a href="/media/play?id=@Model.Id" style="background-color: black; align-content:center;justify-content:center;" >
+            <partial class="formContent" name="./Common/Media/_musicAvatarPreviewPartial" model="@Model.MediaContent" />
         </a>
-        <partial class="formContent" name="./Common/Media/_musicAvatarPreviewPartial" model="@Model.MediaContent" />
+        
     </div>
-    <div class="card-body">
-        <a class="card-title text-black" href="#">@Model.Name</a>
+    <div class="card-body d-block" style="padding:10px; overflow:clip;">
+        <a class="card-title text-black" style="overflow:clip;" href="#">@Model.Name</a>
         <br />
-        <a class="card-author" href="#">@Model.Author?.Name</a>
+        <a class="card-author" href="/Author/GetDetail?id=@Model.Author?.Id">@Model.Author?.Name</a>
     </div>
 </div>
 

@@ -75,13 +75,13 @@ namespace mp3.mvc.Controllers
                             IsPersistent = model.isRememeberMe, // for 'remember me' feature
                         });
                 _logger.LogDebug($"User with username: {model.username} logined.");
-                _notyfService.Success("Login successfully.");
+                _notyfService.Success("Đăng nhập thành công.", 2);
 
                 return Redirect(model.RequestPath ?? "/home");
             }
             catch (Exception ex)
             {
-                _notyfService.Error("Username doesnot exist or password is incorrect.");
+                _notyfService.Error("Tên đăng nhập không tồn tại hoặc mật khẩu không đúng", 2);
                 _logger.LogError(ex.Message);
                 return View();
             }
@@ -138,7 +138,7 @@ namespace mp3.mvc.Controllers
                         scheme: "CookieSecurityScheme",
                         principal: principal);
                 _logger.LogDebug($"User with username: {model.username} logined.");
-                _notyfService.Success("Register successfully.");
+                _notyfService.Success("Đăng ký thành công.");
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
