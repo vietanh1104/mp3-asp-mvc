@@ -6,7 +6,9 @@ namespace App.Domain.Entities
     public class FavouriteCollection
     {
         public Guid MediaId { get; set; }
+        public Media? Media { get; set; }   
         public Guid UserId { get; set; }
+        public User? User { get; set; }  
         public DateTime? CreatedAt { get; set; } = DateTime.Now;
     }
 }

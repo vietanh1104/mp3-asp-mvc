@@ -19,16 +19,11 @@ namespace App.Infrastructure
         public virtual DbSet<FavouriteCollection> FavouriteCollections { get; set; } = null!;
         public virtual DbSet<Media> Media { get; set; } = null!;
         public virtual DbSet<MediaContent> MediaContents { get; set; } = null!;
-        public virtual DbSet<MediaInteraction> MediaInteractions { get; set; } = null!;
         public virtual DbSet<MediaViewHistory> MediaViewHistory { get; set; } = null!;
-        public virtual DbSet<Transaction> Transactions { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Transaction>()
-               .HasKey(e => new { e.UserId, e.PurchaseOrderId });
-
             modelBuilder.Entity<FavouriteCollection>()
                .HasKey(e => new { e.UserId, e.MediaId });
         }

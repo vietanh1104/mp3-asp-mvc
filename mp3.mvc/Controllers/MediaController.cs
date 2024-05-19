@@ -112,15 +112,7 @@ namespace mp3.mvc.Controllers
             // add view to history
             var newView = new MediaViewHistory();
             newView.MediaId = id;
-            if (User == null && User.Identity == null && User.Identity.IsAuthenticated)
-            {
-               
-                newView.UserId = MockData.UserData[0].Id;
-            }
-            else
-            {
-                newView.UserId = getUserId();
-            }
+            newView.UserId = getUserId();
 
             var isSpam = await _databaseContext.MediaViewHistory
                 .AnyAsync(p => p.UserId == newView.UserId && p.MediaId == newView.MediaId && p.CreatedAt >= DateTime.Now.AddMinutes(-30));
@@ -399,16 +391,17 @@ namespace mp3.mvc.Controllers
             var userId = getUserId();
             var query = _databaseContext.MediaViewHistory
                 .Where(p => p.UserId == userId)
+                .OrderByDescending(p => p.CreatedAt)
                 .Include(p => p.Media).ThenInclude(p => p.Category)
                 .Include(p => p.Media).ThenInclude(p => p.Author)
                 .Include(p => p.Media).ThenInclude(p => p.MediaContent)
                 .Select(p => p.Media)
+                .Distinct()
                 .AsQueryable();
 
             var total = await query.CountAsync();
 
             var items = await query
-                .OrderByDescending(p => p.CreatedAt)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
