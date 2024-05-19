@@ -7,6 +7,6 @@ namespace App.Domain.Entities
     {
         public Guid MediaId { get; set; }
         public Guid UserId { get; set; }
-        public DateTime? CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.Now;
     }
 }

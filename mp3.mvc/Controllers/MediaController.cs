@@ -2,19 +2,12 @@
 using App.Common.Base;
 using App.Domain.Entities;
 using App.Infrastructure;
-using App.Infrastructure.Repositories;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using mp3.mvc.Models;
-using System.Drawing.Printing;
 using System.Security.Claims;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace mp3.mvc.Controllers
 {
@@ -87,7 +80,30 @@ namespace mp3.mvc.Controllers
         {
             ViewData["CollectionPage"] = "text-dark";
 
-            var model = await _mediaRepository.GetAvailableItemList(getUserId(), page: page, pageSize: pageSize);
+            var userId = getUserId();
+
+            var total = await _databaseContext.FavouriteCollections
+                .CountAsync(p => p.UserId == userId);
+
+            var idData = await _databaseContext.FavouriteCollections
+                .Where(p => p.UserId == userId).Select(p => p.MediaId).Skip((page - 1) * pageSize)
+                .Take(pageSize).ToListAsync();
+
+            var query = _databaseContext.Media
+                .Include(p => p.Category)
+                .Include(p => p.Author)
+                .Include(p => p.MediaContent)
+                .Where(p => idData.Contains(p.Id))
+                .AsQueryable();
+
+            
+
+            var items = await query
+                .OrderByDescending(p => p.CreatedAt)
+                .ToListAsync();
+
+            var model = new BasePagination<Media>(total, page, pageSize, items);
+
             return View(model);
         }
         public async Task<IActionResult> Play(Guid id)
@@ -112,9 +128,68 @@ namespace mp3.mvc.Controllers
             {
                 await _mediaViewHistoryRepository.InsertOne(newView);
             }
-           
+
+            ViewBag.isFavouriteMedia = await _databaseContext.FavouriteCollections.AnyAsync(p => p.MediaId == id && p.UserId == getUserId());
+            
             return View(music);
         }
+
+        public async Task<IActionResult> Backward(Guid id)
+        {
+            var current = await _databaseContext.MediaViewHistory.Where(p => p.MediaId == id && p.UserId == getUserId())
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
+            var media = await _databaseContext.MediaViewHistory
+                .Where(p => p.MediaId != id && p.UserId == getUserId() && p.CreatedAt < current.CreatedAt)
+                .OrderByDescending(p => p.CreatedAt)
+                .Select(p => p.MediaId).FirstOrDefaultAsync();
+
+            if(media == Guid.Empty)
+            {
+                return RedirectToAction(nameof(Play), new { id });
+            }
+
+            return RedirectToAction(nameof(Play), new {id = media });
+        }
+
+        public async Task<IActionResult> Forward(Guid id)
+        {
+            var current = await _databaseContext.MediaViewHistory.Where(p => p.MediaId == id && p.UserId == getUserId())
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
+            var media = await _databaseContext.MediaViewHistory
+                .Where(p => p.MediaId != id && p.UserId == getUserId() && p.CreatedAt > current.CreatedAt)
+                .OrderBy(p => p.CreatedAt)
+                .Select(p => p.MediaId).FirstOrDefaultAsync();
+
+            if(media != Guid.Empty)
+            {
+                return RedirectToAction(nameof(Play), new { id = media });
+            }
+
+            var historyData = await _databaseContext.MediaViewHistory
+                .OrderByDescending(p => p.CreatedAt)
+                .Select(p => p.MediaId)
+                .Distinct()    
+                .Take(30)
+                .ToListAsync();
+
+            var nextMedia = await _databaseContext.MediaViewHistory
+                .GroupBy(p => p.MediaId)
+                .Select(p => new { MediaId = p.Key, Count = p.Count()})
+                .OrderBy(p => p.Count)
+                .Where(p => !historyData.Contains(p.MediaId))
+                .Select(p => p.MediaId)
+                .FirstOrDefaultAsync();
+
+            if(nextMedia == Guid.Empty)
+            {
+                nextMedia = await _databaseContext.Media.Where(p => !historyData.Contains(p.Id)).Select(p => p.Id).FirstOrDefaultAsync();
+            }
+
+            return RedirectToAction(nameof(Play), new { id = nextMedia });
+        }
+
 
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -341,6 +416,36 @@ namespace mp3.mvc.Controllers
             ViewBag.Data = new BasePagination<Media>(total, page, pageSize, items);
 
             return View();
+        }
+
+        public async Task<IActionResult> Like(Guid id)
+        {
+            var favour = new FavouriteCollection
+            {
+                UserId = getUserId(),
+                MediaId = id
+            };
+
+            await _databaseContext.AddAsync(favour);
+
+            await _databaseContext.SaveChangesAsync();
+
+            _notyfService.Success("Thêm vào danh sách yêu thích thành công", 2);
+            return RedirectToAction(nameof(Play), new { id });
+            
+        }
+
+        public async Task<IActionResult> Unlike(Guid id)
+        {
+            var favour = await _databaseContext.FavouriteCollections.FirstOrDefaultAsync(p => p.MediaId == id && p.UserId == getUserId());
+
+            _databaseContext.Remove(favour);
+
+            await _databaseContext.SaveChangesAsync();
+
+            _notyfService.Success("Xóa khỏi danh sách yêu thích thành công", 2);
+            return RedirectToAction(nameof(Play), new { id });
+
         }
     }
 }
