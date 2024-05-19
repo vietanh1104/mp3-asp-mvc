@@ -21,8 +21,6 @@ namespace App.Infrastructure
         public virtual DbSet<MediaContent> MediaContents { get; set; } = null!;
         public virtual DbSet<MediaInteraction> MediaInteractions { get; set; } = null!;
         public virtual DbSet<MediaViewHistory> MediaViewHistory { get; set; } = null!;
-        public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; } = null!;
-        public virtual DbSet<PurchaseOrderItem> PurchaseOrderItems { get; set; } = null!;
         public virtual DbSet<Transaction> Transactions { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
 

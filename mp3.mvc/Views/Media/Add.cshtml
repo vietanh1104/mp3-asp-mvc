@@ -34,14 +34,7 @@
                     @for(var i = 0; i < ViewBag.CategoryData.Count; i++)
                     {
                         var item = ViewBag.CategoryData[i];
-                        if(i == 0)
-                        {
-                            <option selected value="@item.Id">@item.Name</option>
-                        }
-                        else
-                        {
-                            <option value="@item.Id">@item.Name</option>
-                        }
+                        <option value="@item.Id">@item.Name</option>
                     }
                 </select>
             </td>
@@ -55,14 +48,7 @@
                     @for (var i = 0; i < ViewBag.AuthorData.Count; i++)
                     {
                         var item = ViewBag.AuthorData[i];
-                        if (i == 0)
-                        {
-                            <option selected value="@item.Id">@item.Name</option>
-                        }
-                        else
-                        {
-                            <option value="@item.Id">@item.Name</option>
-                        }
+                        <option value="@item.Id">@item.Name</option>
                     }
                 </select>
             </td>

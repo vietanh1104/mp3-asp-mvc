@@ -1,13 +1,21 @@
 ﻿using App.Application.Contracts.Infrastructure;
+using App.Common.Base;
 using App.Common.Helpers;
 using App.Domain.Entities;
+using App.Infrastructure;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using mp3.mvc.Models;
+using System.Drawing.Printing;
 using System.Security.Claims;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+
 namespace mp3.mvc.Controllers
 {
     public class UserController : Controller
@@ -15,11 +23,14 @@ namespace mp3.mvc.Controllers
         private readonly ILogger<UserController> _logger;
         private readonly INotyfService _notyfService;
         private readonly IUserRepository _userRepository;
-        public UserController(ILogger<UserController> logger, INotyfService notyfService, IUserRepository userRepository)
+        private readonly DatabaseContext _databaseContext;
+        public UserController(ILogger<UserController> logger, INotyfService notyfService, IUserRepository userRepository,
+            DatabaseContext databaseContext)
         {
             _logger = logger;
             _notyfService = notyfService;
             _userRepository = userRepository;
+            _databaseContext = databaseContext;
         }
         private Guid getUserId()
         {
@@ -43,11 +54,18 @@ namespace mp3.mvc.Controllers
             {
                 var user = await _userRepository.Login(model.username, TokenHelper.md5_hash(model.password));
 
+                if (user.IsLocked)
+                {
+                    _notyfService.Error("Tài khoản của bạn đã bị vô hiệu hóa", 2);
+                    return View();
+                }
+
                 // create claims
                 List<Claim> claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.Username!),
                     new Claim(ClaimTypes.NameIdentifier, user.Id!.ToString(), ClaimValueTypes.String),
+                    new Claim("avatarUrl", user.AvatarUrl, ClaimValueTypes.String)
                 };
 
                 // check if user is admin
@@ -112,6 +130,7 @@ namespace mp3.mvc.Controllers
                 {
                     Username = model.username,
                     DisplayName = model.displayName,
+                    AvatarUrl = "/images/avatars/empty.jpg",
                     Password = TokenHelper.md5_hash(model.password!),
                     Address = model.address,
                     Gender = model.gender,
@@ -124,7 +143,8 @@ namespace mp3.mvc.Controllers
                 List<Claim> claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, model.username),
-                    new Claim(ClaimTypes.NameIdentifier, newUser.Id.ToString(), ClaimValueTypes.String)
+                    new Claim(ClaimTypes.NameIdentifier, newUser.Id.ToString(), ClaimValueTypes.String),
+                    new Claim("avatarUrl", newUser.AvatarUrl, ClaimValueTypes.String)
                 };
 
                 // create identity
@@ -159,10 +179,131 @@ namespace mp3.mvc.Controllers
             return RedirectToAction("index", "home");
         }
         [Authorize]
-        public async Task<IActionResult> GetOwnerProfile()
+        public async Task<IActionResult> GetDetailProfile(Guid id)
         {
-            var user = await _userRepository.GetByIdAsync(getUserId());
+            var user = await _userRepository.GetByIdAsync(id);
             return View(user);
         }
+
+        public async Task<IActionResult> Manage(string searchUser = "", int page = 1, int pageSize = 10)
+        {
+            var query = _databaseContext.Users.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchUser))
+            {
+                query = query.Where(p => 
+                    (!string.IsNullOrWhiteSpace(p.DisplayName) && p.DisplayName.ToLower().Contains(searchUser.Trim().ToLower())) || 
+                    (!string.IsNullOrWhiteSpace(p.Username) && p.Username.ToLower().Contains(searchUser.Trim().ToLower())) || 
+                    (!string.IsNullOrWhiteSpace(p.Email) && p.Email.ToLower().Contains(searchUser.Trim().ToLower()))  
+                 );
+            }
+            var total = await query.CountAsync();
+
+            var items = await query
+                .OrderByDescending(p => p.CreatedAt)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+            ViewData["searchUser"] = searchUser;
+            ViewBag.Data = new BasePagination<User>(total, page, pageSize, items);
+
+            return View();
+        }
+        public async Task<IActionResult> Activate(Guid id)
+        {
+            var user = await _databaseContext.Users.Where(p => p.Id == id).FirstOrDefaultAsync();
+
+            user.IsLocked = false;
+            _databaseContext.Update(user);
+            var changeCount = await _databaseContext.SaveChangesAsync();
+            if (changeCount > 0)
+            {
+                _notyfService.Success($"Khôi phục thành công người dùng {user.Username}", 2);
+                return RedirectToAction(nameof(Manage));
+            }
+            _notyfService.Error($"Khôi phục thất bại người dùng {user.Username}", 2);
+            return RedirectToAction(nameof(Manage));
+        }
+
+        public async Task<IActionResult> Deactivate(Guid id)
+        {
+            var user = await _databaseContext.Users.Where(p => p.Id == id).FirstOrDefaultAsync();
+
+            user.IsLocked = true;
+            _databaseContext.Update(user);
+            var changeCount = await _databaseContext.SaveChangesAsync();
+            if (changeCount > 0)
+            {
+                _notyfService.Success($"Vô hiệu hóa thành công người dùng {user.Username}", 2);
+                return RedirectToAction(nameof(Manage));
+            }
+            _notyfService.Error($"Vô hiệu hóa thất bại người dùng {user.Username}", 2);
+            return RedirectToAction(nameof(Manage));
+        }
+
+        public async Task<IActionResult> Update(Guid id)
+        {
+            var user = await _databaseContext.Users.Where(p => p.Id == id).AsNoTracking().FirstOrDefaultAsync();
+
+
+            var res = new UserUpdateViewModel
+            {
+                Id = user.Id,
+                DisplayName = user.DisplayName,
+                Username = user.Username,
+                PhoneNumber = user.PhoneNumber,
+                Email = user.Email,
+                Dob = user.Dob,
+                Gender = user.Gender,
+                Address = user.Address,
+                IsLocked = user.IsLocked,
+            };
+
+
+            return View(res);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateConfirmation(UserUpdateViewModel request)
+        {
+            var user = await _databaseContext.Users.Where(p => p.Id == request.Id).AsNoTracking().FirstOrDefaultAsync();
+
+            user.DisplayName = request.DisplayName ?? user.DisplayName;
+            user.Username = request.Username ?? user.Username;
+            user.Email = request.Email ?? user.Email;
+            user.PhoneNumber = request.PhoneNumber ?? user.PhoneNumber;
+            user.Address = request.Address ?? user.Address;
+            user.Gender = request.Gender;
+            user.Dob = request.Dob;
+            user.IsLocked = request.IsLocked;
+
+            if (!string.IsNullOrWhiteSpace(request.Password))
+            {
+                user.Password = TokenHelper.md5_hash(request.Password);
+            }
+
+            if(request.Avatar != null)
+            {
+                System.IO.File.Delete("wwwroot" + user.AvatarUrl);
+                var filePath = $"/images/avatars/{user.Id}.jpg";
+                using (var stream = new FileStream("wwwroot" + filePath, FileMode.Create))
+                {
+                    await request.Avatar.CopyToAsync(stream);
+                }
+                user.AvatarUrl = filePath;
+            }
+
+            _databaseContext.Update(user);
+            var changeCount = await _databaseContext.SaveChangesAsync();
+            if (changeCount > 0)
+            {
+                _notyfService.Success($"Chỉnh sửa thành công thông tin người dùng {user.Username}", 2);
+                return RedirectToAction(nameof(Manage));
+            }
+            _notyfService.Error($"Chỉnh sửa thất bại thông tin người dùng {user.Username}", 2);
+            return RedirectToAction(nameof(Update), new {id = request.Id});
+        }
+
     }
 }
