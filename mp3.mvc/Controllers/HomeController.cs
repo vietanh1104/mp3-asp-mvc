@@ -32,8 +32,15 @@ namespace mp3.mvc.Controllers
         {
             ViewData["HomePage"] = "text-dark";
 
+            ViewData["NewestList"] = await _databaseContext.Media
+                .Include(p => p.Author)
+                .Include(p => p.Category)
+                .Include(p => p.MediaContent)
+                .AsNoTracking()
+                .ToListAsync();
+
             ViewData["TrendingList"] = await _mediaRepository.GetTrendingItemList();
-            return View(MockData.MediaData);
+            return View();
         }
         [Authorize]
         public async Task<IActionResult> Search(int type = 0, string searchText= "", int page = 1, int pageSize = 8)

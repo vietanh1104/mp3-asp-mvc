@@ -83,7 +83,7 @@ namespace App.Infrastructure.Repositories
                     .OrderByDescending(p => p.Count())
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize)
-                    .Select(g => _context.Media.Include(p => p.MediaContent).FirstOrDefault(m => m.Id == g.Key));
+                    .Select(g => _context.Media.Include(p => p.MediaContent).Include(p => p.Author).FirstOrDefault(m => m.Id == g.Key));
 
                 return await query.ToListAsync();
             }
