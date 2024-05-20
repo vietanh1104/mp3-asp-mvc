@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace App.Domain.Entities
 {
-    [Table("mediaContent")]
+    [Table("media_content")]
     public class MediaContent : BaseEntity
     {
         public int Type { get; set; }
