@@ -7,9 +7,11 @@
     <title>@ViewData["Title"] - MineMusic</title>
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/explorer.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/login-form.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/mp3.mvc.styles.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
 </head>
 <body>
     @{
@@ -20,53 +22,116 @@
         var isAuthen = User != null && User.Identity != null && User.Identity.IsAuthenticated;
         var userId = User?.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier)?.Value;
     }
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light color-common">
-            <div class="container-fluid mx-5">
-                <a class="navbar-brand text-light" href="/home">
-                    <span>MineMusic</span>
-                    <img width="20" height="20" fill="currentColor" src="~/images/logo.png" />
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-light">
-                        <li class="nav-item hover-text">
-                            <a class="nav-link text-light @ViewData["HomePage"]" href="/home">Trang chủ</a>
-                        </li>
-                        @*<li class="nav-item dropdown hover-text">
-                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Khám phá
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Pop</a></li>
-                                <li><a class="dropdown-item" href="#">Rap </a></li>
-                                <li><a class="dropdown-item" href="#">Nhạc vàng </a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Xem thêm</a></li>
-                            </ul>
-                        </li>*@
-                        <li class="nav-item hover-text">
-                            <a class="nav-link text-light @ViewData["ExplorePage"]" href="/home/search">Khám phá</a>
-                        </li>
-                        @if (isAuthen)
-                        {
-                            <li class="nav-item hover-text">
 
-                                <a class="nav-link text-light @ViewData["CollectionPage"]" href="/media/collection" tabindex="-1">Bộ sưu tập</a>
-                            </li>
+    <div class="Homeinterface-Top">
+        <div class="Homeinterface-Banner">
+            <div class="Homeinterface-Banner-Logo">
+                <p class="Homeinterface-Banner-Logo-P">
+                    <a href="/Home/Index">
+                        <img src="~/images/logo.png">
+                    </a>
+                </p>
+            </div>
+            <div class="Homeinterface-Header-Seach" id="menu">
+                <button class="homes-buttons">
+                    <a href="/Home/Index" style="color: black">
+                        <i class="fas fa-home"></i>
+                    </a>
+                </button>
+                <div class="Banner_Seach_Text">
+                    <form class="d-flex hover-text" asp-controller="home" asp-action="searchAction" method="post">
+                        <input name="searchText" class="form-control me-2" type="search" placeholder="Tên bài hát, ca sĩ,..." aria-label="Search">
+                    </form>
+                </div>
+            </div>
+            <div class="Homeinterface-Banner-Icon">
+
+                <div class="Icon-blocl">
+                    <p class="premium">Khám phá Premium</p>
+                    <p class="premiums">Cài đặt ứng dụng</p>
+                </div>
+
+                <div class="block-action">
+
+                    <div class="Homeinterface-Banner-Icon-Bell">
+                        <a href="/ADminDVC/Login" title="Thông báo">
+                            <i class="fa-solid fa-bell" style="color: #ffffff; font-size: 24px"></i>
+                        </a>
+                    </div>
+                    <div class="Homeinterface-Banner-Icon-User">
+
+                        @{
+                            if (isAuthen)
+                            {
+                                <div class="d-flex justify-content-center dropdown">
+                                    <img class="avatar hover-text bg-info rounded-circle mx-1" id="navbarDropdown" aria-expanded="false"
+                                         data-bs-toggle="dropdown" style="max-width:40px; max-height:40px;" src="@avatarUrl" />
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li><a class="dropdown-item" href="/user/getDetailProfile?id=@userId">Thông tin tài khoản</a></li>
+                                        <li><a class="dropdown-item" href="/media/history">Lịch sử nghe</a></li>
+                                        <li><a class="dropdown-item" href="/user/setlanguage">Đổi ngôn ngữ</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="/user/logout">Đăng xuất</a></li>
+                                    </ul>
+                                </div>
+                            }
+                            else
+                            {
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">
+                                        <i class="fa-solid fa-user-gear" style="color: #ffffff; font-size: 24px"></i>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <li><a class="dropdown-item" href="/User/Login">Đăng nhập</a></li>
+                                        <li><a class="dropdown-item" href="/User/Register">Đăng ký</a></li>
+                                    </ul>
+                                </li>
+                            }
                         }
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="content-body">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Khối trái (chiếm 4 cột) -->
+                <div class="col-2 left-div">
+                    <ul class="nav flex-column custom-menu">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/Home/Index">
+                                <i class="fas fa-home" style="font-size: 24px"></i>  Trang Chủ
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" @ViewData["ExplorePage"]" href="/home/search">
+                                <i class="fas fa-concierge-bell" style="color: #ffffff; font-size: 24px"></i>  Tìm kiếm
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-box" style="color: #ffffff; font-size: 24px"></i>  Thư viện
+                            </a>
+                        </li>
                         @if (isAuthen && isAdminRole)
                         {
                             <li class="nav-item dropdown hover-text">
                                 <a class="nav-link dropdown-toggle text-light @ViewData["ManagePage"]"
-                                   href="#" id="navbarDropdown" 
-                                    role="button" data-bs-toggle="dropdown" 
-                                    aria-expanded="false">
+                                   href="#" id="navbarDropdown"
+                                   role="button" data-bs-toggle="dropdown"
+                                   aria-expanded="false"
+                                   style="color: white">
                                     Quản trị
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="/media/add">Tải lên</a></li>
                                     <li><a class="dropdown-item" href="/user/manage">Người dùng</a></li>
                                     <li><a class="dropdown-item" href="/media/manage">Bài hát</a></li>
                                     <li><a class="dropdown-item" href="/author">Ca sĩ</a></li>
@@ -74,44 +139,73 @@
                                 </ul>
                             </li>
                         }
-
                     </ul>
-                    <form class="d-flex hover-text" asp-controller="home" asp-action="searchAction" method="post">
-                        <input name="searchText" class="form-control me-2" type="search" placeholder="Tên bài hát, ca sĩ,..." aria-label="Search">
-                        <button class="btn search-btn text-light" href="#" type="submit">Tìm</button>
-                    </form>
-                    @{
-                        if (isAuthen)
-                                    {
-                            <div class="d-flex justify-content-center dropdown" style="padding-left: 100px;">
-                                <img class="avatar hover-text bg-info rounded-circle mx-1" id="navbarDropdown" aria-expanded="false"
-                                     data-bs-toggle="dropdown" style="max-width:40px; max-height:40px;" src="@avatarUrl" />
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="/user/getDetailProfile?id=@userId">Thông tin tài khoản</a></li>
-                                    <li><a class="dropdown-item" href="/media/history">Lịch sử nghe</a></li>
-                                    <li><a class="dropdown-item" href="/user/setlanguage">Đổi ngôn ngữ</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="/user/logout">Đăng xuất</a></li>
-                                </ul>
-                            </div>
-                            if(isAdminRole){
-                                <a class="nav-link text-light hover-text" href="/media/add">Tải lên</a>
-                            }
-                        }
-                        else
-                        {
-                            <a class="text-light mx-1" href="/user/login">Đăng nhập</a>
-                        }
-                    }
+                </div>
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <footer id="footercontent">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col" id="company">
+                    <img src="/Album/BoCuc/z3398273747863_81c41ce47a59fbf2a5832130c0d3308e.jpg" alt="" class="logo" />
+                    <p>
+                        Khám phá thế giới âm nhạc không giới hạn, nơi mọi cảm xúc được thăng hoa và mọi giai điệu đều chạm đến trái tim. Tại đây Mine Music, bạn có thể dễ dàng tìm thấy những bản nhạc yêu thích từ mọi thể loại – từ các bản hit đình đám cho đến những giai điệu indie độc đáo ...
+                    </p>
+                    <div class="social">
+                        <a href="https://www.facebook.com/DonggVannCongg">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="https://www.instagram.com/12th24.2002/">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.youtube.com/channel/UC2nBEyZayY3A8Y33IlgEDYw">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col" id="services">
+                    <h3>Công ty</h3>
+                    <div class="links">
+                        <a href="#">Giới thiệu </a>
+                        <a href="#">Việc làm</a>
+                        <a href="#">Điều khoản dịch vụ</a>
+                    </div>
+                </div>
+                <div class="col" id="useful-links">
+                    <h3>Cộng đồng</h3>
+                    <div class="links">
+                        <a href="#">Dành cho các nghệ sĩ</a>
+                        <a href="#">Nhà phát triển</a>
+                        <a href="#">Quảng cáo</a>
+                        <a href="#">Nhà đầu tư</a>
+                        <a href="#">Nhà cung cấp</a>
+                    </div>
+                </div>
+                <div class="col" id="useful-links">
+                    <h3>Liên kết hữu ích</h3>
+                    <div class="links">
+                        <a href="#">Hỗ trợ</a>
+                        <a href="#">Ứng dụng di động miễn phí</a>
+                    </div>
+                </div>
+                <div class="col" id="useful-links">
+                    <h3>Các gói của Mine Musics</h3>
+                    <div class="links">
+                        <a href="#">Mine Free</a>
+                        <a href="#">Premium Student</a>
+                        <a href="#">Premium Individual</a>
+                    </div>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container mt-3 rounded-3">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+        </div>
+    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

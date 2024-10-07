@@ -2,34 +2,7 @@
     var id = Guid.NewGuid();
 }
 
-<div id="@id" class="carousel slide bg-dark img-avatar" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        @for (int i = 0; i < Model.Count; i++)
-        {
-            var item = Model[i];
-            if (i == 0)
-            {
-                <div class="carousel-item active">
-                    <div class="d-block w-100 d-flex justify-content-center align-items-center text-white">
-                        <img class="carousel-item-img" src="@item.Value" alt="First slide">
-                    </div>
-
-                </div>
-            }
-            else
-            {
-                <div class="carousel-item">
-                    <div class="d-block w-100 d-flex justify-content-center align-items-center text-white">
-                        <img class="carousel-item-img" src="@item.Value" alt="First slide">
-                    </div>
-                </div>
-            }
-        }
-    </div>
-</div>
-
-<style>
-    .img-avatar:hover{
-        opacity: 70%;
-    }
-</style>
+@if(Model.Count > 0)
+{
+    <img src="@Model[0].Value" class="card-img-top" alt="Bài Hát 1">
+}

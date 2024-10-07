@@ -123,7 +123,7 @@ namespace mp3.mvc.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    return View();
+                    return View(model);
                 }
 
                 var newUser = new User
@@ -303,6 +303,12 @@ namespace mp3.mvc.Controllers
             }
             _notyfService.Error($"Chỉnh sửa thất bại thông tin người dùng {user.Username}", 2);
             return RedirectToAction(nameof(Update), new {id = request.Id});
+        }
+
+        [HttpGet]
+        public IActionResult About()
+        {
+            return View();
         }
 
     }

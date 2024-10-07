@@ -10,83 +10,87 @@
     ViewData["Title"] = isAdminRole ? "Quản trị người dùng" : "Danh sách người dùng";
 }
 
-<div class="content-container">
-    <h3 style="text-align:center;">Danh sách người dùng</h3>
-    @if (isAdminRole)
-    {
-        <div class="d-flex flex-row-reverse">
-            <a style="width: 100px;" class="d-block rounded-3 btn btn-success mx-1" href="/media/add">Thêm</a>
-        </div>
-    }
-    <table class="table" style="background-color: white; border-radius: 4px;">
-        <thead>
-            <tr>
-                <th scope="col">Số thứ tự</th>
-                <th scope="col">Tên đăng nhập</th>
-                <th scope="col">Tên hiểu thị</th>
-                <th scope="col">Email</th>
-                <th scope="col">Ngày tạo</th>
-                <th scope="col">Trạng thái</th>
-                <th scope="col">Hành động</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @for (var i = 0; i < data.Items.Count; i++)
-            {
-                var item = data.Items[i];
-                var index = i + 1 + (data.Page - 1) * data.PageSize;
+<div class="col-10" style="margin-bottom: 44px; margin-top: 24px">
+    <div class="content-container">
+        <h3 style="text-align:center; color: white">Danh sách người dùng</h3>
+        @if (isAdminRole)
+        {
+            <div class="d-flex flex-row-reverse">
+                <a style="width: 100px;" class="d-block rounded-3 btn btn-success mx-1" href="/media/add">Thêm</a>
+            </div>
+        }
+        <table class="table" style="background-color: white; border-radius: 4px;">
+            <thead>
                 <tr>
-                    <td scope="row">
-                        @index
-                    </td>
-                    <td>
-                        @item.Username
-                    </td>
-                    <td>
-                        @item.DisplayName
-                    </td>
-                    <td>
-                        @item.Email
-                    </td>
-                    <td>
-                        @item.CreatedAt.ToString("dd-MM-yyyy")
-                    </td>
-                    <td>
-                        @if (!item.IsLocked)
-                        {
-                            <div>
-                                Hoạt động
-                            </div>
-                        }
-                        else
-                        {
-                            <div>
-                                Vô hiệu hóa
-                            </div>
-                        }
-                    </td>
-                    <td class="d-flex">
-                        <a class="d-block rounded-3 btn btn-primary mx-1" href="/user/getdetailProfile?id=@item.Id">Xem</a>
-                        <a class="d-block rounded-3 btn btn-warning mx-1" href="/user/update?id=@item.Id">Sửa</a>
-                        @if (!item.IsLocked)
-                        {
-                            <a class="d-block rounded-3 btn btn-danger mx-1" href="/user/deactivate?id=@item.Id">Vô hiệu hóa</a>
-                        }else{
-                            <a class="d-block rounded-3 btn btn-success mx-1" href="/user/activate?id=@item.Id">Khôi phục</a>
-                        }
-                    </td>
+                    <th scope="col">Số thứ tự</th>
+                    <th scope="col">Tên đăng nhập</th>
+                    <th scope="col">Tên hiểu thị</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Ngày tạo</th>
+                    <th scope="col">Trạng thái</th>
+                    <th scope="col">Hành động</th>
                 </tr>
-            }
-        </tbody>
+            </thead>
 
-    </table>
-    <div class="d-flex justify-content-end">
-        <a href="@previousPageLink" class="page-link rounded-3 @previousPageBtnEnable">Trang trước</a>
-        <div class="page-link page-number rounded-3 text-black">@data.Page / @data.TotalPage</div>
-        <a href="@nextPageLink" class="page-link rounded-3 @nextPageEnable">Trang sau</a>
+            <tbody>
+                @for (var i = 0; i < data.Items.Count; i++)
+                {
+                    var item = data.Items[i];
+                    var index = i + 1 + (data.Page - 1) * data.PageSize;
+                    <tr>
+                        <td scope="row">
+                            @index
+                        </td>
+                        <td>
+                            @item.Username
+                        </td>
+                        <td>
+                            @item.DisplayName
+                        </td>
+                        <td>
+                            @item.Email
+                        </td>
+                        <td>
+                            @item.CreatedAt.ToString("dd-MM-yyyy")
+                        </td>
+                        <td>
+                            @if (!item.IsLocked)
+                            {
+                                <div>
+                                    Hoạt động
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    Vô hiệu hóa
+                                </div>
+                            }
+                        </td>
+                        <td class="d-flex">
+                            <a class="d-block rounded-3 btn btn-primary mx-1" href="/user/getdetailProfile?id=@item.Id">Xem</a>
+                            <a class="d-block rounded-3 btn btn-warning mx-1" href="/user/update?id=@item.Id">Sửa</a>
+                            @if (!item.IsLocked)
+                            {
+                                <a class="d-block rounded-3 btn btn-danger mx-1" href="/user/deactivate?id=@item.Id">Vô hiệu hóa</a>
+                            }
+                            else
+                            {
+                                <a class="d-block rounded-3 btn btn-success mx-1" href="/user/activate?id=@item.Id">Khôi phục</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+        <div class="d-flex justify-content-end">
+            <a href="@previousPageLink" class="page-link rounded-3 @previousPageBtnEnable">Trang trước</a>
+            <div class="page-link page-number rounded-3 text-black">@data.Page / @data.TotalPage</div>
+            <a href="@nextPageLink" class="page-link rounded-3 @nextPageEnable">Trang sau</a>
+        </div>
+
     </div>
-
 </div>
 <style>
     .page-link {

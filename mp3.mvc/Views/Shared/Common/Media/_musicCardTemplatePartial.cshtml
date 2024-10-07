@@ -1,21 +1,10 @@
-﻿<div class="card card-container" style="overflow:hidden;">
-    <div class="card-content">
-        <a href="/media/play?id=@Model.Id" style="background-color: black; align-content:center;justify-content:center;" >
+﻿<div class="col song-card">
+    <div class="card">
+        <a href="/media/play?id=@Model.Id">
             <partial class="formContent" name="./Common/Media/_musicAvatarPreviewPartial" model="@Model.MediaContent" />
         </a>
-        
-    </div>
-    <div class="card-body d-block" style="padding:10px; overflow:clip;">
-        <a class="card-title text-black" style="overflow:clip;" href="#">@Model.Name</a>
-        <br />
-        <a class="card-author" href="/Author/GetDetail?id=@Model.Author?.Id">@Model.Author?.Name</a>
+        <div class="card-body">
+            <a class="card-text" href="/Author/GetDetail?id=@Model.Author?.Id">@Model.Name - @Model.Author?.Name</a>
+        </div>
     </div>
 </div>
-
-<style>
-    .btn-primary {
-        color: #fff;
-        background-color: transparent !important;
-        border-color: transparent !important;
-    }
-</style>

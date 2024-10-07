@@ -38,6 +38,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\Album\Nike\1.webp" />
+    <None Include="wwwroot\Album\Nike\11.webp" />
+    <None Include="wwwroot\Album\Nike\2.webp" />
+    <None Include="wwwroot\Album\Nike\3.webp" />
+    <None Include="wwwroot\Album\Nike\4.webp" />
+    <None Include="wwwroot\Album\Nike\6.webp" />
+    <None Include="wwwroot\Album\Nike\FX6700-1_110x110%402x.webp" />
+    <None Include="wwwroot\Album\Nike\FX6700-4_110x110%402x.webp" />
+    <None Include="wwwroot\Album\Nike\FX6700-6_110x110%402x.webp" />
+    <None Include="wwwroot\Album\Nike\FX6700-7_110x110%402x.webp" />
+    <None Include="wwwroot\Album\Nike\FX6700-8_110x110%402x.webp" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\App.Infrastructure\App.Infrastructure.csproj" />
     <ProjectReference Include="..\App.PostgreSQL\App.PostgreSQL.csproj" />
     <ProjectReference Include="..\App.SQLServer\App.SQLServer.csproj" />

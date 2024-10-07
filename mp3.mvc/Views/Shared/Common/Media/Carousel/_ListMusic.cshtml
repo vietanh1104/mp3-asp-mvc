@@ -1,0 +1,49 @@
+﻿@{
+    var id = Guid.NewGuid();
+}
+
+@for (int i = 0; i < Model.Count; i++)
+{
+    var item = Model[i];
+    var itemId = item.Id;
+    var content = item.MediaContent[0];
+    if (i == 0)
+    {
+
+        <div class="song">
+            <div class="song-info">
+                <span>1</span>
+                <i class="fas fa-play"></i>
+                <img src="@content.Value">
+                <a class="song-info-p" href="/media/play?id=@itemId">
+                    @item.Name <br />
+                    <span class="artist">@item.Author?.Name</span>
+                </a>
+
+            </div>
+            <div class="song-playcount">4,066,056</div>
+            <div class="song-album">GOLDEN</div>
+            <div class="song-time">3:03</div>
+        </div>
+
+    }
+    else
+    {
+        <div class="song">
+            <div class="song-info">
+                <span>1</span>
+                <i class="fas fa-play"></i>
+                <img src="@content.Value">
+                <a class="song-info-p" href="/media/play?id=@itemId">
+                    @item.Name <br />
+                    <span class="artist">@item.Author?.Name</span>
+                </a>
+
+            </div>
+            <div class="song-playcount">4,066,056</div>
+            <div class="song-album">GOLDEN</div>
+            <div class="song-time">3:03</div>
+        </div>
+    }
+}
+

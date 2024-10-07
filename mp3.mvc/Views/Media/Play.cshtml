@@ -4,9 +4,18 @@
     ViewData["Title"] = "Phát - " + Model.Name;
     var roleClaim = User.Claims.FirstOrDefault(p => p.Type == "role");
     var isAdminRole = roleClaim != null && roleClaim.Value == "admin";
+
+    var trendingList = ViewData["TrendingList"];
 }
 
-<div class="d-flex">
+<title> Mine Music - List Music</title>
+<head>
+    <link rel="stylesheet" href="~/css/explorer.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/MusicDetails.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+@* <div class="d-flex">
     <div style="width:20%;">
         <partial name="./Common/Media/_musicAvatarPreviewPartial" model="@Model.MediaContent" />
     </div>
@@ -17,42 +26,83 @@
     </div>
 </div>
 <div class="d-flex" style="margin-top: 10px;">
-    @if (!ViewBag.isFavouriteMedia)
+    @if (Context.User.Identity != null && Context.User.Identity.IsAuthenticated)
     {
-        <a style="width: 100px;" class="d-block rounded-3 btn btn-success mx-1" href="/media/like?id=@Model.Id">Yêu thích</a>
+        if (!ViewBag.isFavouriteMedia)
+        {
+            <a style="width: 100px;" class="d-block rounded-3 btn btn-success mx-1" href="/media/like?id=@Model.Id">Yêu thích</a>
+        }
+        else
+        {
+            <a style="width: 100px;" class="d-block rounded-3 btn btn-danger mx-1" href="/media/unlike?id=@Model.Id">Bỏ thích</a>
+        }
+
     }
-    else{
-        <a style="width: 100px;" class="d-block rounded-3 btn btn-danger mx-1" href="/media/unlike?id=@Model.Id">Bỏ thích</a>
-    }
-    
+
     @if (isAdminRole)
     {
         <a style="width: 100px;" class="d-block rounded-3 btn btn-warning mx-1" href="/media/update?id=@Model.Id">Sửa</a>
         <a style="width: 100px;" class="d-block rounded-3 btn btn-danger mx-1" href="/media/delete?id=@Model.Id">Xóa</a>
     }
-</div>
+</div> *@
 
-<audio id="audioPlayer" class="invisible" controls>
-    <source src="@Model.ContentUrl" type="audio/mpeg">
-    Your browser does not support the audio element.
-</audio>
-<div class="controls d-flex">
-    <a class="control-icon" href="/media/backward?id=@Model.Id">
-        Trước
-    </a>
-    <button id="playPauseButton">
-        <svg id="playBtn" width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M11.394 8.04565L1.8495 13.5836C1.0395 14.0531 0 13.4846 0 12.5381V1.46215C0 0.517148 1.038 -0.052852 1.8495 0.418148L11.394 5.95615C11.5783 6.06133 11.7314 6.21338 11.8379 6.39686C11.9445 6.58034 12.0006 6.78873 12.0006 7.0009C12.0006 7.21306 11.9445 7.42146 11.8379 7.60494C11.7314 7.78842 11.5783 7.94046 11.394 8.04565Z" fill="black" />
-        </svg>
-        <svg id="pauseBtn" style="display: none;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8.25 5.25C8.84674 5.25 9.41903 5.48705 9.84099 5.90901C10.2629 6.33097 10.5 6.90326 10.5 7.5V16.5C10.5 17.0967 10.2629 17.669 9.84099 18.091C9.41903 18.5129 8.84674 18.75 8.25 18.75C7.65326 18.75 7.08097 18.5129 6.65901 18.091C6.23705 17.669 6 17.0967 6 16.5V7.5C6 6.90326 6.23705 6.33097 6.65901 5.90901C7.08097 5.48705 7.65326 5.25 8.25 5.25ZM15.75 5.25C16.3467 5.25 16.919 5.48705 17.341 5.90901C17.7629 6.33097 18 6.90326 18 7.5V16.5C18 17.0967 17.7629 17.669 17.341 18.091C16.919 18.5129 16.3467 18.75 15.75 18.75C15.1533 18.75 14.581 18.5129 14.159 18.091C13.7371 17.669 13.5 17.0967 13.5 16.5V7.5C13.5 6.90326 13.7371 6.33097 14.159 5.90901C14.581 5.48705 15.1533 5.25 15.75 5.25Z" fill="black" />
-        </svg>
-    </button>
-    <a class="control-icon" href="/media/forward?id=@Model.Id">
-        Tiếp
-    </a>
+
+<div class="col-10 right-div">
+    <div class="music-detail-container">
+        <div class="album-cover">
+            <partial name="./Common/Media/_musicAvatarPreviewPartial" model="@Model.MediaContent" />
+
+            <audio id="audioPlayer" class="invisible" controls>
+                <source src="@Model.ContentUrl" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+
+            <div class="controls d-flex">
+                <a class="control-icon" href="/media/backward?id=@Model.Id">
+                    <i class="fa-solid fa-backward"></i>
+                </a>
+                <button id="playPauseButton">
+                    <i class="fa-solid fa-play" id="playBtn"></i>
+                    <i class="fa-solid fa-pause" id="pauseBtn" style="display: none;"></i>
+                </button>
+                <a class="control-icon" href="/media/forward?id=@Model.Id">
+                    <i class="fa-solid fa-forward"></i>
+                </a>
+            </div>
+
+            <progress id="progressBar" value="0" max="100"></progress>
+        </div>
+
+        <div class="song-info">
+            <h1>@Model.Name</h1>
+            <h4 style="color: white">@Model.Author?.Name</h4>
+            <p>Lượt phát: 4.066.056</p>
+            <p>Phát hành: 2023-07-14</p>
+            <p class="description">@Model.Description</p>
+            <div class="song-controls">
+
+                <button class="like-btn" href="/media/like?id=@Model.Id"><i class="fas fa-heart"></i>Yêu thích</button>
+                <button class="share-btn"><i class="fas fa-share"></i> Chia sẻ</button>
+
+                @if (isAdminRole)
+                {
+                    <a style="width: 100px;" class="d-block rounded-3 btn btn-warning mx-1" href="/media/update?id=@Model.Id">Sửa</a>
+                    <a style="width: 100px;" class="d-block rounded-3 btn btn-danger mx-1" href="/media/delete?id=@Model.Id">Xóa</a>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Đề xuất cho bạn -->
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <h4 class="mb-0">Đề xuất cho bạn</h4>
+    </div>
+    <div class="row favorite-songs">
+
+        <partial name="./Common/Media/Carousel/_SlidesWithControlPartial" model="trendingList" />
+
+    </div>
 </div>
-<progress id="progressBar" value="0" max="100"></progress>
 
 <script>
     const audio = document.getElementById('audioPlayer');
@@ -104,73 +154,3 @@
         alert('Next track');
     });
 </script>
-
-
-<style>
-    .control-icon {
-        display: flex;
-        justify-content:center;
-        width: 50px;
-        height: 50px;
-        border-radius: 25px;
-        background-color: #9747FF;
-        align-items: center;
-        text-align:center;
-        color: black;
-    }
-
-    .control-icon a {
-        text-decoration: none;
-    }
-
-    button#playPauseButton{
-        width: 50px;
-        height: 50px;
-        border-radius: 25px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    /* Style for the progress bar */
-    progress {
-        width: 100%;
-        height: 5px;
-        appearance: none;
-        -webkit-appearance: none;
-        border: none;
-        background-color: #f0f0f0;
-        border-radius: 10px;
-    }
-
-        progress::-webkit-progress-bar {
-            background-color: #f0f0f0;
-            border-radius: 10px;
-        }
-
-        progress::-webkit-progress-value {
-            background-color: #9747FF;
-            border-radius: 10px;
-        }
-
-        progress:hover {
-            height: 12px;
-            box-shadow: 0 0 10px rgba(1, 1, 1, 0.5);
-        }
-
-    /* Style for custom buttons */
-    .controls {
-        display: flex;
-        justify-content: center;
-        margin-top: 10px;
-    }
-
-        .controls button {
-            margin: 0 5px;
-            padding: 5px 10px;
-            border: none;
-            background-color: #9747FF;
-            color: white;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-</style>

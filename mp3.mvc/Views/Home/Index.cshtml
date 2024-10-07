@@ -4,8 +4,93 @@
     var newestList = ViewData["NewestList"];
     var trendingList = ViewData["TrendingList"];
 }
-<h3>Những bài hát thịnh hành nhất</h3>
-<partial name="./Common/Media/Carousel/_SlidesWithControlPartial" model="trendingList" />
 
-<h3 style="margin-top: 10px;">Top bài hát được yêu thích nhất</h3>
-<partial name="./Common/Media/Carousel/_SlidesWithControlPartial" model="newestList" />
+<title> Mine Music - List Music</title>
+<head>
+    <link rel="stylesheet" href="~/css/Home.css" asp-append-version="true" />
+</head>
+
+<!-- Khối phải (chiếm 8 cột) -->
+<div class="col-10 right-div">
+
+    <div class="content-right">
+        <div class="right-all allin">Tất cả</div>
+        <div class="right-music">Nhạc</div>
+        <div class="right-music">Podcasts</div>
+    </div>
+
+
+    <!-- Đề xuất cho bạn -->
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <h4 class="mb-0">Đề xuất cho bạn</h4>
+        <div class="show-all">
+            <a class="show-all-a" href="/Home/ListMusic">Hiển tất cả</a>
+        </div>
+    </div>
+    <div class="row favorite-songs">
+
+        <partial name="./Common/Media/Carousel/_SlidesWithControlPartial" model="trendingList" />
+
+    </div>
+
+    <!-- Bài hát yêu thích nhất -->
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <h4 class="mb-0">Bài hát yêu thích</h4>
+        <div class="show-all">Hiển tất cả</div>
+    </div>
+    <div class="row favorite-songs">
+
+        <partial name="./Common/Media/Carousel/_SlidesWithControlPartial" model="newestList" />
+
+    </div>
+
+    <!-- Nghệ Sĩ Yêu Thích -->
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <h4 class="mb-0">Nghệ sĩ yêu thích</h4>
+        <div class="show-all">Hiển tất cả</div>
+    </div>
+    <div class="row favorite-artists">
+        <div class="col artist-card">
+            <div class="card" style="height: 332px">
+                <img src="/images/media/hinh-anh-hinh-nen-ca-si-chi-dan1.jpg" class="card-img-top" alt="Nghệ Sĩ 1" style=" height: 252px;">
+                <div class="card-body">
+                    <p class="card-text">Chi Dân</p>
+                </div>
+            </div>
+        </div>
+        <div class="col artist-card" >
+            <div class="card" style="height: 332px">
+                <img src="/images/media/2sao.vietnamnetjsc.vn-images-2021-07-08-16-13-_st.jpg" class="card-img-top" alt="Nghệ Sĩ 2" style="height: 252px;">
+                <div class="card-body">
+                    <p class="card-text">Sơn Tùng MTP</p>
+                </div>
+            </div>
+        </div>
+        <div class="col artist-card">
+            <div class="card" style="height: 332px">
+                <img src="~/images/media/jack.jpg" class="card-img-top" alt="Nghệ Sĩ 2" style="height: 252px;">
+                <div class="card-body">
+                    <p class="card-text">Jack-97</p>
+                </div>
+            </div>
+        </div>
+        <div class="col artist-card">
+            <div class="card" style="height: 332px">
+                <img class="card-img-top" alt="Nghệ Sĩ 4" src="~/images/media/lo-anh-nam-ca-si-noi-tieng-vbiz-ngoi-ben-nui-tien-o-song-bac-nghi-van-la-ban-trai-tin-don-cua-nhat-k-cc1-1667812861-573-width660height924.jpg" style="height: 252px;" />
+                <div class="card-body">
+                    <p class="card-text">HKT-TiTi</p>
+                </div>
+            </div>
+        </div>
+        <div class="col artist-card">
+            <div class="card" style="height: 332px">
+                <img src="~/images/media/photo-1-16478300491361793129693.jpg" class="card-img-top" alt="Nghệ Sĩ 5" style="height: 252px;" />
+                <div class="card-body">
+                    <p class="card-text">Hiền Hồ</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

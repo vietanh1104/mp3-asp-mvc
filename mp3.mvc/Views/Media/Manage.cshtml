@@ -10,8 +10,9 @@
     ViewData["Title"] = isAdminRole ? "Quản trị bài hát" : "Danh sách bài hát";
 }
 
+<div class="col-10" style="margin-bottom: 44px; margin-top: 24px">
 <div class="content-container">
-    <h3 style="text-align:center;">Danh sách bài hát</h3>
+    <h3 style="text-align:center; color: white">Danh sách bài hát</h3>
     @if (isAdminRole)
     {
         <div class="d-flex flex-row-reverse">
@@ -74,6 +75,8 @@
     </div>
 
 </div>
+</div>
+
 <style>
     .page-link {
         width: 120px;

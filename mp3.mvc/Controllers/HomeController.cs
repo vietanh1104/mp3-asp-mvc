@@ -27,11 +27,10 @@ namespace mp3.mvc.Controllers
             _mediaRepository = mediaRepository;
             _databaseContext = databaseContext;
         }
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Index()
         {
             ViewData["HomePage"] = "text-dark";
-
             ViewData["NewestList"] = await _databaseContext.Media
                 .Include(p => p.Author)
                 .Include(p => p.Category)
@@ -42,7 +41,7 @@ namespace mp3.mvc.Controllers
             ViewData["TrendingList"] = await _mediaRepository.GetTrendingItemList();
             return View();
         }
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Search(int type = 0, string searchText= "", int page = 1, int pageSize = 8)
         {
             ViewData["ExplorePage"] = "text-dark";
@@ -148,6 +147,7 @@ namespace mp3.mvc.Controllers
             ViewBag.Data = new BasePagination<int>(0, page, pageSize, new List<int>());
             return View() ;
         }
+
         [HttpPost]
         public IActionResult SearchAction(int type = 0, string searchText = "", int page = 1, int pageSize = 8)
         {
@@ -158,5 +158,25 @@ namespace mp3.mvc.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ListMusic()
+        {
+            ViewData["ListMusic"] = await _databaseContext.Media
+               .Include(p => p.Author)
+               .Include(p => p.Category)
+               .Include(p => p.MediaContent)
+               .AsNoTracking()
+               .ToListAsync();
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> MusicDetails()
+        {
+            ViewData["TrendingList"] = await _mediaRepository.GetTrendingItemList();
+            return View();
+        }
+
     }
 }

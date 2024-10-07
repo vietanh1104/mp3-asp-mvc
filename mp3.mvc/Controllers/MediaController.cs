@@ -106,23 +106,29 @@ namespace mp3.mvc.Controllers
 
             return View(model);
         }
+
         public async Task<IActionResult> Play(Guid id)
         {
             var music = await _mediaRepository.GetByIdAsync(id);
-            // add view to history
-            var newView = new MediaViewHistory();
-            newView.MediaId = id;
-            newView.UserId = getUserId();
-
-            var isSpam = await _databaseContext.MediaViewHistory
-                .AnyAsync(p => p.UserId == newView.UserId && p.MediaId == newView.MediaId && p.CreatedAt >= DateTime.Now.AddMinutes(-30));
-            if (!isSpam)
+            if (HttpContext.User.Identity != null && HttpContext.User.Identity.IsAuthenticated)
             {
-                await _mediaViewHistoryRepository.InsertOne(newView);
+                // add view to history
+                var newView = new MediaViewHistory();
+                newView.MediaId = id;
+                newView.UserId = getUserId();
+
+                var isSpam = await _databaseContext.MediaViewHistory
+                    .AnyAsync(p => p.UserId == newView.UserId && p.MediaId == newView.MediaId && p.CreatedAt >= DateTime.Now.AddMinutes(-30));
+                if (!isSpam)
+                {
+                    await _mediaViewHistoryRepository.InsertOne(newView);
+                }
+
+                ViewBag.isFavouriteMedia = await _databaseContext.FavouriteCollections.AnyAsync(p => p.MediaId == id && p.UserId == getUserId());
             }
 
-            ViewBag.isFavouriteMedia = await _databaseContext.FavouriteCollections.AnyAsync(p => p.MediaId == id && p.UserId == getUserId());
-            
+            ViewData["TrendingList"] = await _mediaRepository.GetTrendingItemList();
+
             return View(music);
         }
 
@@ -410,7 +416,7 @@ namespace mp3.mvc.Controllers
 
             return View();
         }
-
+        [Authorize]
         public async Task<IActionResult> Like(Guid id)
         {
             var favour = new FavouriteCollection
@@ -427,7 +433,7 @@ namespace mp3.mvc.Controllers
             return RedirectToAction(nameof(Play), new { id });
             
         }
-
+        [Authorize]
         public async Task<IActionResult> Unlike(Guid id)
         {
             var favour = await _databaseContext.FavouriteCollections.FirstOrDefaultAsync(p => p.MediaId == id && p.UserId == getUserId());

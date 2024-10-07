@@ -7,7 +7,10 @@
     var previousPageLink = $"/collection/index?page={Model.Page-1}";
     var nextPageLink = $"/collection/index?page={Model.Page+1}";
 }
-<h3 style="text-align:center;">Collection</h3>
+
+<div class="col-10" style="margin-bottom: 44px; margin-top: 24px">
+
+<h3 style="text-align:center; color: white">Collection</h3>
 <div class="card-list-container d-flex justify-content-center">
     @foreach (var item in Model.Items)
     {
@@ -19,6 +22,7 @@
     <a href="@previousPageLink" class="page-link rounded-3 @previousPageBtnEnable">Previous</a>
     <div class="page-link page-number rounded-3 text-black">@Model.Page</div>
     <a href="@nextPageLink" class="page-link rounded-3 @nextPageEnable">Next</a>
+</div>
 </div>
 
 <style>

@@ -1,8 +1,45 @@
 ﻿@{
     var id = Guid.NewGuid();
+    var maxSongs = 5;
 }
 
-<div id="@id" class="carousel slide bg-dark" data-bs-ride="carousel">
+@for (int i = 0; i < Model.Count && i < maxSongs; i++)
+{
+    var item = Model[i];
+    var itemId = item.Id;
+    var content = item.MediaContent[0];
+    if (i == 0)
+    {
+        <div class="col song-card">
+            <div class="card" style="height: 332px">
+                <img src="@content.Value" class="card-img-top" alt="Bài Hát 1">
+                <div class="card-body">
+                    <a class="card-text" href="/media/play?id=@itemId">@item.Name - @item.Author?.Name</a>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="col song-card">
+            <div class="card" style="height: 332px">
+                <img src="@content.Value" class="card-img-top" alt="Bài Hát 1" style="height: 252px;">
+                <div class="card-body">
+                    <a class="card-text" href="/media/play?id=@itemId">@item.Name - @item.Author?.Name</a>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+
+@* 
+
+@{
+    var id = Guid.NewGuid();
+} *@
+
+@* <div id="@id" class="carousel slide bg-dark" data-bs-ride="carousel">
     <div class="carousel-inner">
         @for (int i = 0; i < Model.Count; i++)
         {
@@ -58,4 +95,4 @@
             interval: 3000
         });
     });
-</script>
+</script> *@
