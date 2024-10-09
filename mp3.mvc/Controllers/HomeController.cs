@@ -162,13 +162,22 @@ namespace mp3.mvc.Controllers
         [HttpGet]
         public async Task<IActionResult> ListMusic()
         {
-            ViewData["ListMusic"] = await _databaseContext.Media
-               .Include(p => p.Author)
-               .Include(p => p.Category)
-               .Include(p => p.MediaContent)
-               .AsNoTracking()
-               .ToListAsync();
+            var listMusic = await _databaseContext.Media
+            .Include(p => p.Author)
+            .Include(p => p.Category)
+            .Include(p => p.MediaContent)
+            .AsNoTracking()
+            .ToListAsync();
+
+            if (listMusic == null || listMusic.Count == 0)
+            {
+                return NotFound("Không có bài hát nào.");
+            }
+
+            // Gửi danh sách nhạc qua ViewData
+            ViewData["ListMusic"] = listMusic;
             return View();
+
         }
 
         [HttpGet]

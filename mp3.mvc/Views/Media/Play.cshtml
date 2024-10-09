@@ -4,7 +4,6 @@
     ViewData["Title"] = "Phát - " + Model.Name;
     var roleClaim = User.Claims.FirstOrDefault(p => p.Type == "role");
     var isAdminRole = roleClaim != null && roleClaim.Value == "admin";
-
     var trendingList = ViewData["TrendingList"];
 }
 
@@ -14,38 +13,6 @@
     <link rel="stylesheet" href="~/css/MusicDetails.css" asp-append-version="true" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
-
-@* <div class="d-flex">
-    <div style="width:20%;">
-        <partial name="./Common/Media/_musicAvatarPreviewPartial" model="@Model.MediaContent" />
-    </div>
-    <div style="width: 80%;margin-left: 20px;">
-        <h3>@Model.Name</h3>
-        <p>@Model.Author?.Name</p>
-        <p>Mô tả: <br/> @Model.Description</p>
-    </div>
-</div>
-<div class="d-flex" style="margin-top: 10px;">
-    @if (Context.User.Identity != null && Context.User.Identity.IsAuthenticated)
-    {
-        if (!ViewBag.isFavouriteMedia)
-        {
-            <a style="width: 100px;" class="d-block rounded-3 btn btn-success mx-1" href="/media/like?id=@Model.Id">Yêu thích</a>
-        }
-        else
-        {
-            <a style="width: 100px;" class="d-block rounded-3 btn btn-danger mx-1" href="/media/unlike?id=@Model.Id">Bỏ thích</a>
-        }
-
-    }
-
-    @if (isAdminRole)
-    {
-        <a style="width: 100px;" class="d-block rounded-3 btn btn-warning mx-1" href="/media/update?id=@Model.Id">Sửa</a>
-        <a style="width: 100px;" class="d-block rounded-3 btn btn-danger mx-1" href="/media/delete?id=@Model.Id">Xóa</a>
-    }
-</div> *@
-
 
 <div class="col-10 right-div">
     <div class="music-detail-container">
@@ -80,15 +47,25 @@
             <p>Phát hành: 2023-07-14</p>
             <p class="description">@Model.Description</p>
             <div class="song-controls">
+                @if (Context.User.Identity != null && Context.User.Identity.IsAuthenticated)
+                {
+                    if (!ViewBag.isFavouriteMedia)
+                    {
+                        <a style="width: 100px;" class="d-block rounded-3 btn btn-success mx-1 like-btn" href="/media/like?id=@Model.Id">Yêu thích</a>
+                    }
+                    else
+                    {
+                        <a style="width: 100px;" class="d-block rounded-3 btn btn-danger mx-1 share-btn" href="/media/unlike?id=@Model.Id">Bỏ thích</a>
+                    }
 
-                <button class="like-btn" href="/media/like?id=@Model.Id"><i class="fas fa-heart"></i>Yêu thích</button>
-                <button class="share-btn"><i class="fas fa-share"></i> Chia sẻ</button>
+                }
 
                 @if (isAdminRole)
                 {
                     <a style="width: 100px;" class="d-block rounded-3 btn btn-warning mx-1" href="/media/update?id=@Model.Id">Sửa</a>
                     <a style="width: 100px;" class="d-block rounded-3 btn btn-danger mx-1" href="/media/delete?id=@Model.Id">Xóa</a>
                 }
+
             </div>
         </div>
     </div>
@@ -98,9 +75,7 @@
         <h4 class="mb-0">Đề xuất cho bạn</h4>
     </div>
     <div class="row favorite-songs">
-
         <partial name="./Common/Media/Carousel/_SlidesWithControlPartial" model="trendingList" />
-
     </div>
 </div>
 
@@ -148,9 +123,7 @@
         isPlaying = !isPlaying;
     });
 
-    // Next button functionality (dummy function, replace with your logic)
     nextButton.addEventListener('click', () => {
-        // Add logic to go to the next track
         alert('Next track');
     });
 </script>

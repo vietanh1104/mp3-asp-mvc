@@ -108,5 +108,28 @@
 }
 
     .song .fas.fa-play:hover {
-        color: #1DB954; /* Màu xanh của nút Play khi hover */
+        color: #1DB954;
+    }
+
+.song-list{
+    padding: 0;
+}
+
+.play-btn {
+    background-color: transparent;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    .play-btn:hover {
+        background-color: transparent;
+        color: #1DB954;
+    }
+
+    .play-btn i {
+        margin-right: 5px;
     }

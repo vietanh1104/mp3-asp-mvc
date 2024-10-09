@@ -1,4 +1,4 @@
-﻿@{
+﻿@* @{
     var id = Guid.NewGuid();
 }
 
@@ -46,4 +46,122 @@
         </div>
     }
 }
+
+ *@
+
+
+@{
+    var id = Guid.NewGuid();
+    var listMusic = ViewData["ListMusic"] as List<App.Domain.Entities.Media>;
+}
+
+@if (listMusic != null && listMusic.Count > 0)
+{
+    <ul class="song-list">
+        @for (int i = 0; i < listMusic.Count; i++)
+        {
+            var item = listMusic[i];
+            var content = item.MediaContent.FirstOrDefault();
+
+            <li class="song-item">
+                <div class="song">
+                    <div class="song-info">
+                        <span>@i</span>
+                        <button class="play-btn" data-song-url="@item.ContentUrl" data-song-id="@item.Id" id="play-btn-@i">
+                            <i class="fas fa-play"></i>
+                            <i class="fa-solid fa-pause" id="pauseBtn" style="display: none;"></i>
+                        </button>
+                        <img src="@content?.Value" alt="Bìa album của @item.Name" />
+                        <a class="song-info-p" href="/media/play?id=@item.Id">
+                            @item.Name <br />
+                            <span class="artist">@item.Author?.Name</span>
+                        </a>
+                    </div>
+                    <div class="song-playcount">
+                        4,066,056
+                    </div>
+                    <div class="song-album">
+                        @item.Category?.Name
+                    </div>
+                    <div class="song-time">
+                        3:45
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>Không có bài hát nào trong danh sách.</p>
+}
+
+<script>
+    const playButtons = document.querySelectorAll('.play-btn');
+    let currentlyPlaying = null; // Đối tượng Audio đang phát
+    let currentlyPlayingButton = null; // Nút đang phát
+
+    playButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const songId = btn.getAttribute('data-song-id');
+            const songSrc = btn.getAttribute('data-song-url');
+            playMusic(songId, songSrc, btn);
+        });
+    });
+
+    function playMusic(id, src, button) {
+        if (!id) {
+            console.error("Không tìm thấy ID bài hát.");
+            return;
+        }
+
+        // Nếu đã có bài hát đang phát
+        if (currentlyPlaying) {
+            // Nếu bài hát hiện tại là bài hát được nhấn
+            if (currentlyPlaying.src === src) {
+                // Nếu bài hát đang tạm dừng, phát lại
+                if (currentlyPlaying.paused) {
+                    currentlyPlaying.play().then(() => {
+                        button.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                    }).catch(error => {
+                        console.error("Lỗi phát nhạc:", error);
+                    });
+                } else {
+                    // Nếu bài hát đang phát, tạm dừng
+                    currentlyPlaying.pause();
+                    button.innerHTML = '<i class="fa-solid fa-play"></i>';
+                }
+                return; // Dừng lại không cần phát lại
+            } else {
+                // Tạm dừng bài hát trước đó
+                currentlyPlaying.pause();
+                currentlyPlayingButton.innerHTML = '<i class="fa-solid fa-play"></i>';
+            }
+        }
+
+        console.log("Đang phát bài hát với ID:", id);
+
+        // Phát bài hát mới
+        currentlyPlaying = new Audio(src);
+
+        // Bắt đầu phát bài hát
+        currentlyPlaying.play().then(() => {
+            button.innerHTML = '<i class="fa-solid fa-pause"></i>';
+            currentlyPlayingButton = button;
+        }).catch(error => {
+            console.error("Lỗi phát nhạc:", error);
+        });
+
+        // Khi bài hát tạm dừng, đổi nút trở về "play"
+        currentlyPlaying.addEventListener('pause', () => {
+            button.innerHTML = '<i class="fa-solid fa-play"></i>';
+        });
+
+        // Khi bài hát kết thúc, đổi nút trở về "play"
+        currentlyPlaying.addEventListener('ended', () => {
+            button.innerHTML = '<i class="fa-solid fa-play"></i>';
+        });
+    }
+</script>
+
 

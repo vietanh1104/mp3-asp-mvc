@@ -36,8 +36,13 @@ namespace mp3.mvc.Controllers
         }
         private Guid getUserId()
         {
-            var Idclaim = HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier);
-            return Guid.Parse(Idclaim!.Value);
+            if (HttpContext.User.Identity != null && HttpContext.User.Identity.IsAuthenticated)
+            {
+                var Idclaim = HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier);
+                return Guid.Parse(Idclaim!.Value);
+            }
+
+            return Guid.Parse("00000000-0000-0000-0000-61446981112f");
         }
 
         [Authorize]
