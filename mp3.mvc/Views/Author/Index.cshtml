@@ -65,10 +65,14 @@
         </tbody>
         
     </table>
-    <div class="d-flex justify-content-end">
-        <a href="@previousPageLink" class="page-link rounded-3 @previousPageBtnEnable">Trang trước</a>
+        <div class="d-flex justify-content-end g-3" style="gap: 12px;">
+            <a href="@previousPageLink" class="page-link rounded-3 @previousPageBtnEnable">
+                <i class="fa-solid fa-backward-step"></i>
+            </a>
         <div class="page-link page-number rounded-3 text-black">@data.Page / @data.TotalPage</div>
-        <a href="@nextPageLink" class="page-link rounded-3 @nextPageEnable">Trang sau</a>
+        <a href="@nextPageLink" class="page-link rounded-3 @nextPageEnable">
+                <i class="fa-solid fa-forward-step"></i>
+        </a>
     </div>
 
 </div>

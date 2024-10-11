@@ -362,7 +362,10 @@ namespace mp3.mvc.Controllers
             if(request.Avatar != null && request.Avatar.Any())
             {
                 var mediaContents = await _databaseContext.MediaContents.Where(p => p.MediaId == request.Id).ToListAsync();
-                _databaseContext.Remove(mediaContents);
+                if(mediaContents.Any())
+                {
+                    _databaseContext.RemoveRange(mediaContents);
+                }
 
                 foreach(var item in request.Avatar)
                 {
