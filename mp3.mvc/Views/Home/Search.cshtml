@@ -26,7 +26,7 @@
     <div>
         @if (ViewData["searchText"] != null && !string.IsNullOrWhiteSpace(ViewData["searchText"].ToString()))
         {
-            <h3 style="text-align:center;">Kết quả tìm kiếm: @ViewData["searchText"]</h3>
+            <h3 style="text-align:center; color: white">Kết quả tìm kiếm: @ViewData["searchText"]</h3>
         }
         @if (data.TotalItems > 0)
         {
@@ -103,7 +103,7 @@
         }
         else
         {
-            <div style="text-align:center;">Không tìm thấy kết quả nào</div>
+            <div style="text-align:center; color: white">Không tìm thấy kết quả nào</div>
         }
     </div>
 </div>
