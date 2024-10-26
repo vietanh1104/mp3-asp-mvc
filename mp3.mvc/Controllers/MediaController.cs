@@ -458,6 +458,14 @@ namespace mp3.mvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Premium()
         {
+            // check nếu user hiện tại đã là account premium
+            ViewBag["IsPremiumAccount"] = await _databaseContext.Users.Where(p => p.Id == getUserId())
+                .Select(p => p.IsPremiumAccount).FirstOrDefaultAsync();
+
+            // check nếu user hiện tại đang gửi request upgrade
+            ViewBag["IsSendingRequest"] = await _databaseContext.Users.Where(p => p.Id == getUserId())
+                .Select(p => p.IsPremiumAccount).FirstOrDefaultAsync();
+
             return View();
         }
     }

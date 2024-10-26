@@ -311,5 +311,63 @@ namespace mp3.mvc.Controllers
             return View();
         }
 
+        // user gửi yêu cầu nâng cấp tài khoản
+        // sau khi gửi xong, user quay lại màn media/premium nhưng ẩn nút gửi yêu cầu
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> SendUpgradePremiumRequest()
+        {
+            var upgradeRequest = await _databaseContext.PremiumUpgradeRequests.Where(p => p.UserId == getUserId() && p.IsAccepted == false).FirstOrDefaultAsync();
+
+            if(upgradeRequest != null)
+            {
+                upgradeRequest.ExpiredDate = DateTime.Now.AddMonths(3);
+            }
+            else
+            {
+                upgradeRequest = new PremiumUpgradeRequest
+                {
+                    UserId = getUserId(),
+                    ExpiredDate = DateTime.Now.AddMonths(3)
+                };
+
+                await _databaseContext.PremiumUpgradeRequests.AddAsync(upgradeRequest);
+            }
+
+            await _databaseContext.SaveChangesAsync();
+
+            _notyfService.Success("Gửi yêu cầu đăng ký tài khoản Premium thành công.");
+
+            return View("Media/Premium");
+        }
+
+        // xem danh sách nâng cấp tài khoản, dành cho admin
+        [Authorize]
+        public async Task<IActionResult> GetListUpgradePremiumRequest()
+        {
+            var upgradeRequest = await _databaseContext.PremiumUpgradeRequests.Include(p => p.User).AsNoTracking().ToListAsync();
+
+            return View(upgradeRequest);
+        }
+
+        // phê duyệt yêu cầu
+        // phê duyệt xong quay về màn xem danh sách
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AcceptRequest(Guid id)
+        {
+            var upgradeRequest = await _databaseContext.PremiumUpgradeRequests.Where(p => p.Id == id).FirstOrDefaultAsync();
+
+            upgradeRequest.IsAccepted = true;
+
+            var user = await _databaseContext.Users.FirstOrDefaultAsync(p => p.Id == upgradeRequest.UserId);
+            user.IsPremiumAccount = true;
+
+            await _databaseContext.SaveChangesAsync();
+
+            _notyfService.Success("Nâng cấp tài khoản thành công.");
+
+            return View();
+        }
     }
 }
