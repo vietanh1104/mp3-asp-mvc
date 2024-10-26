@@ -94,7 +94,6 @@
     .payment-options img {
         width: 50px;
         height: auto;
-        filter: brightness(0) invert(1);
     }
 
 
@@ -175,4 +174,15 @@
     font-size: 0.8em;
     color: #888;
     margin-top: 10px;
+}
+
+
+.premium-active {
+    background-color: green;
+    color: white;
+}
+
+.premium-inactive {
+    background-color: gray;
+    color: black;
 }

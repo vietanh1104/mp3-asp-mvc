@@ -25,108 +25,46 @@
         </div>
     </div>
 
-
     <!-- Đề xuất cho bạn -->
-    <div class="contents-music">
-        <div class="music-artist">
-            <div class="music-artist-header">
-                <h4 class="music-artist-header-h4">Đề xuất cho bạn</h4>
-                <p class="music-artist-header-p">Hiện tất cả</p>
+    <div class="d-flex justify-content-between align-items-center mt-4 p-3">
+        <h4 class="mb-0 " style=" color: white">Đề xuất cho bạn</h4>
+        <div class="show-all">
+            <a class="show-all" href="/Home/ListMusic">Hiển tất cả</a>
+        </div>
+    </div>
+
+    <div class="row favorite-songs">
+        <partial name="./Common/Media/Carousel/_SlidesWithControlPartial" model="trendingList" />
+    </div>
+
+
+    <div class="card-topvn">
+        <div class="cards">
+            <!-- Top Label with Icon -->
+            <div class="top-label">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify Icon">
+                <span>Top Bài Hát Việt Nam</span>
             </div>
-            <div class="block-artis">
 
-                <div class="block-items">
-                    <img src="https://via.placeholder.com/150" alt="Hình ảnh mẫu" />
-                    <p class="artist-name">Đồng Văn Công</p>
-                </div>
-
-                <div class="block-items">
-                    <img src="https://via.placeholder.com/150" alt="Hình ảnh mẫu" />
-                    <p class="artist-name">Đồng Văn Công</p>
-                </div>
-
-                <div class="block-items">
-                    <img src="https://via.placeholder.com/150" alt="Hình ảnh mẫu" />
-                    <p class="artist-name">Đồng Văn Công</p>
-                </div>
-
-                <div class="block-items">
-                    <img src="https://via.placeholder.com/150" alt="Hình ảnh mẫu" />
-                    <p class="artist-name">Đồng Văn Công</p>
-                </div>
-
-                <div class="block-items">
-                    <img src="https://via.placeholder.com/150" alt="Hình ảnh mẫu" />
-                    <p class="artist-name">Đồng Văn Công</p>
-                </div>
-
+            <!-- Title and Subtitle -->
+            <div class="content">
+                <div class="title">Bài hát hàng đầu tại Việt Nam</div>
+                <div class="subtitle">Danh sách phát • Spotify</div>
             </div>
         </div>
 
-        <div class="music-artist">
-            <div class="music-artist-header">
-                <h4 class="music-artist-header-h4">Bảng xếp hạng nổi bật</h4>
-                <p class="music-artist-header-p">Hiện tất cả</p>
-            </div>
-            <div class="block-artis">
-
-                <div class="block-items">
-                    <img src="https://via.placeholder.com/150" alt="Hình ảnh mẫu" />
-                    <p class="artist-name">Đồng Văn Công</p>
-                </div>
-
-                <div class="block-items">
-                    <img src="https://via.placeholder.com/150" alt="Hình ảnh mẫu" />
-                    <p class="artist-name">Đồng Văn Công</p>
-                </div>
-
-                <div class="block-items">
-                    <img src="https://via.placeholder.com/150" alt="Hình ảnh mẫu" />
-                    <p class="artist-name">Đồng Văn Công</p>
-                </div>
-
-                <div class="block-items">
-                    <img src="https://via.placeholder.com/150" alt="Hình ảnh mẫu" />
-                    <p class="artist-name">Đồng Văn Công</p>
-                </div>
-
-                <div class="block-items">
-                    <img src="https://via.placeholder.com/150" alt="Hình ảnh mẫu" />
-                    <p class="artist-name">Đồng Văn Công</p>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="card-topvn">
-            <div class="card">
-                <!-- Top Label with Icon -->
-                <div class="top-label">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify Icon">
-                    <span>Top Bài Hát Việt Nam</span>
-                </div>
-
-                <!-- Title and Subtitle -->
-                <div class="content">
-                    <div class="title">Bài hát hàng đầu tại Việt Nam</div>
-                    <div class="subtitle">Danh sách phát • Spotify</div>
-                </div>
+        <div class="cardsd">
+            <!-- Top Label with Icon -->
+            <div class="top-labels">
+               <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify Icon">
+                <span>Top Bài Hát Việt Nam</span>
             </div>
 
-            <div class="card">
-                <!-- Top Label with Icon -->
-                <div class="top-label">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Spotify_Icon_RGB_White.png" alt="Spotify Icon">
-                    <span>Top Bài Hát Việt Nam</span>
-                </div>
-
-                <!-- Title and Subtitle -->
-                <div class="content">
-                    <div class="title">Bài hát hàng đầu tại Việt Nam</div>
-                    <div class="subtitle">Danh sách phát • Spotify</div>
-                </div>
+            <!-- Title and Subtitle -->
+            <div class="contents">
+                <div class="titles">Bài hát hàng đầu tại Việt Nam</div>
+                <div class="subtitles">Danh sách phát • Spotify</div>
             </div>
-
         </div>
 
     </div>

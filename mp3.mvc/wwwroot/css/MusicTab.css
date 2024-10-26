@@ -1,6 +1,7 @@
 ﻿.right-div {
     padding: 0;
 }
+
 .content-right {
     display: flex;
     align-items: center;
@@ -33,64 +34,25 @@
     cursor: pointer;
 }
 
+
 a:hover {
     color: #1DB954;
 }
 
-.contents-music{
 
-}
-.music-artist{
-
-}
-.music-artist-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: white;
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-.music-artist-header-h4{
-    font-size: 22px;
-    font-weight: 500;
-    margin: 0
-}
-.music-artist-header-p {
-    font-size: 14px;
-    font-weight: 500;
-    margin: 0
-}
-.block-artis {
-    width: 100%;
+.card-topvn {
     display: flex;
     align-items: center;
-    gap: 24px;
-}
-.block-items{
-    width: 150px;
-    height: 200px;
-    color: white
-}
-.artist-name {
-    text-align: center;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-
-.card-topvn{
-    display: flex;
-    align-items: center;
+    justify-content: center;
     gap: 24px
 }
 
 
-.card {
+.cards {
     position: relative;
-    width: 400px;
+    width: 580px;
     height: 500px;
-    background-image: url('https://via.placeholder.com/400x500'); /* Replace with actual image URL */
+    background-image: url('https://media.viez.vn/prod/2021/11/17/258081748_332437662024259_4124508769488074589_n_25b565d974.png');
     background-size: cover;
     background-position: center;
     border-radius: 10px;
@@ -98,8 +60,7 @@ a:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-    /* Overlay for darkening background */
-    .card::before {
+    .cards::before {
         content: "";
         position: absolute;
         top: 0;
@@ -109,7 +70,6 @@ a:hover {
         background: rgba(0, 0, 0, 0.5);
     }
 
-/* Spotify icon and top label */
 .top-label {
     position: absolute;
     top: 20px;
@@ -128,7 +88,6 @@ a:hover {
         margin-right: 8px;
     }
 
-/* Title and subtitle */
 .content {
     position: absolute;
     bottom: 30px;
@@ -143,6 +102,66 @@ a:hover {
 }
 
 .subtitle {
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+
+
+.cardsd {
+    position: relative;
+    width: 580px;
+    height: 500px;
+    background-image: url('https://media-api.advertisingvietnam.com/oapi/v1/media?uuid=bf919238-3ac3-4964-ad35-ec14a10fc578&resolution=1000x&keepOriginal=true');
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+    .cardsd::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+.top-labels {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 8px 12px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+}
+
+    .top-labels img {
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+    }
+
+.contents {
+    position: absolute;
+    bottom: 30px;
+    left: 20px;
+    color: #fff;
+}
+
+.titles {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.subtitles {
     font-size: 16px;
     opacity: 0.8;
 }

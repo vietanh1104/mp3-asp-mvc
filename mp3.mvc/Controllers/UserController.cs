@@ -338,22 +338,38 @@ namespace mp3.mvc.Controllers
 
             _notyfService.Success("Gửi yêu cầu đăng ký tài khoản Premium thành công.");
 
-            return View("Media/Premium");
+            return RedirectToAction("Index", "Home");
+
+            //return View("Media/Premium");
         }
 
-        // xem danh sách nâng cấp tài khoản, dành cho admin
+        // xem danh sách nâng cấp tài khoản, dành cho admin, nằm riêng ở tab quản lý giống user, bài hát,..
         [Authorize]
-        public async Task<IActionResult> GetListUpgradePremiumRequest()
+        public async Task<IActionResult> GetListUpgradePremiumRequest(string searchUser = "", int page = 1, int pageSize = 10)
         {
-            var upgradeRequest = await _databaseContext.PremiumUpgradeRequests.Include(p => p.User).AsNoTracking().ToListAsync();
+            var query = _databaseContext.PremiumUpgradeRequests.Include(p => p.User).AsQueryable();
 
-            return View(upgradeRequest);
+            if (!string.IsNullOrWhiteSpace(searchUser))
+            {
+                query = query.Where(p => !string.IsNullOrWhiteSpace(p.User.Username) && p.User.Username.Contains(searchUser.Trim().ToLower()));
+            }
+
+            var total = await query.CountAsync();
+
+            var items = await query
+                .OrderByDescending(p => p.CreatedAt)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            ViewData["searchUser"] = searchUser;
+            ViewBag.Data = new BasePagination<PremiumUpgradeRequest>(total, page, pageSize, items);
+
+            return View();
         }
 
         // phê duyệt yêu cầu
         // phê duyệt xong quay về màn xem danh sách
-        [HttpPost]
-        [Authorize]
         public async Task<IActionResult> AcceptRequest(Guid id)
         {
             var upgradeRequest = await _databaseContext.PremiumUpgradeRequests.Where(p => p.Id == id).FirstOrDefaultAsync();
@@ -367,7 +383,7 @@ namespace mp3.mvc.Controllers
 
             _notyfService.Success("Nâng cấp tài khoản thành công.");
 
-            return View();
+            return RedirectToAction("GetListUpgradePremiumRequest");
         }
     }
 }
