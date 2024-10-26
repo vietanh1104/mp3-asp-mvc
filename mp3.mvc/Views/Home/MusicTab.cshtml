@@ -1,0 +1,134 @@
+﻿@{
+    ViewData["Title"] = "Music";
+    ViewData["HomePage"] = "text-dark";
+    var newestList = ViewData["NewestList"];
+    var trendingList = ViewData["TrendingList"];
+}
+
+<title> Mine Music - List Music</title>
+<head>
+    <link rel="stylesheet" href="~/css/MusicTab.css" asp-append-version="true" />
+</head>
+
+<!-- Khối phải (chiếm 8 cột) -->
+<div class="col-10 right-div">
+
+    <div class="content-right">
+        <div class="right-music">
+            <a href="/Home/Index">Tất cả</a>
+        </div>
+        <div class=" right-all allin">
+            <a href="/Home/MusicTab" style="color: black">Nhạc</a>
+        </div>
+        <div class="right-music">
+            <a href="/Home/Podcasts">Podcasts</a>
+        </div>
+    </div>
+
+
+    <!-- Đề xuất cho bạn -->
+    <div class="contents-music">
+        <div class="music-artist">
+            <div class="music-artist-header">
+                <h4 class="music-artist-header-h4">Đề xuất cho bạn</h4>
+                <p class="music-artist-header-p">Hiện tất cả</p>
+            </div>
+            <div class="block-artis">
+
+                <div class="block-items">
+                    <img src="https://via.placeholder.com/150" alt="Hình ảnh mẫu" />
+                    <p class="artist-name">Đồng Văn Công</p>
+                </div>
+
+                <div class="block-items">
+                    <img src="https://via.placeholder.com/150" alt="Hình ảnh mẫu" />
+                    <p class="artist-name">Đồng Văn Công</p>
+                </div>
+
+                <div class="block-items">
+                    <img src="https://via.placeholder.com/150" alt="Hình ảnh mẫu" />
+                    <p class="artist-name">Đồng Văn Công</p>
+                </div>
+
+                <div class="block-items">
+                    <img src="https://via.placeholder.com/150" alt="Hình ảnh mẫu" />
+                    <p class="artist-name">Đồng Văn Công</p>
+                </div>
+
+                <div class="block-items">
+                    <img src="https://via.placeholder.com/150" alt="Hình ảnh mẫu" />
+                    <p class="artist-name">Đồng Văn Công</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="music-artist">
+            <div class="music-artist-header">
+                <h4 class="music-artist-header-h4">Bảng xếp hạng nổi bật</h4>
+                <p class="music-artist-header-p">Hiện tất cả</p>
+            </div>
+            <div class="block-artis">
+
+                <div class="block-items">
+                    <img src="https://via.placeholder.com/150" alt="Hình ảnh mẫu" />
+                    <p class="artist-name">Đồng Văn Công</p>
+                </div>
+
+                <div class="block-items">
+                    <img src="https://via.placeholder.com/150" alt="Hình ảnh mẫu" />
+                    <p class="artist-name">Đồng Văn Công</p>
+                </div>
+
+                <div class="block-items">
+                    <img src="https://via.placeholder.com/150" alt="Hình ảnh mẫu" />
+                    <p class="artist-name">Đồng Văn Công</p>
+                </div>
+
+                <div class="block-items">
+                    <img src="https://via.placeholder.com/150" alt="Hình ảnh mẫu" />
+                    <p class="artist-name">Đồng Văn Công</p>
+                </div>
+
+                <div class="block-items">
+                    <img src="https://via.placeholder.com/150" alt="Hình ảnh mẫu" />
+                    <p class="artist-name">Đồng Văn Công</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card-topvn">
+            <div class="card">
+                <!-- Top Label with Icon -->
+                <div class="top-label">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify Icon">
+                    <span>Top Bài Hát Việt Nam</span>
+                </div>
+
+                <!-- Title and Subtitle -->
+                <div class="content">
+                    <div class="title">Bài hát hàng đầu tại Việt Nam</div>
+                    <div class="subtitle">Danh sách phát • Spotify</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <!-- Top Label with Icon -->
+                <div class="top-label">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Spotify_Icon_RGB_White.png" alt="Spotify Icon">
+                    <span>Top Bài Hát Việt Nam</span>
+                </div>
+
+                <!-- Title and Subtitle -->
+                <div class="content">
+                    <div class="title">Bài hát hàng đầu tại Việt Nam</div>
+                    <div class="subtitle">Danh sách phát • Spotify</div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

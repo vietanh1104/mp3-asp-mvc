@@ -454,5 +454,11 @@ namespace mp3.mvc.Controllers
             return RedirectToAction(nameof(Play), new { id });
 
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Premium()
+        {
+            return View();
+        }
     }
 }

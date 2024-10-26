@@ -1,0 +1,148 @@
+﻿.right-div {
+    padding: 0;
+}
+.content-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.right-all {
+    font-size: 16px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.right-music {
+    font-size: 16px;
+    color: white;
+}
+
+.right-all, .right-music {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .right-all:hover, .right-music:hover {
+        color: #1DB954;
+    }
+
+.show-all-a {
+    cursor: pointer;
+}
+
+a:hover {
+    color: #1DB954;
+}
+
+.contents-music{
+
+}
+.music-artist{
+
+}
+.music-artist-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.music-artist-header-h4{
+    font-size: 22px;
+    font-weight: 500;
+    margin: 0
+}
+.music-artist-header-p {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0
+}
+.block-artis {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+.block-items{
+    width: 150px;
+    height: 200px;
+    color: white
+}
+.artist-name {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+
+.card-topvn{
+    display: flex;
+    align-items: center;
+    gap: 24px
+}
+
+
+.card {
+    position: relative;
+    width: 400px;
+    height: 500px;
+    background-image: url('https://via.placeholder.com/400x500'); /* Replace with actual image URL */
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+    /* Overlay for darkening background */
+    .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+/* Spotify icon and top label */
+.top-label {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 8px 12px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+}
+
+    .top-label img {
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+    }
+
+/* Title and subtitle */
+.content {
+    position: absolute;
+    bottom: 30px;
+    left: 20px;
+    color: #fff;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    font-size: 16px;
+    opacity: 0.8;
+}

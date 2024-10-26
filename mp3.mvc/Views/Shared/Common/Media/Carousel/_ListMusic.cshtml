@@ -77,10 +77,7 @@ else
     let currentlyPlayingButton = null;
     let currentIndex = 0;
     let previousVolume = 1;
-
     const listMusic = @Html.Raw(Json.Serialize(ViewData["ListMusic"]));
-
-    // Gán sự kiện cho tất cả các nút play
     playButtons.forEach((btn, index) => {
         btn.addEventListener('click', (e) => {
             const songId = btn.getAttribute('data-song-id');
@@ -89,22 +86,19 @@ else
             playMusic(songId, songSrc, btn);
         });
     });
-
     // Hàm phát nhạc
     function playMusic(id, src, button) {
         if (!id) {
             console.error("Không tìm thấy ID bài hát.");
             return;
         }
-
         // Nếu đã có bài hát đang phát
         if (currentlyPlaying) {
-            // Nếu bài hát hiện tại là bài hát được nhấn
             if (currentlyPlaying.src === src) {
                 if (currentlyPlaying.paused) {
                     currentlyPlaying.play().then(() => {
                         button.innerHTML = '<i class="fa-solid fa-pause"></i>';
-                        document.getElementById('play-pause-song').innerHTML = '<i class="fas fa-pause"></i>'; // Đồng bộ nút trên thanh điều khiển
+                        document.getElementById('play-pause-song').innerHTML = '<i class="fas fa-pause"></i>';
                         updateMusicControlBar(button);
                     }).catch(error => {
                         console.error("Lỗi phát nhạc:", error);
@@ -112,7 +106,7 @@ else
                 } else {
                     currentlyPlaying.pause();
                     button.innerHTML = '<i class="fa-solid fa-play"></i>';
-                    document.getElementById('play-pause-song').innerHTML = '<i class="fas fa-play"></i>'; // Đồng bộ nút trên thanh điều khiển
+                    document.getElementById('play-pause-song').innerHTML = '<i class="fas fa-play"></i>';
                 }
                 return;
             } else {
@@ -124,57 +118,49 @@ else
 
         // Phát bài hát mới
         currentlyPlaying = new Audio(src);
-
         currentlyPlaying.play().then(() => {
             button.innerHTML = '<i class="fa-solid fa-pause"></i>';
-            document.getElementById('play-pause-song').innerHTML = '<i class="fas fa-pause"></i>'; // Đồng bộ nút trên thanh điều khiển
+            document.getElementById('play-pause-song').innerHTML = '<i class="fas fa-pause"></i>';
             currentlyPlayingButton = button;
-            updateMusicControlBar(button); // Hiển thị thanh điều khiển nhạc
+            updateMusicControlBar(button);
         }).catch(error => {
             console.error("Lỗi phát nhạc:", error);
         });
-
         // Khi bài hát bị dừng
         currentlyPlaying.addEventListener('pause', () => {
             button.innerHTML = '<i class="fa-solid fa-play"></i>';
-            document.getElementById('play-pause-song').innerHTML = '<i class="fas fa-play"></i>'; // Đồng bộ nút trên thanh điều khiển
+            document.getElementById('play-pause-song').innerHTML = '<i class="fas fa-play"></i>';
         });
-
         // Khi bài hát kết thúc
         currentlyPlaying.addEventListener('ended', () => {
             button.innerHTML = '<i class="fa-solid fa-play"></i>';
-            document.getElementById('play-pause-song').innerHTML = '<i class="fas fa-play"></i>'; // Đồng bộ nút trên thanh điều khiển
-            playNextSong(); // Tự động phát bài tiếp theo
+            document.getElementById('play-pause-song').innerHTML = '<i class="fas fa-play"></i>';
+            playNextSong();
         });
     }
-
     // Hàm để cập nhật thanh điều khiển nhạc
     function updateMusicControlBar(button) {
         const footer = document.getElementById('music-control-bar');
         const songName = button.closest('.song').querySelector('.song-info-p').textContent.trim();
         const artistName = button.closest('.song').querySelector('.artist').textContent.trim();
         const albumArt = button.closest('.song').querySelector('img').src;
-
         // Cập nhật thông tin bài hát trong thanh điều khiển
         document.getElementById('current-song-name').textContent = songName;
         document.getElementById('current-artist-name').textContent = artistName;
         document.getElementById('album-art').src = albumArt;
-
-        // Hiển thị thanh điều khiển nhạc
         footer.style.display = 'flex';
     }
-
     // Nút play/pause trên thanh điều khiển nhạc
     document.getElementById('play-pause-song').addEventListener('click', function () {
         if (currentlyPlaying) {
             if (currentlyPlaying.paused) {
                 currentlyPlaying.play();
                 this.innerHTML = '<i class="fas fa-pause"></i>';
-                currentlyPlayingButton.innerHTML = '<i class="fa-solid fa-pause"></i>'; // Đồng bộ với nút trong danh sách
+                currentlyPlayingButton.innerHTML = '<i class="fa-solid fa-pause"></i>';
             } else {
                 currentlyPlaying.pause();
                 this.innerHTML = '<i class="fas fa-play"></i>';
-                currentlyPlayingButton.innerHTML = '<i class="fa-solid fa-play"></i>'; // Đồng bộ với nút trong danh sách
+                currentlyPlayingButton.innerHTML = '<i class="fa-solid fa-play"></i>';
             }
         }
     });
@@ -194,7 +180,6 @@ else
         if (currentlyPlaying) {
             currentlyPlaying.volume = volumeValue;
         }
-        // Thay đổi biểu tượng của nút mute nếu âm lượng về 0
         if (volumeValue === 0) {
             document.getElementById('mute-btn').textContent = '🔇';
         } else {
@@ -206,19 +191,17 @@ else
     document.getElementById('mute-btn').addEventListener('click', function () {
         if (currentlyPlaying) {
             if (currentlyPlaying.volume === 0) {
-                currentlyPlaying.volume = previousVolume; // Khôi phục âm lượng trước khi tắt tiếng
-                this.textContent = '🔊'; // Thay đổi biểu tượng nút
+                currentlyPlaying.volume = previousVolume;
+                this.textContent = '🔊';
                 document.getElementById('volume-slider').value = previousVolume * 100;
             } else {
-                previousVolume = currentlyPlaying.volume; // Lưu lại âm lượng hiện tại
-                currentlyPlaying.volume = 0; // Tắt âm thanh
-                this.textContent = '🔇'; // Thay đổi biểu tượng nút
+                previousVolume = currentlyPlaying.volume;
+                currentlyPlaying.volume = 0;
+                this.textContent = '🔇';
                 document.getElementById('volume-slider').value = 0;
             }
         }
     });
-
-    // Hàm chuyển sang bài hát tiếp theo
     function playNextSong() {
         currentIndex = (currentIndex + 1) % listMusic.length;
         const nextSong = listMusic[currentIndex];
@@ -226,9 +209,6 @@ else
         const nextSongUrl = nextSong.contentUrl;
         playMusic(nextSongId, nextSongUrl, document.getElementById(`play-btn-${currentIndex}`));
     }
-
-
-    // Hàm chuyển về bài hát trước đó
     function playPreviousSong() {
         currentIndex = (currentIndex - 1 + listMusic.length) % listMusic.length;
         const prevSong = listMusic[currentIndex];

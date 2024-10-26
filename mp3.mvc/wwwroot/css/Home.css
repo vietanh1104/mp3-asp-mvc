@@ -99,3 +99,7 @@
 .show-all-a{
     cursor: pointer;
 }
+
+a:hover {
+    color: #1DB954;
+}

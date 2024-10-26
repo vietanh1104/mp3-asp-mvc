@@ -187,5 +187,18 @@ namespace mp3.mvc.Controllers
             return View();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> MusicTab()
+        {
+            ViewData["TrendingList"] = await _mediaRepository.GetTrendingItemList();
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Podcasts()
+        {
+            ViewData["TrendingList"] = await _mediaRepository.GetTrendingItemList();
+            return View();
+        }
     }
 }
