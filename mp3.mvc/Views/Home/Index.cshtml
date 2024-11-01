@@ -42,7 +42,9 @@
     <!-- Bài hát yêu thích nhất -->
     <div class="d-flex justify-content-between align-items-center mt-4">
         <h4 class="mb-0">Bài hát yêu thích</h4>
-        <div class="show-all">Hiển tất cả</div>
+        <div class="show-all">
+            <a class="show-all" href="/Home/ListMusic">Hiển tất cả</a>
+        </div>
     </div>
     <div class="row favorite-songs">
 
@@ -53,49 +55,18 @@
     <!-- Nghệ Sĩ Yêu Thích -->
     <div class="d-flex justify-content-between align-items-center mt-4">
         <h4 class="mb-0">Nghệ sĩ yêu thích</h4>
-        <div class="show-all">Hiển tất cả</div>
+        <div class="show-all">
+            <a class="show-all" href="/Home/ListArtist">Hiển tất cả</a>
+        </div>
     </div>
     <div class="row favorite-artists">
-        <div class="col artist-card">
-            <div class="card" style="height: 332px; width: 254px">
-                <img src="/images/media/hinh-anh-hinh-nen-ca-si-chi-dan1.jpg" class="card-img-top" alt="Nghệ Sĩ 1" style=" height: 252px;">
-                <div class="card-body">
-                    <p class="card-text">Chi Dân</p>
-                </div>
-            </div>
+
+        <div class="row favorite-songs">
+
+            <partial name="./Common/Media/Carousel/_ListArtist" model="newestList" />
+
         </div>
-        <div class="col artist-card" >
-            <div class="card" style="height: 332px; width: 254px">
-                <img src="/images/media/2sao.vietnamnetjsc.vn-images-2021-07-08-16-13-_st.jpg" class="card-img-top" alt="Nghệ Sĩ 2" style="height: 252px;">
-                <div class="card-body">
-                    <p class="card-text">Sơn Tùng MTP</p>
-                </div>
-            </div>
-        </div>
-        <div class="col artist-card">
-            <div class="card" style="height: 332px; width: 254px">
-                <img src="~/images/media/jack.jpg" class="card-img-top" alt="Nghệ Sĩ 2" style="height: 252px;">
-                <div class="card-body">
-                    <p class="card-text">Jack-97</p>
-                </div>
-            </div>
-        </div>
-        @* <div class="col artist-card">
-            <div class="card" style="height: 332px; width: 254px">
-                <img class="card-img-top" alt="Nghệ Sĩ 4" src="~/images/media/lo-anh-nam-ca-si-noi-tieng-vbiz-ngoi-ben-nui-tien-o-song-bac-nghi-van-la-ban-trai-tin-don-cua-nhat-k-cc1-1667812861-573-width660height924.jpg" style="height: 252px;" />
-                <div class="card-body">
-                    <p class="card-text">HKT-TiTi</p>
-                </div>
-            </div>
-        </div> *@
-        <div class="col artist-card">
-            <div class="card" style="height: 332px; width: 254px">
-                <img src="~/images/media/photo-1-16478300491361793129693.jpg" class="card-img-top" alt="Nghệ Sĩ 5" style="height: 252px;" />
-                <div class="card-body">
-                    <p class="card-text">Hiền Hồ</p>
-                </div>
-            </div>
-        </div>
+
     </div>
 
 

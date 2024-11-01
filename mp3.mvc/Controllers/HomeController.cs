@@ -200,5 +200,11 @@ namespace mp3.mvc.Controllers
             ViewData["TrendingList"] = await _mediaRepository.GetTrendingItemList();
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> IntroMusic()
+        {
+            return View();
+        }
     }
 }

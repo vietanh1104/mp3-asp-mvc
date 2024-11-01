@@ -111,11 +111,12 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
+                      @*   <li class="nav-item">
                             <a class="nav-link" @ViewData["ExplorePage"]" href="/home/search">
                                 <i class="fas fa-concierge-bell" style="color: #ffffff; font-size: 24px"></i>  Tìm kiếm
                             </a>
-                        </li>
+                        </li> *@
+
                         <li class="nav-item">
                             <a class="nav-link" href="#">
                                 <i class="fas fa-box" style="color: #ffffff; font-size: 24px"></i>  Thư viện
@@ -157,26 +158,28 @@
                     <p>
                         Khám phá thế giới âm nhạc không giới hạn, nơi mọi cảm xúc được thăng hoa và mọi giai điệu đều chạm đến trái tim. Tại đây Mine Music, bạn có thể dễ dàng tìm thấy những bản nhạc yêu thích từ mọi thể loại – từ các bản hit đình đám cho đến những giai điệu indie độc đáo ...
                     </p>
+                    <!-- HTML Structure -->
                     <div class="social">
-                        <a href="https://www.facebook.com/DonggVannCongg">
-                            <i class="fab fa-facebook"></i>
+                        <a href="https://www.facebook.com" target="_blank" aria-label="Facebook">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1200px-Facebook_Logo_%282019%29.png" width="24px">
                         </a>
-                        <a href="https://www.instagram.com/12th24.2002/">
-                            <i class="fab fa-instagram"></i>
+                        <a href="https://www.instagram.com" target="_blank" aria-label="Instagram">
+                            <img src="https://png.pngtree.com/element_our/sm/20180630/sm_5b37de3263964.jpg" width="24px">
                         </a>
-                        <a href="https://www.youtube.com/channel/UC2nBEyZayY3A8Y33IlgEDYw">
-                            <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com" target="_blank" aria-label="YouTube">
+                            <img src="https://www.logo.wine/a/logo/YouTube/YouTube-Icon-Full-Color-Logo.wine.svg" width="24px">
                         </a>
-                        <a href="#">
-                            <i class="fab fa-tiktok"></i>
+                        <a href="https://www.tiktok.com" target="_blank" aria-label="TikTok">
+                            <img src="https://img.freepik.com/premium-vector/tiktok-logo-vector-illustration_969863-207297.jpg?semt=ais_hybrid" width="24px">
                         </a>
                     </div>
+
                 </div>
                 <div class="col" id="services">
                     <h3>Công ty</h3>
                     <div class="links">
-                        <a href="#">Giới thiệu </a>
-                        <a href="#">Việc làm</a>
+                        <a href="/Home/IntroMusic">Giới thiệu </a>
+                        <a href="#">Chính sách</a>
                         <a href="#">Điều khoản dịch vụ</a>
                     </div>
                 </div>

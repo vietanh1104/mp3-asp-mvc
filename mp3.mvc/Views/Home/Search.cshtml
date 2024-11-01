@@ -11,16 +11,13 @@
     var musicSideBarStyle = type == 0 ? "side-bar-active" : "";
     var authorSideBarStyle = type == 1 ? "side-bar-active" : "";
     var categorySideBarStyle = type == 2 ? "side-bar-active" : "";
-
-    // Cast data.Items to a list type explicitly (assuming it's a List<App.Domain.Entities.Media>)
     var itemsList = data.Items as List<App.Domain.Entities.Media>;
 }
 
-<div class="col-10">
+<div class="col-10" style="    height: 53vh;">
     <div class="content-right">
         <div class="right-all allin" href="/home/search?type=0&searchText=@ViewData["searchText"]&page=1">Tất cả</div>
         <div class="right-music" href="/home/search?type=1&searchText=@ViewData["searchText"]&page=1">Ca sĩ</div>
-        <div class="right-music" href="/home/search?type=2&searchText=@ViewData["searchText"]&page=1">Podcasts</div>
     </div>
 
     <div>
@@ -30,16 +27,16 @@
         }
         @if (data.TotalItems > 0)
         {
-            @if (type == 0) // Displaying Music
+            @if (type == 0)
             {
                 <div class="card-list-container d-flex justify-content-center">
-                    @foreach (var item in itemsList.Take(5)) // Now limiting to 5 items after casting
+                    @foreach (var item in itemsList.Take(5))
                     {
                         <partial name="./Common/Media/_musicCardTemplatePartial" model=@item />
                     }
                 </div>
             }
-            else if (type == 1) // Displaying Authors
+            else if (type == 1)
             {
                 <table class="table" style="background-color: white; border-radius: 4px;">
                     <thead>
@@ -51,21 +48,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for (var i = 0; i < itemsList.Take(5).Count(); i++) // Limiting to 5 items
+                        @for (var i = 0; i < itemsList.Take(5).Count(); i++)
                         {
                             var item = itemsList[i];
                             var index = i + 1 + (data.Page - 1) * data.PageSize;
                             <tr>
                                 <th scope="row">@index</th>
                                 <td>@item.Name</td>
-@*                                 <td>@item.NumberOfTracks</td>
-                                <td>@item.Views</td> *@
                             </tr>
                         }
                     </tbody>
                 </table>
             }
-            else // Displaying Categories
+            else
             {
                 <table class="table" style="background-color: white; border-radius: 4px;">
                     <thead>
@@ -76,14 +71,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for (var i = 0; i < itemsList.Take(5).Count(); i++) // Limiting to 5 items
+                        @for (var i = 0; i < itemsList.Take(5).Count(); i++)
                         {
                             var item = itemsList[i];
                             var index = i + 1 + (data.Page - 1) * data.PageSize;
                             <tr>
                                 <th scope="row">@index</th>
                                 <td>@item.Name</td>
-                                @* <td>@item.NumberOfTracks</td> *@
                             </tr>
                         }
                     </tbody>

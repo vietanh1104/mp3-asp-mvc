@@ -17,6 +17,9 @@
     padding: 0;
 }
 /* Bài hát yêu thích và nghệ sĩ */
+.song-card{
+    padding-bottom: 12px
+}
 .song-card .card, .artist-card .card {
     border: none;
     transition: transform 0.3s, box-shadow 0.3s;

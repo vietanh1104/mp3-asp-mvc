@@ -45,7 +45,7 @@ namespace mp3.mvc.Controllers
             return Guid.Parse("00000000-0000-0000-0000-61446981112f");
         }
 
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Index(int page = 1, int pageSize = 10)
         {
             var model = await _mediaRepository.GetPurchasedItemList(getUserId());

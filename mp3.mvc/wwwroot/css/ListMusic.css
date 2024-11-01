@@ -167,6 +167,7 @@
 .song-details {
     display: flex;
     align-items: center;
+    width: 332px;
 }
 
     .song-details img {
