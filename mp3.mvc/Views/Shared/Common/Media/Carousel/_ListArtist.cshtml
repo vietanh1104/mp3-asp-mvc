@@ -1,5 +1,35 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@* @{
+    var id = Guid.NewGuid();
+    var listMusic = ViewData["ListMusic"] as List<App.Domain.Entities.Media>;
+} *@
+@* 
+@if (listMusic != null && listMusic.Count > 0)
+{ *@
+    <ul class="song-list">
+@*         @for (int i = 0; i < listMusic.Count; i++)
+        { *@
+@*             var item = listMusic[i];
+            var content = item.MediaContent.FirstOrDefault(); *@
+
+            <li class="song-item">
+                <div class="song">
+                    <div class="song-info">
+                        <span style="color: white">1</span>
+                       
+                        <img src=""/>
+                    <span class="artist"> Đồng Văn Công</span>
+                        </a>
+                    </div>
+                    <div class="song-album">
+                        Đồng Văn Công
+                    </div>
+                    
+                </div>
+            </li>
+        @* } *@
+    </ul>
+@* }
+else
+{
+    <p style="color: white">Không có nghệ sĩ nào trong danh sách.</p>
+} *@

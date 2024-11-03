@@ -43,6 +43,19 @@ namespace mp3.mvc.Controllers
                 .ToListAsync();
 
             ViewData["TrendingList"] = await _mediaRepository.GetTrendingItemList();
+
+            var items = await _databaseContext.Authors
+                .Select(p => new AuthorSearchItemViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    AvatarUrl = !string.IsNullOrWhiteSpace(p.AvatarUrl) ? p.AvatarUrl : ResourceConst.AuthorAvatarDefaultUrl
+                })
+                .ToListAsync();
+
+            // gửi danh sách nghệ sĩ qua ViewData
+            ViewData["ListAuthors"] = items;
+
             return View();
         }
         //[Authorize]
@@ -166,34 +179,19 @@ namespace mp3.mvc.Controllers
         [HttpGet]
         public async Task<IActionResult> ListMusic()
         {
-        //    var listMusic = await _databaseContext.Media
-        //        .Include(p => p.Author)
-        //        .Include(p => p.Category)
-        //        .Include(p => p.MediaContent)
-        //        .AsNoTracking()
-        //        .ToListAsync();
-
-        //    if (listMusic == null || listMusic.Count == 0)
-        //    {
-        //        return NotFound("Không có bài hát nào.");
-        //    }
-
-        //    // Gửi danh sách nhạc qua ViewData
-        //    ViewData["ListMusic"] = listMusic;
-
-            var items = await _databaseContext.Authors
-                .Select(p => new AuthorSearchItemViewModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    AvatarUrl = !string.IsNullOrWhiteSpace(p.AvatarUrl) ? p.AvatarUrl : ResourceConst.AuthorAvatarDefaultUrl
-                })
+            var listMusic = await _databaseContext.Media
+                .Include(p => p.Author)
+                .Include(p => p.Category)
+                .Include(p => p.MediaContent)
+                .AsNoTracking()
                 .ToListAsync();
 
-            // gửi danh sách nghệ sĩ qua ViewData
-            ViewData["ListAuthors"] = items;
+            if (listMusic == null || listMusic.Count == 0)
+            {
+                return NotFound("Không có bài hát nào.");
+            }
 
-            return View(items);
+            return View();
         }
 
         [HttpGet]
@@ -220,6 +218,36 @@ namespace mp3.mvc.Controllers
         [HttpGet]
         public async Task<IActionResult> IntroMusic()
         {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Privacy()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Policy()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ListArtist()
+        {
+            var listMusic = await _databaseContext.Media
+                .Include(p => p.Author)
+                .Include(p => p.Category)
+                .Include(p => p.MediaContent)
+                .AsNoTracking()
+                .ToListAsync();
+
+            if (listMusic == null || listMusic.Count == 0)
+            {
+                return NotFound("Không có nghệ sĩ nào.");
+            }
+
             return View();
         }
     }

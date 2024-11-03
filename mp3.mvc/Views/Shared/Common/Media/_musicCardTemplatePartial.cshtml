@@ -1,9 +1,9 @@
 ﻿<div class="col song-card">
-    <div class="card" style=" width: 256px">
+    <div class="card" style="height: 332px; width: 234px">
         <a href="/media/play?id=@Model.Id">
             <partial class="formContent" name="./Common/Media/_musicAvatarPreviewPartial" model="@Model.MediaContent" />
         </a>
-        <div class="card-body">
+        <div class="card-bodys" style="text-align:center;  padding-top: 10px">
             <a class="card-text" href="/Author/GetDetail?id=@Model.Author?.Id">@Model.Name - @Model.Author?.Name</a>
         </div>
     </div>
