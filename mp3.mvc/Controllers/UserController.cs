@@ -8,13 +8,10 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using mp3.mvc.Consts;
 using mp3.mvc.Models;
-using System.Drawing.Printing;
 using System.Security.Claims;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace mp3.mvc.Controllers
 {
@@ -285,7 +282,11 @@ namespace mp3.mvc.Controllers
 
             if(request.Avatar != null)
             {
-                System.IO.File.Delete("wwwroot" + user.AvatarUrl);
+                if(user.AvatarUrl != ResourceConst.UserAvatarDefaultUrl)
+                {
+                    System.IO.File.Delete("wwwroot" + user.AvatarUrl);
+                }
+                
                 var filePath = $"/images/avatars/{user.Id}.jpg";
                 using (var stream = new FileStream("wwwroot" + filePath, FileMode.Create))
                 {

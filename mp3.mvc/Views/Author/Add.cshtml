@@ -1,4 +1,4 @@
-﻿@model App.Domain.Entities.Author
+﻿@model AuthorAddViewModel
 @{
     ViewData["Title"] = "Thêm mới ca sĩ";
 }
@@ -18,6 +18,14 @@
                     <input name="Name" type="text" value="@Model.Name" />
                 </td>
             </tr>
+            <tr>
+                <td style="text-align:center; align-content:center; color: white">
+                    Ảnh:
+                </td>
+                <td>
+                    <input name="Avatar" type="file" class="form-control" />
+                </td>
+            </tr>
         </table>
 
 
@@ -27,4 +35,4 @@
         </div>
 
     </form>
-</divc>
+</div>

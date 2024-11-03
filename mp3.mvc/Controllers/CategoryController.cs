@@ -30,9 +30,8 @@ namespace mp3.mvc.Controllers
 
             if (!string.IsNullOrWhiteSpace(searchText))
             {
-                query = query.Where(p => p.Name.ToLower().Contains(searchText.Trim().ToLower()));
+                query = query.Where(p => !string.IsNullOrWhiteSpace(p.Name) && p.Name.ToLower().Contains(searchText.Trim().ToLower()));
             }
-
 
             var total = await query.CountAsync();
 
@@ -56,6 +55,7 @@ namespace mp3.mvc.Controllers
             ViewBag.Data = new BasePagination<CategorySearchItemViewModel>(total, page, pageSize, items);
             return View();
         }
+
         public async Task<IActionResult> GetDetail(Guid id)
         {
             var category = await _databaseContext.Categories.Where(p => p.Id == id).AsNoTracking().FirstOrDefaultAsync();

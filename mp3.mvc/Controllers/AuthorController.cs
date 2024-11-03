@@ -7,6 +7,7 @@ using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using mp3.mvc.Consts;
 using mp3.mvc.Models;
 
 namespace mp3.mvc.Controllers
@@ -34,7 +35,7 @@ namespace mp3.mvc.Controllers
 
             if (!string.IsNullOrWhiteSpace(searchText))
             {
-                query = query.Where(p => p.Name.ToLower().Contains(searchText.Trim().ToLower()));
+                query = query.Where(p => !string.IsNullOrWhiteSpace(p.Name) && p.Name.ToLower().Contains(searchText.Trim().ToLower()));
             }
 
 
@@ -47,6 +48,7 @@ namespace mp3.mvc.Controllers
                 {
                     Id = p.Id,
                     Name = p.Name,
+                    AvatarUrl = !string.IsNullOrWhiteSpace(p.AvatarUrl) ? p.AvatarUrl : ResourceConst.AuthorAvatarDefaultUrl
                 })
                 .ToListAsync();
 
@@ -54,7 +56,7 @@ namespace mp3.mvc.Controllers
             {
                 var views = await _databaseContext.MediaViewHistory
                     .Include(p => p.Media)
-                    .Where(p => p.Media.AuthorId == item.Id)
+                    .Where(p => p.Media != null && p.Media.AuthorId == item.Id)
                     .CountAsync();
 
                 var numberOfTrack = await _databaseContext.Media.Where(p => p.AuthorId == item.Id).CountAsync();
@@ -70,17 +72,26 @@ namespace mp3.mvc.Controllers
 
         public async Task<IActionResult> GetDetail(Guid id)
         {
-            var authors = await _databaseContext.Authors.Where(p => p.Id == id).AsNoTracking().FirstOrDefaultAsync();
+            var author = await _databaseContext.Authors.Where(p => p.Id == id).AsNoTracking().FirstOrDefaultAsync();
+
+            if (author == null)
+            {
+                _notyfService.Error("Không tìm thấy ca sĩ", 2);
+                return RedirectToAction(nameof(Index));
+            }
 
             var views = await _databaseContext.MediaViewHistory
                      .Include(p => p.Media)
-                     .Where(p => p.Media.AuthorId == id)
+                     .Where(p => p.Media != null && p.Media.AuthorId == id)
                  .CountAsync();
 
+            if (!string.IsNullOrWhiteSpace(author.AvatarUrl))
+            {
+                author.AvatarUrl = ResourceConst.AuthorAvatarDefaultUrl;
+            }
 
-            ViewBag.Author = authors;
+            ViewBag.Author = author;
             
-
             var tracks = await _databaseContext.Media
                 .Include(p => p.MediaContent)
                 .Include(p => p.Category)
@@ -95,16 +106,52 @@ namespace mp3.mvc.Controllers
 
         public async Task<IActionResult> Update(Guid id)
         {
-            var authors = await _databaseContext.Authors.Where(p => p.Id == id).AsNoTracking().FirstOrDefaultAsync();
+            var author = await _databaseContext.Authors.Where(p => p.Id == id).AsNoTracking().FirstOrDefaultAsync();
 
-            return View(authors);
+            if (author == null)
+            {
+                _notyfService.Error("Không tìm thấy ca sĩ", 2);
+                return RedirectToAction(nameof(Index));
+            }
+
+            var viewModel = new AuthorUpdateViewModel
+            {
+                Id = id,
+                Name = author.Name,
+                AvatarUrl = !string.IsNullOrWhiteSpace(author.AvatarUrl) ? author.AvatarUrl : ResourceConst.AuthorAvatarDefaultUrl
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(Author author)
+        public async Task<IActionResult> Update(AuthorUpdateViewModel author)
         {
             var authorEntity = await _databaseContext.Authors.Where(p => p.Id == author.Id).FirstOrDefaultAsync();
+            
+            if(authorEntity == null)
+            {
+                _notyfService.Error("Cập nhật thất bại", 2);
+                return RedirectToAction(nameof(Index));
+            }
+
             authorEntity.Name = author.Name;
+
+            if(author.Avatar != null)
+            {
+                if(authorEntity.AvatarUrl != ResourceConst.AuthorAvatarDefaultUrl)
+                {
+                    System.IO.File.Delete("wwwroot" + authorEntity.AvatarUrl);
+                }
+
+                var filePath = $"/images/avatars/{Guid.NewGuid}.jpg";
+                using (var stream = new FileStream("wwwroot" + filePath, FileMode.Create))
+                {
+                    await author.Avatar.CopyToAsync(stream);
+                }
+                authorEntity.AvatarUrl = filePath;
+            }
+
             var changeCount = await _databaseContext.SaveChangesAsync();
 
             if(changeCount > 0)
@@ -128,6 +175,11 @@ namespace mp3.mvc.Controllers
         {
             var authors = await _databaseContext.Authors.Where(p => p.Id == id).FirstOrDefaultAsync();
 
+            if(authors == null)
+            {
+                _notyfService.Error("Cập nhật thất bại", 2);
+                return RedirectToAction(nameof(Index));
+            }
             _databaseContext.Remove(authors);
 
             var changeCount = await _databaseContext.SaveChangesAsync();
@@ -140,9 +192,10 @@ namespace mp3.mvc.Controllers
             _notyfService.Error("Xóa thất bại", 2);
             return RedirectToAction(nameof(Delete), new { id = authors.Id });
         }
-        public async Task<IActionResult> Add()
+
+        public IActionResult Add()
         {
-            var author = new Author();
+            var author = new AuthorAddViewModel();
             author.Name = "";
 
             return View(author);
@@ -150,10 +203,29 @@ namespace mp3.mvc.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Add(Author request)
+        public async Task<IActionResult> Add(AuthorAddViewModel request)
         {
+            if(!string.IsNullOrWhiteSpace(request.Name))
+            {
+                _notyfService.Error("Tên ca sĩ không được trống", 2);
+                return RedirectToAction(nameof(Add));
+            }
 
-            await _databaseContext.AddAsync(request);
+            var entity = new Author();
+            entity.Name = request.Name;
+            entity.AvatarUrl = $"/images/authors/empty.jpg";
+
+            if (request.Avatar != null)
+            {
+                var fileContentPath = $"/images/authors/{Guid.NewGuid()}.jpg";
+                using (var stream = new FileStream("wwwroot" + fileContentPath, FileMode.Create))
+                {
+                    await request.Avatar.CopyToAsync(stream);
+                }
+                entity.AvatarUrl = fileContentPath;
+            }
+
+            await _databaseContext.Authors.AddAsync(entity);
 
             var changeCount = await _databaseContext.SaveChangesAsync();
 
@@ -163,7 +235,7 @@ namespace mp3.mvc.Controllers
                 return RedirectToAction(nameof(Index));
             }
             _notyfService.Error("Thêm thất bại", 2);
-            return RedirectToAction(nameof(GetDetail), new { id = request.Id });
+            return RedirectToAction(nameof(GetDetail), new { id = entity.Id });
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model App.Domain.Entities.Author
+﻿@model AuthorUpdateViewModel
 @{
     ViewData["Title"] = "Chỉnh sửa " + Model.Name;
 }
@@ -17,6 +17,14 @@
                 </td>
                 <td>
                     <input name="Name" type="text" value="@Model.Name" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:center; align-content:center; color: white">
+                    Ảnh:
+                </td>
+                <td>
+                    <input name="Avatar" type="file" class="form-control" />
                 </td>
             </tr>
         </table>

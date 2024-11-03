@@ -10,6 +10,7 @@ namespace App.Domain.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 
         public Guid Id { get; set; }
+        public string? AvatarUrl { get; set; } = "/images/authors/empty.jpg";
         public string? Name { get; set; }
     }
 }

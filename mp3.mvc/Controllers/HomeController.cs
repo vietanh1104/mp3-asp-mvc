@@ -5,9 +5,13 @@ using App.Infrastructure;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using mp3.mvc.Consts;
 using mp3.mvc.Models;
 using System.Diagnostics;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Drawing.Printing;
 
 namespace mp3.mvc.Controllers
 {
@@ -162,22 +166,34 @@ namespace mp3.mvc.Controllers
         [HttpGet]
         public async Task<IActionResult> ListMusic()
         {
-            var listMusic = await _databaseContext.Media
-            .Include(p => p.Author)
-            .Include(p => p.Category)
-            .Include(p => p.MediaContent)
-            .AsNoTracking()
-            .ToListAsync();
+        //    var listMusic = await _databaseContext.Media
+        //        .Include(p => p.Author)
+        //        .Include(p => p.Category)
+        //        .Include(p => p.MediaContent)
+        //        .AsNoTracking()
+        //        .ToListAsync();
 
-            if (listMusic == null || listMusic.Count == 0)
-            {
-                return NotFound("Không có bài hát nào.");
-            }
+        //    if (listMusic == null || listMusic.Count == 0)
+        //    {
+        //        return NotFound("Không có bài hát nào.");
+        //    }
 
-            // Gửi danh sách nhạc qua ViewData
-            ViewData["ListMusic"] = listMusic;
-            return View();
+        //    // Gửi danh sách nhạc qua ViewData
+        //    ViewData["ListMusic"] = listMusic;
 
+            var items = await _databaseContext.Authors
+                .Select(p => new AuthorSearchItemViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    AvatarUrl = !string.IsNullOrWhiteSpace(p.AvatarUrl) ? p.AvatarUrl : ResourceConst.AuthorAvatarDefaultUrl
+                })
+                .ToListAsync();
+
+            // gửi danh sách nghệ sĩ qua ViewData
+            ViewData["ListAuthors"] = items;
+
+            return View(items);
         }
 
         [HttpGet]
