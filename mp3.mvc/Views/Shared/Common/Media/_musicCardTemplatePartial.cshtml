@@ -1,4 +1,6 @@
-﻿<div class="col song-card">
+﻿@model App.Domain.Entities.Media
+
+<div class="col song-card">
     <div class="card" style="height: 332px; width: 234px">
         <a href="/media/play?id=@Model.Id">
             <partial class="formContent" name="./Common/Media/_musicAvatarPreviewPartial" model="@Model.MediaContent" />
@@ -8,3 +10,4 @@
         </div>
     </div>
 </div>
+

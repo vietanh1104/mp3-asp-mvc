@@ -1,4 +1,5 @@
-﻿@model BasePagination<App.Domain.Entities.Media>;
+﻿@using App.Domain.Entities
+@model BasePagination<App.Domain.Entities.Media>
 
 @{
     ViewData["Title"] = "Bộ sưu tập";
@@ -10,21 +11,20 @@
 }
 
 <div class="col-10 right-div" style="margin-top: 24px;">
-
     <h3 style="text-align:center; color: white">Bài hát được yêu thích</h3>
-    <div class="card-list-container d-flex justify-content-center">
-        @for (var i = 0; i < Model.Items.ToList().Count(); i++)
+    <!-- Create a row for responsive cards per row -->
+    <div class="card-list-container row d-flex g-3" style="justify-content: flex-start;">
+        @foreach (var item in Model.Items)
         {
-            var item = Model.Items.ToList()[i];
-            if(i == 4)
-            {
-                <br>
-            }
-            <partial name="./Common/Media/_musicCardTemplatePartial" model=@item />
+            <!-- Use responsive column classes to control layout on different screen sizes -->
+            <div class="col-6 col-md-4 col-lg-3 col-xl-2 d-flex justify-content-center mb-4">
+                <partial name="./Common/Media/_musicCardTemplatePartial" model="@item" />
+            </div>
         }
     </div>
 
-    <div class="d-flex justify-content-end">
+    <!-- Pagination controls -->
+    <div class="d-flex justify-content-end mt-3">
         <a href="@previousPageLink" class="page-link rounded-3 @previousPageBtnEnable">
             <img src="/images/icons/back.png" style="width: 20px;" />
         </a>
@@ -33,10 +33,7 @@
             <img src="/images/icons/next.png" style="width: 20px;" />
         </a>
     </div>
-
 </div>
-
-
 
 <style>
     .page-link {

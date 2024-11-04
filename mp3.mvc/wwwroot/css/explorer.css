@@ -1126,3 +1126,21 @@ button.ok {
     font-size: 1rem;
     font-family: CircularSpTitle,CircularSp-Arab,CircularSp-Hebr,CircularSp-Cyrl,CircularSp-Grek,CircularSp-Deva, sans-serif;
 }
+
+@media (min-width: 1300px) and (max-width: 1499px) {
+    .col-xl-2 {
+        width: 24.666667%;
+    }
+}
+
+@media (min-width: 1500px) and (max-width: 1599px) {
+    .col-xl-2 {
+        width: 19.666667%;
+    }
+}
+
+@media (min-width: 1210px) and (max-width: 1290px) {
+    .col-xl-2 {
+        width: 24.666667%;
+    }
+}
