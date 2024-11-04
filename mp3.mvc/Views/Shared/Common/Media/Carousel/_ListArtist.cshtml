@@ -1,35 +1,32 @@
-﻿@* @{
-    var id = Guid.NewGuid();
-    var listMusic = ViewData["ListMusic"] as List<App.Domain.Entities.Media>;
-} *@
-@* 
-@if (listMusic != null && listMusic.Count > 0)
-{ *@
+﻿@if (Model != null && Model?.Count > 0)
+{ 
     <ul class="song-list">
-@*         @for (int i = 0; i < listMusic.Count; i++)
-        { *@
-@*             var item = listMusic[i];
-            var content = item.MediaContent.FirstOrDefault(); *@
+        @for (int i = 0; i < Model?.Count; i++)
+        {
+            var item = Model[i];
+            var index = i + 1;
 
             <li class="song-item">
                 <div class="song">
                     <div class="song-info">
-                        <span style="color: white">1</span>
+                        <span style="color: white; width: 20px;" >@index</span>
                        
-                        <img src=""/>
-                    <span class="artist"> Đồng Văn Công</span>
-                        </a>
+                        <img src="@item.AvatarUrl"/>
+                    <span class="artist"> @item.Name</span>
                     </div>
                     <div class="song-album">
-                        Đồng Văn Công
+                        @item.NumberOfTracks
+                    </div>
+                    <div class="song-album">
+                        @item.Views
                     </div>
                     
                 </div>
             </li>
-        @* } *@
+       }
     </ul>
-@* }
+}
 else
 {
     <p style="color: white">Không có nghệ sĩ nào trong danh sách.</p>
-} *@
+} 

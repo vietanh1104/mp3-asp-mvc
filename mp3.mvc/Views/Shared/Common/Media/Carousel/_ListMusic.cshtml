@@ -9,12 +9,13 @@
         @for (int i = 0; i < listMusic.Count; i++)
         {
             var item = listMusic[i];
+            var index = i + 1;
             var content = item.MediaContent.FirstOrDefault();
 
             <li class="song-item">
                 <div class="song">
                     <div class="song-info">
-                        <span style="color: white">@i</span>
+                        <span style="color: white">@index</span>
                         <button class="play-btn" data-song-url="@item.ContentUrl" data-song-id="@item.Id" id="play-btn-@i">
                             <i class="fas fa-play"></i>
                             <i class="fa-solid fa-pause" id="pauseBtn" style="display: none;"></i>
@@ -26,7 +27,7 @@
                         </a>
                     </div>
                     <div class="song-playcount">
-                        4,066,056
+                        @item.MediaViewHistory?.Count
                     </div>
                     <div class="song-album">
                         @item.Category?.Name

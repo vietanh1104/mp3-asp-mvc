@@ -1,5 +1,32 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    var id = Guid.NewGuid();
+    var maxSongs = 5;
+}
+
+@for (int i = 0; i < Model.Count && i < maxSongs; i++)
+{
+    var item = Model[i];
+    var itemId = item.Id;
+    if (i == 0)
+    {
+        <div class="col song-card">
+            <div class="card" style="height: 332px; width: 234px">
+                <img src="@item.AvatarUrl" class="card-img-top" alt="Bài Hát 1">
+                <div class="card-bodys" style="text-align:center;  padding-top: 10px">
+                    <a class="card-text" href="/author/getDetail?id=@itemId">@item.Name </a>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="col song-card">
+            <div class="card" style="height: 332px;  width: 234px">
+                <img src="@item.AvatarUrl" class="card-img-top" alt="Bài Hát 1" @*style="height: 252px;"*@>
+                <div class="card-bodys" style="text-align:center; padding-top: 10px">
+                    <a class="card-text" href="/author/getDetail?id=@itemId">@item.Name </a>
+                </div>
+            </div>
+        </div>
+    }
 }

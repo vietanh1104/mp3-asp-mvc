@@ -3,15 +3,11 @@ using App.Common.Base;
 using App.Domain.Entities;
 using App.Infrastructure;
 using AspNetCoreHero.ToastNotification.Abstractions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using mp3.mvc.Consts;
 using mp3.mvc.Models;
 using System.Diagnostics;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using System.Drawing.Printing;
 
 namespace mp3.mvc.Controllers
 {
@@ -39,6 +35,10 @@ namespace mp3.mvc.Controllers
                 .Include(p => p.Author)
                 .Include(p => p.Category)
                 .Include(p => p.MediaContent)
+                .Include(p => p.MediaViewHistory)
+                .OrderByDescending(p => p.FavouriteCollections.Count)
+                .Take(10)
+                .IgnoreAutoIncludes()
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -53,8 +53,8 @@ namespace mp3.mvc.Controllers
                 })
                 .ToListAsync();
 
-            // gửi danh sách nghệ sĩ qua ViewData
-            ViewData["ListAuthors"] = items;
+            // gửi danh sách ca sĩ qua ViewData
+            ViewData["AuthorList"] = items;
 
             return View();
         }
@@ -66,6 +66,7 @@ namespace mp3.mvc.Controllers
             {
                 var query = _databaseContext.Media
                 .Include(p => p.MediaContent)
+                .Include(p => p.MediaViewHistory)
                 .Include(p => p.Author)
                 .Include(p => p.Category)
                 .AsQueryable();
@@ -183,13 +184,33 @@ namespace mp3.mvc.Controllers
                 .Include(p => p.Author)
                 .Include(p => p.Category)
                 .Include(p => p.MediaContent)
+                .Include(p => p.MediaViewHistory)
+                .OrderByDescending(p => p.MediaViewHistory.Count)
+                .Take(50)
+                .IgnoreAutoIncludes()
                 .AsNoTracking()
                 .ToListAsync();
 
-            if (listMusic == null || listMusic.Count == 0)
-            {
-                return NotFound("Không có bài hát nào.");
-            }
+            ViewData["ListMusic"] = listMusic;
+
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> MostFavouriteMusic()
+        {
+            var listMusic = await _databaseContext.Media
+                .Include(p => p.Author)
+                .Include(p => p.Category)
+                .Include(p => p.MediaContent)
+                .Include(p => p.MediaViewHistory)
+                .OrderByDescending(p => p.FavouriteCollections.Count)
+                .Take(40)
+                .IgnoreAutoIncludes()
+                .AsNoTracking()
+                .ToListAsync();
+
+            ViewData["ListMusic"] = listMusic;
 
             return View();
         }
@@ -205,6 +226,16 @@ namespace mp3.mvc.Controllers
         public async Task<IActionResult> MusicTab()
         {
             ViewData["TrendingList"] = await _mediaRepository.GetTrendingItemList();
+            ViewData["NewestList"] = await _databaseContext.Media
+                .Include(p => p.Author)
+                .Include(p => p.Category)
+                .Include(p => p.MediaContent)
+                .Include(p => p.MediaViewHistory)
+                .OrderByDescending(p => p.CreatedAt)
+                .Take(50)
+                .IgnoreAutoIncludes()
+                .AsNoTracking()
+                .ToListAsync();
             return View();
         }
 
@@ -236,17 +267,95 @@ namespace mp3.mvc.Controllers
         [HttpGet]
         public async Task<IActionResult> ListArtist()
         {
-            var listMusic = await _databaseContext.Media
-                .Include(p => p.Author)
-                .Include(p => p.Category)
-                .Include(p => p.MediaContent)
-                .AsNoTracking()
-                .ToListAsync();
+            var items = await _databaseContext.Authors
+               .OrderByDescending(p => p.Media.Sum(p => p.MediaViewHistory.Count))
+               .Select(p => new AuthorSearchItemViewModel
+               {
+                   Id = p.Id,
+                   Name = p.Name,
+                   AvatarUrl = !string.IsNullOrWhiteSpace(p.AvatarUrl) ? p.AvatarUrl : ResourceConst.AuthorAvatarDefaultUrl
+               })
+               .Take(10)
+               .AsNoTracking()
+               .ToListAsync();
 
-            if (listMusic == null || listMusic.Count == 0)
+            foreach (var item in items)
             {
-                return NotFound("Không có nghệ sĩ nào.");
+                var views = await _databaseContext.MediaViewHistory
+                    .Include(p => p.Media)
+                    .Where(p => p.Media != null && p.Media.AuthorId == item.Id)
+                    .CountAsync();
+
+                var numberOfTrack = await _databaseContext.Media.Where(p => p.AuthorId == item.Id).CountAsync();
+
+                item.Views = views;
+                item.NumberOfTracks = numberOfTrack;
             }
+
+            // gửi danh sách ca sĩ qua ViewData
+            ViewData["AuthorList"] = items;
+
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AuthorTab()
+        {
+            var items = await _databaseContext.Authors
+               .OrderByDescending(p => p.Media.Sum(p => p.MediaViewHistory.Count))
+               .Select(p => new AuthorSearchItemViewModel
+               {
+                   Id = p.Id,
+                   Name = p.Name,
+                   AvatarUrl = !string.IsNullOrWhiteSpace(p.AvatarUrl) ? p.AvatarUrl : ResourceConst.AuthorAvatarDefaultUrl
+               })
+               .Take(10)
+               .AsNoTracking()
+               .ToListAsync();
+
+            foreach (var item in items)
+            {
+                var views = await _databaseContext.MediaViewHistory
+                    .Include(p => p.Media)
+                    .Where(p => p.Media != null && p.Media.AuthorId == item.Id)
+                    .CountAsync();
+
+                var numberOfTrack = await _databaseContext.Media.Where(p => p.AuthorId == item.Id).CountAsync();
+
+                item.Views = views;
+                item.NumberOfTracks = numberOfTrack;
+            }
+
+            // gửi danh sách ca sĩ qua ViewData
+            ViewData["AuthorList"] = items;
+
+            var items2 = await _databaseContext.Authors
+               .OrderByDescending(p => p.Media.OrderByDescending(p => p.CreatedAt).First() != null  ? p.Media.OrderByDescending(p => p.CreatedAt).First().CreatedAt : DateTime.MinValue)
+               .Select(p => new AuthorSearchItemViewModel
+               {
+                   Id = p.Id,
+                   Name = p.Name,
+                   AvatarUrl = !string.IsNullOrWhiteSpace(p.AvatarUrl) ? p.AvatarUrl : ResourceConst.AuthorAvatarDefaultUrl
+               })
+               .Take(10)
+               .AsNoTracking()
+               .ToListAsync();
+
+            foreach (var item in items2)
+            {
+                var views = await _databaseContext.MediaViewHistory
+                    .Include(p => p.Media)
+                    .Where(p => p.Media != null && p.Media.AuthorId == item.Id)
+                    .CountAsync();
+
+                var numberOfTrack = await _databaseContext.Media.Where(p => p.AuthorId == item.Id).CountAsync();
+
+                item.Views = views;
+                item.NumberOfTracks = numberOfTrack;
+            }
+
+            // gửi danh sách ca sĩ qua ViewData
+            ViewData["NewestList"] = items2;
 
             return View();
         }

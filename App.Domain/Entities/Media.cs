@@ -20,5 +20,7 @@ namespace App.Domain.Entities
         public Guid UserId { get; set; }
         public User? User { get; set; }
         public List<MediaContent> MediaContent { get; set; } = new List<MediaContent>();
+        public List<MediaViewHistory> MediaViewHistory { get; set; } = new List<MediaViewHistory>();
+        public List<FavouriteCollection> FavouriteCollections { get; set; } = new List<FavouriteCollection>();
     }
 }
