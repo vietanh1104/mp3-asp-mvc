@@ -44,7 +44,7 @@ namespace mp3.mvc.Controllers
 
             ViewData["TrendingList"] = await _mediaRepository.GetTrendingItemList();
 
-            var items = await _databaseContext.Authors
+            var items = await _databaseContext.Authors.Where(p => p.Id != ResourceConst.AnonymousAuthor)
                 .Select(p => new AuthorSearchItemViewModel
                 {
                     Id = p.Id,

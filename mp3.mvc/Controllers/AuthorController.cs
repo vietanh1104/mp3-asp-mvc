@@ -31,7 +31,9 @@ namespace mp3.mvc.Controllers
 
         public async Task<IActionResult> Index(string searchText = "", int page = 1, int pageSize = 10)
         {
-            var query = _databaseContext.Authors.AsQueryable();
+            var query = _databaseContext.Authors
+                .Where(p => p.Id != ResourceConst.AnonymousAuthor)
+                .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(searchText))
             {
@@ -72,7 +74,7 @@ namespace mp3.mvc.Controllers
 
         public async Task<IActionResult> GetDetail(Guid id)
         {
-            var author = await _databaseContext.Authors.Where(p => p.Id == id).AsNoTracking().FirstOrDefaultAsync();
+            var author = await _databaseContext.Authors.Where(p => p.Id != ResourceConst.AnonymousAuthor).Where(p => p.Id == id).AsNoTracking().FirstOrDefaultAsync();
 
             if (author == null)
             {
@@ -85,7 +87,7 @@ namespace mp3.mvc.Controllers
                      .Where(p => p.Media != null && p.Media.AuthorId == id)
                  .CountAsync();
 
-            if (!string.IsNullOrWhiteSpace(author.AvatarUrl))
+            if (string.IsNullOrWhiteSpace(author.AvatarUrl))
             {
                 author.AvatarUrl = ResourceConst.AuthorAvatarDefaultUrl;
             }
@@ -106,7 +108,7 @@ namespace mp3.mvc.Controllers
 
         public async Task<IActionResult> Update(Guid id)
         {
-            var author = await _databaseContext.Authors.Where(p => p.Id == id).AsNoTracking().FirstOrDefaultAsync();
+            var author = await _databaseContext.Authors.Where(p => p.Id != ResourceConst.AnonymousAuthor).Where(p => p.Id == id).AsNoTracking().FirstOrDefaultAsync();
 
             if (author == null)
             {
@@ -165,7 +167,7 @@ namespace mp3.mvc.Controllers
 
         public async Task<IActionResult> Delete(Guid id)
         {
-            var author = await _databaseContext.Authors.Where(p => p.Id == id).AsNoTracking().FirstOrDefaultAsync();
+            var author = await _databaseContext.Authors.Where(p => p.Id != ResourceConst.AnonymousAuthor).Where(p => p.Id == id).AsNoTracking().FirstOrDefaultAsync();
 
             return View(author);
         }

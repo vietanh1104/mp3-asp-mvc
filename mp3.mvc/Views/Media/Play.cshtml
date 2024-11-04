@@ -43,9 +43,13 @@
 
         <div class="song-info">
             <h1>@Model.Name</h1>
-            <h4 style="color: white">@Model.Author?.Name</h4>
-            <p>Lượt phát: 4.066.056</p>
-            <p>Phát hành: 2023-07-14</p>
+            <h4 style="color: white">
+                <a href="/author/getDetail/@Model.AuthorId">
+                    @Model.Author?.Name
+                </a>
+            </h4>
+            <p>Lượt phát: @Model.MediaViewHistory.Count</p>
+            <p>Phát hành: @Model.CreatedAt.ToString("dd-MM-yyyy")</p>
             <p class="description">@Model.Description</p>
             <div class="song-controls">
 
