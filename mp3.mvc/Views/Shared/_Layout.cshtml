@@ -105,7 +105,7 @@
                 <div class="col-2 left-div">
                     <ul class="nav flex-column custom-menu">
                         <li class="nav-item">
-                            <a class="nav-link active" href="/Home/Index">
+                            <a class="nav-link @ViewData["SelectHome"]" href="/Home/Index">
                                 <i class="fas fa-home" style="font-size: 24px"></i>  Trang Chủ
                             </a>
                         </li>
@@ -117,8 +117,8 @@
                         </li> *@
 
                         <li class="nav-item">
-                            <a class="nav-link" href="/media/collection">
-                                <i class="fas fa-box" style="color: #ffffff; font-size: 24px"></i>  Thư viện
+                            <a class="nav-link @ViewData["SelectCollection"]" href="/media/collection">
+                                <i class="fas fa-box" style="font-size: 24px"></i>  Thư viện
                             </a>
                         </li>
                         @if (isAuthen && isAdminRole)

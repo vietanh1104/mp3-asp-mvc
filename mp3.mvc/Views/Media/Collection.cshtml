@@ -6,6 +6,7 @@
     var previousPageBtnEnable = Model.Page > 1 ? "" : "disabled";
     var previousPageLink = $"/media/collection?page={Model.Page - 1}";
     var nextPageLink = $"/media/collection?page={Model.Page + 1}";
+    ViewData["SelectCollection"] = "active";
 }
 
 <div class="col-10 right-div" style="margin-top: 24px;">
@@ -24,9 +25,13 @@
     </div>
 
     <div class="d-flex justify-content-end">
-        <a href="@previousPageLink" class="page-link rounded-3 @previousPageBtnEnable">Previous</a>
+        <a href="@previousPageLink" class="page-link rounded-3 @previousPageBtnEnable">
+            <img src="/images/icons/back.png" style="width: 20px;" />
+        </a>
         <div class="page-link page-number rounded-3 text-black">@Model.Page / @Model.TotalPage</div>
-        <a href="@nextPageLink" class="page-link rounded-3 @nextPageEnable">Next</a>
+        <a href="@nextPageLink" class="page-link rounded-3 @nextPageEnable">
+            <img src="/images/icons/next.png" style="width: 20px;" />
+        </a>
     </div>
 
 </div>
