@@ -141,12 +141,12 @@ namespace mp3.mvc.Controllers
 
             if(author.Avatar != null)
             {
-                if(authorEntity.AvatarUrl != ResourceConst.AuthorAvatarDefaultUrl)
+                if(!string.IsNullOrWhiteSpace(authorEntity.AvatarUrl) && authorEntity.AvatarUrl != ResourceConst.AuthorAvatarDefaultUrl)
                 {
                     System.IO.File.Delete("wwwroot" + authorEntity.AvatarUrl);
                 }
 
-                var filePath = $"/images/avatars/{Guid.NewGuid}.jpg";
+                var filePath = $"/images/avatars/{Guid.NewGuid()}.jpg";
                 using (var stream = new FileStream("wwwroot" + filePath, FileMode.Create))
                 {
                     await author.Avatar.CopyToAsync(stream);
@@ -207,7 +207,7 @@ namespace mp3.mvc.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AuthorAddViewModel request)
         {
-            if(!string.IsNullOrWhiteSpace(request.Name))
+            if(string.IsNullOrWhiteSpace(request.Name))
             {
                 _notyfService.Error("Tên ca sĩ không được trống", 2);
                 return RedirectToAction(nameof(Add));

@@ -22,7 +22,7 @@
 </head>
 
 
-<div class="col-10" style=" height: 53vh;">
+<div class="col-10 right-div" style="min-height:53vh;">
     <div>
         @if (ViewData["searchText"] != null && !string.IsNullOrWhiteSpace(ViewData["searchText"].ToString()))
         {
@@ -67,61 +67,3 @@
         }
     </div>
 </div>
-
-<!-- Custom CSS -->
-<style>
-    .content-right {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-    }
-
-    .right-all {
-        font-size: 16px;
-        background-color: white;
-        padding: 10px;
-        border-radius: 20px;
-    }
-
-    .right-music {
-        font-size: 16px;
-        color: white;
-    }
-
-    .right-all, .right-music {
-        padding: 10px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-        .right-all:hover, .right-music:hover {
-            color: #1DB954;
-        }
-
-    .page-link {
-        width: 120px;
-        text-align: center;
-    }
-
-    .page-number {
-        width: auto;
-        text-align: center;
-    }
-
-    a.disabled {
-        pointer-events: none;
-        cursor: default;
-        color: gray;
-    }
-
-    .side-bar a {
-        background-color: white;
-        margin: 1px;
-        border-radius: 4px;
-        border: 1px solid black;
-    }
-
-    .side-bar-active {
-        background-color: #9747FF !important;
-    }
-</style>

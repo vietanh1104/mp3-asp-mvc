@@ -3,12 +3,12 @@
     ViewData["Title"] = "Thêm mới ca sĩ";
 }
 
-<div class="col-10" style="margin-bottom: 44px; margin-top: 24px; height: 37vh;">
+<div class="col-10" style="margin-bottom: 44px; margin-top: 24px; height: 37vh;min-height:53vh;">
     <h3 style=" color: white">
         Thêm mới ca sĩ
     </h3>
 
-    <form method="post" asp-action="add" asp-asp-controller="author">
+    <form method="post" asp-action="add" asp-asp-controller="author" enctype="multipart/form-data">
         <table class="table">
             <tr>
                 <td style="text-align:center; align-content:center; color: white">
