@@ -83,9 +83,7 @@ namespace mp3.mvc.Controllers
                     .Take(pageSize)
                     .ToListAsync();
 
-                ViewData["searchText"] = searchText;
                 ViewBag.Data = new BasePagination<Media>(total, page, pageSize, items);
-                return View();
             }
             else if(type == 1)
             {
@@ -122,10 +120,7 @@ namespace mp3.mvc.Controllers
                     item.NumberOfTracks = numberOfTrack;
                 }
 
-                ViewData["searchText"] = searchText;
-                ViewData["Type"] = type;
                 ViewBag.Data = new BasePagination<AuthorSearchItemViewModel>(total, page, pageSize, items);
-                return View();
             }
             else if (type == 2)
             {
@@ -154,15 +149,26 @@ namespace mp3.mvc.Controllers
                     item.NumberOfTracks = numberOfTrack;
                 }
 
-                ViewData["searchText"] = searchText;
-                ViewData["Type"] = type;
                 ViewBag.Data = new BasePagination<CategorySearchItemViewModel>(total, page, pageSize, items);
-                return View();
             }
+
+            var authors = await _databaseContext.Authors.Where(p => p.Id != ResourceConst.AnonymousAuthor)
+                .Select(p => new AuthorSearchItemViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    AvatarUrl = !string.IsNullOrWhiteSpace(p.AvatarUrl) ? p.AvatarUrl : ResourceConst.AuthorAvatarDefaultUrl
+                })
+                .Where(p => p.Name.ToLower().Contains(searchText.Trim().ToLower()))
+                .AsNoTracking()
+                .ToListAsync();
+
+            // gửi danh sách ca sĩ qua ViewData
+            ViewData["AuthorList"] = authors;
 
             ViewData["searchText"] = searchText;
             ViewData["Type"] = type;
-            ViewBag.Data = new BasePagination<int>(0, page, pageSize, new List<int>());
+
             return View() ;
         }
 

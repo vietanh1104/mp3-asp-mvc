@@ -55,7 +55,7 @@
 
                 @if (isPremiumAccount != null &&  (bool) isPremiumAccount == true){
                     <!-- Hiển thị nút tải xuống nếu là tài khoản premium -->
-                    <a class="d-block rounded-3 btn btn-success mx-1 like-btn d-flex" >
+                    <a href="@Model.ContentUrl" download class="d-block rounded-3 btn btn-success mx-1 like-btn d-flex" >
                         <i class="fas fa-download me-2"></i> Tải xuống
                     </a>
                 }
