@@ -5,6 +5,6 @@
         <partial class="formContent" name="./Common/Media/_musicAvatarPreviewPartial" model="@Model.MediaContent" />
     </a>
     <div class="card-bodys text-center" style="padding-top: 10px">
-        <a class="card-text" href="/Author/GetDetail?id=@Model.Author?.Id">@Model.Name - @Model.Author?.Name</a>
+        <a class="card-text" href="/media/play?id=@Model.Id">@Model.Name - @Model.Author?.Name</a>
     </div>
 </div>
