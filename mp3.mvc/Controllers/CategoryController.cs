@@ -73,6 +73,15 @@ namespace mp3.mvc.Controllers
                 .AsNoTracking()
                 .ToListAsync();
             ViewBag.Tracks = tracks;
+
+            var views = await _databaseContext.Media
+                .Include(p => p.MediaViewHistory)
+                .Where(p => p.CategoryId == id)
+                .OrderByDescending(p => p.CreatedAt)
+                .SumAsync(p => p.MediaViewHistory.Count);
+
+            ViewData["Views"] = views;
+
             return View();
         }
 
