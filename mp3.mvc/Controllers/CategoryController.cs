@@ -87,9 +87,15 @@ namespace mp3.mvc.Controllers
 
         public async Task<IActionResult> Update(Guid id)
         {
-            var authors = await _databaseContext.Authors.Where(p => p.Id == id).AsNoTracking().FirstOrDefaultAsync();
+            var category = await _databaseContext.Categories.Where(p => p.Id == id).AsNoTracking().FirstOrDefaultAsync();
 
-            return View(authors);
+            if (category == null)
+            {
+                _notyfService.Error("Không tìm thấy thể loại", 2);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(category);
         }
 
         [HttpPost]

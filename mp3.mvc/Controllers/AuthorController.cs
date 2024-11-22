@@ -32,6 +32,7 @@ namespace mp3.mvc.Controllers
         public async Task<IActionResult> Index(string searchText = "", int page = 1, int pageSize = 10)
         {
             var query = _databaseContext.Authors
+                .OrderBy(p => p.Name)
                 .Where(p => p.Id != ResourceConst.AnonymousAuthor)
                 .AsQueryable();
 

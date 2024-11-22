@@ -69,7 +69,7 @@ namespace mp3.mvc.Controllers
             var total = await query.CountAsync();
 
             var items = await query
-                .OrderByDescending(p => p.CreatedAt)
+                .OrderByDescending(p => p.UpdatedAt)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
