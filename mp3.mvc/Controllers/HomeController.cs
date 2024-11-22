@@ -187,6 +187,7 @@ namespace mp3.mvc.Controllers
                 .Include(p => p.MediaViewHistory)
                 .Include(p => p.Author)
                 .Include(p => p.Category)
+                .Where(p => p.CategoryId == item.Id)
                 .Take(5)
                 .OrderBy(p => p.UpdatedAt)
                 .ToListAsync();
