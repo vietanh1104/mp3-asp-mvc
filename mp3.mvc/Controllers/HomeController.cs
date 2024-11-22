@@ -166,6 +166,42 @@ namespace mp3.mvc.Controllers
             // gửi danh sách ca sĩ qua ViewData
             ViewData["AuthorList"] = authors;
 
+            var categoryMediaQuery = _databaseContext.Categories
+                .AsQueryable();
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                categoryMediaQuery = categoryMediaQuery.Where(p => p.Name.ToLower().Contains(searchText.Trim().ToLower()));
+            }
+
+            var categoryMedia = await categoryMediaQuery
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var categoryMediaViewData = new List<CategoryMediaViewModel>();
+
+            foreach(var  item in categoryMedia)
+            {
+                var media = await _databaseContext.Media
+                .Include(p => p.MediaContent)
+                .Include(p => p.MediaViewHistory)
+                .Include(p => p.Author)
+                .Include(p => p.Category)
+                .Take(5)
+                .OrderBy(p => p.UpdatedAt)
+                .ToListAsync();
+
+                categoryMediaViewData.Add(new CategoryMediaViewModel
+                {
+                    Category = item,
+                    Medias = media
+
+                });
+            }
+
+            // gửi danh sách bài hát theo thể loại
+            ViewData["CategoryMedia"] = categoryMediaViewData;
+
             ViewData["searchText"] = searchText;
             ViewData["Type"] = type;
 
