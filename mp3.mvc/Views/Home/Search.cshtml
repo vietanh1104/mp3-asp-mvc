@@ -12,7 +12,7 @@
     var authorSideBarStyle = type == 1 ? "side-bar-active" : "";
     var categorySideBarStyle = type == 2 ? "side-bar-active" : "";
     var itemsList = data.Items as List<App.Domain.Entities.Media>;
-    var authorList = (List<AuthorSearchItemViewModel>) ViewData["AuthorList"];
+    var authorList = (List<AuthorSearchItemViewModel>)ViewData["AuthorList"];
     ViewData["SelectHome"] = "active";
 }
 
@@ -22,7 +22,7 @@
 </head>
 
 
-<div class="col-10 right-div" style="min-height:53vh;">
+<div class="col-10 right-div">
     <div>
         @if (ViewData["searchText"] != null && !string.IsNullOrWhiteSpace(ViewData["searchText"].ToString()))
         {
@@ -30,34 +30,46 @@
         }
         @if (data.TotalItems > 0 || authorList.Count() > 0)
         {
-            if(data.TotalItems > 0){
-                     <!-- Bài hát -->
+            if (data.TotalItems > 0)
+            {
+                <!-- Bài hát -->
                 <div class="d-flex justify-content-between align-items-center mt-4">
                     <h4 class="mb-0">Bài hát </h4>
                 </div>
-                <div class="card-list-container d-flex justify-content-center">
+                <div class="row" style="justify-content:start; gap: 24px">
                     @foreach (var item in itemsList.Take(5))
                     {
-                        <partial name="./Common/Media/_musicCardTemplatePartial" model=@item />
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4">
+                            <div class="card" style="height: 332px; width: 100%;">
+                                <a href="/media/play?id=@item.Id">
+                                    <partial name="./Common/Media/_musicCardTemplatePartial" model=@item />
+                                </a>
+                            </div>
+                        </div>
                     }
                 </div>
-                
+
             }
 
-            if(authorList.Count() > 0)
-            {     <!-- Bài hát -->
+            if (authorList.Count() > 0)
+            {
+                <!-- Bài hát -->
                 <div class="d-flex justify-content-between align-items-center mt-4">
                     <h4 class="mb-0">Ca sĩ </h4>
                 </div>
-                <div class="row favorite-artists">
 
-                    <div class="row favorite-songs">
-
-                        <partial name="./Common/Media/Carousel/_SlideslArtistPartial" model="authorList" />
-
+                <div class="row favorite-songs" style="justify-content:start; gap: 24px">
+                    @foreach (var item in authorList.Take(5))
+                    {
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4">
+                            <div class="card" style="height: 332px; width: 100%;">
+                                <a href="/Author/GetDetail?id=@item.Id">
+                                    <partial name="./Common/Media/_authorCardTemplatePartial" model=@item />
+                                </a>
+                            </div>
+                        </div>
+                    }
                 </div>
-
-            </div>
             }
 
         }

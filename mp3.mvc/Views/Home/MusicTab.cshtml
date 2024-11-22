@@ -1,4 +1,5 @@
-﻿@{
+﻿@using App.Domain.Entities
+@{
     ViewData["Title"] = "Bài hát";
     ViewData["HomePage"] = "text-dark";
     var newestList = ViewData["NewestList"];
@@ -8,6 +9,7 @@
 
 <title> Mine Music - Bài hát</title>
 <head>
+    <link rel="stylesheet" href="~/css/Home.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/MusicTab.css" asp-append-version="true" />
 </head>
 
@@ -27,27 +29,29 @@
     </div>
 
     <!-- Đề xuất cho bạn -->
-    <div class="d-flex justify-content-between align-items-center mt-4 p-3">
-        <h4 class="mb-0 " style=" color: white">Đề xuất cho bạn</h4>
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <h4 class="mb-0">Đề xuất cho bạn</h4>
         <div class="show-all">
             <a class="show-all" href="/Home/ListMusic">Hiển tất cả</a>
         </div>
     </div>
-
     <div class="row favorite-songs">
+
         <partial name="./Common/Media/Carousel/_SlidesWithControlPartial" model="trendingList" />
+
     </div>
 
     <!-- Ca khúc mới ra mắt -->
-    <div class="d-flex justify-content-between align-items-center mt-4 p-3">
+    <div class="d-flex justify-content-between align-items-center mt-4">
         <h4 class="mb-0 " style=" color: white">Ca khúc mới ra mắt</h4>
         <div class="show-all">
             <a class="show-all" href="/Home/ListMusic">Hiển tất cả</a>
         </div>
     </div>
-
     <div class="row favorite-songs">
+
         <partial name="./Common/Media/Carousel/_SlidesWithControlPartial" model="newestList" />
+
     </div>
 
 
