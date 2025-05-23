@@ -30,9 +30,8 @@ namespace mp3.mvc.Controllers
 
             if (!string.IsNullOrWhiteSpace(searchText))
             {
-                query = query.Where(p => p.Name.ToLower().Contains(searchText.Trim().ToLower()));
+                query = query.Where(p => !string.IsNullOrWhiteSpace(p.Name) && p.Name.ToLower().Contains(searchText.Trim().ToLower()));
             }
-
 
             var total = await query.CountAsync();
 
@@ -56,6 +55,7 @@ namespace mp3.mvc.Controllers
             ViewBag.Data = new BasePagination<CategorySearchItemViewModel>(total, page, pageSize, items);
             return View();
         }
+
         public async Task<IActionResult> GetDetail(Guid id)
         {
             var category = await _databaseContext.Categories.Where(p => p.Id == id).AsNoTracking().FirstOrDefaultAsync();
@@ -73,14 +73,29 @@ namespace mp3.mvc.Controllers
                 .AsNoTracking()
                 .ToListAsync();
             ViewBag.Tracks = tracks;
+
+            var views = await _databaseContext.Media
+                .Include(p => p.MediaViewHistory)
+                .Where(p => p.CategoryId == id)
+                .OrderByDescending(p => p.CreatedAt)
+                .SumAsync(p => p.MediaViewHistory.Count);
+
+            ViewData["Views"] = views;
+
             return View();
         }
 
         public async Task<IActionResult> Update(Guid id)
         {
-            var authors = await _databaseContext.Authors.Where(p => p.Id == id).AsNoTracking().FirstOrDefaultAsync();
+            var category = await _databaseContext.Categories.Where(p => p.Id == id).AsNoTracking().FirstOrDefaultAsync();
 
-            return View(authors);
+            if (category == null)
+            {
+                _notyfService.Error("Không tìm thấy thể loại", 2);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(category);
         }
 
         [HttpPost]
@@ -95,7 +110,7 @@ namespace mp3.mvc.Controllers
                 _notyfService.Success("Cập nhật thành công", 2);
                 return RedirectToAction(nameof(GetDetail), new { id = category.Id });
             }
-            _notyfService.Success("Cập nhật thất bại", 2);
+            _notyfService.Error("Cập nhật thất bại", 2);
             return RedirectToAction(nameof(Update), new { id = category.Id });
         }
 

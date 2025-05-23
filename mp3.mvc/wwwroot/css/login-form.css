@@ -30,22 +30,191 @@ h2 {
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: center;
     width: 100%;
-    min-height: 100%;
-    padding: 20px;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #151415;
+    color: white;
+    row-gap: normal;
+    padding-bottom: 32px;
+}
+
+.fadeIn {
+    border-bottom: none;
+    padding-top: 32px;
+    padding-bottom: 8px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.jIWbvU {
+    list-style: none;
+    padding: 0px;
+    text-indent: 0px;
+    display: flex;
+    flex-direction: column;
+    width: 324px;
+    margin: 0px auto;
+    row-gap: normal;
+    color: rgb(255, 255, 255);
+}
+.itDfMP {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    text-indent: 0px;
+}
+
+.google-login {
+    margin-bottom: 8px;
+    background-color: transparent;
+    align-items: center;
+    justify-content: center;
+    inline-size: 100%;
+    position: relative;
+    border: 1px solid #818181;
+    color: #ffffff;
+    font-family: SpotifyMixUI, CircularSp-Arab, CircularSp-Hebr, CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva, sans-serif;
+    font-weight: 700;
+    padding-block-start: calc(8px - 1px);
+    padding-block-end: calc(8px - 1px);
+    padding-inline-start: calc(32px - 1px);
+    padding-inline-end: calc(32px - 1px);
+    display: flex;
+    border-radius: 50px;
+    height: 46px
+}
+
+.blvHhQ {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.encore-text {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-transform: none;
+    letter-spacing: normal;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+    align-items: center;
+    font-weight: 700;
+}
+
+.gWxmho {
+    margin: 22px 100px;
+    border-right: none;
+    border-bottom: none;
+    border-left: none;
+    border-image: initial;
+    border-top: 1px solid rgb(41, 41, 41);
+}
+.login-form {
+    width: 324px;
+    margin: 0px auto;
+    padding-bottom: 0px;
+    padding-block-end: 24px;
+}
+.resgin-form {
+    margin: 0px 40px;
+    padding-bottom: 0px;
+    padding-block-end: 24px;
+}
+.dONESo {
+    padding-bottom: 8px;
+}
+.bSfdyE {
+    text-align: left;
+    /*padding-bottom: 16px;*/
+    /*padding-block-end: 24px;*/
+}
+.bGmVWE {
+    color: white;
+    font-weight: 700;
+    font-size: 0.875rem;
+}
+.form-control {
+    font-weight: 400;
+    font-size: 1rem;
+    color: #ffffff;
+    inline-size: 100%;
+    border: 1px solid;
+    display: block;
+    background-color: #121212;
+    border-radius: 4px;
+    padding-inline-start: 12px;
+    margin-top: 8px;
+    height: 48px
+}
+#formContent {
+    border-radius: 10px 10px 10px 10px;
+    background-color: #121212;
+    color: rgb(255, 255, 255);
+    padding: 30px;
+    width: 100%;
+    position: relative;
+    padding: 0px;
+    text-align: center;
+}
+
+.titleLarge {
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 32px;
+    font-weight: 700;
+}
+
+.login-button {
+    color: #000000;
+    background-color: #1ed760;
+    border-radius: 9999px;
+    min-block-size: 48px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: SpotifyMixUI, CircularSp-Arab, CircularSp-Hebr, CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva, sans-serif;
+}
+
+.res-button {
+    color: #000000;
+    background-color: #1ed760;
+    border-radius: 9999px;
+    min-block-size: 48px;
+    width: 33%;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: SpotifyMixUI, CircularSp-Arab, CircularSp-Hebr, CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva, sans-serif;
+}
+.underlineHover {
+    display: inline;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+    text-decoration: underline;
+}
+/*
+
+.titleLarge {
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 32px;
+    font-family: SpotifyMixUITitle, CircularSp-Arab, CircularSp-Hebr, CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva, --fallback-fonts, sans-serif;
 }
 
 #formContent {
-    -webkit-border-radius: 10px 10px 10px 10px;
     border-radius: 10px 10px 10px 10px;
-    background: #fff;
+    background-color: #121212;
+    color: rgb(255, 255, 255);
     padding: 30px;
-    width: 90%;
-    max-width: 450px;
+    width: 100%;
     position: relative;
     padding: 0px;
-    -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
     box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
     text-align: center;
 }
@@ -57,12 +226,9 @@ h2 {
     text-align: center;
     -webkit-border-radius: 0 0 10px 10px;
     border-radius: 0 0 10px 10px;
-}
-
-
-
+}*/
 /* TABS */
-
+/*
 h2.inactive {
     color: #cccccc;
 }
@@ -70,13 +236,9 @@ h2.inactive {
 h2.active {
     color: #0d0d0d;
     border-bottom: 2px solid #9747FF;
-}
-
-
-
+}*/
 /* FORM TYPOGRAPHY*/
-
-input[type=button], input[type=submit], input[type=reset] {
+/*input[type=button], input[type=submit], input[type=reset] {
     background-color: #9747FF;
     border: none;
     color: white;
@@ -225,9 +387,8 @@ input[type=date] {
 
     input[type=date]:placeholder {
         color: #cccccc;
-    }
+    }*/
 /* ANIMATIONS */
-
 /* Simple CSS3 Fade-in-down Animation */
 .fadeInDown {
     -webkit-animation-name: fadeInDown;
@@ -347,11 +508,12 @@ input[type=date] {
 }
 
 .underlineHover:hover {
-    color: #9747FF;
+    color: #1ed760;
+    text-decoration: underline;
 }
 
     .underlineHover:hover:after {
-        width: 100%;
+        /*width: 100%;*/
     }
 
 

@@ -1,4 +1,5 @@
 using mp3.mvc.Configurations;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 var env = builder.Environment;
@@ -7,8 +8,10 @@ var services = builder.Services;
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 // Add services to the container.
-services.AddRazorPages();
-services.AddControllersWithViews();
+services.AddControllersWithViews().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+}); ;
 services.AddSwaggerGen();
 
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
@@ -37,7 +40,6 @@ else
     });
 }
 app.AddApplicationBuilderExtensions();
-app.MapRazorPages();
 app.UseHttpsRedirection();
 app.MapControllerRoute(
     name: "default",

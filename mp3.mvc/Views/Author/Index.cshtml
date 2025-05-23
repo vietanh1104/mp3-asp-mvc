@@ -6,20 +6,21 @@
     var nextPageLink = $"/author/index?searchText={ViewData["searchAuthor"]}&page={data.Page + 1}";
     var roleClaim = User.Claims.FirstOrDefault(p => p.Type == "role");
     var isAdminRole = roleClaim != null && roleClaim.Value == "admin";
-    ViewData["ManagePage"] = isAdminRole ? "text-dark" : "";
+    ViewData["ManagePage"] = isAdminRole ? "text-light" : "";
     ViewData["Title"] = isAdminRole ? "Quản trị ca sĩ" : "Danh sách ca sĩ";
 
 }
 
+<div class="col-10" style="margin-bottom: 24px; margin-top: 44px;min-height:53vh;">
 <div class="content-container">
-    <h3 style="text-align:center;">Danh sách ca sĩ</h3>
+    <h3 style="text-align:center; color: white">Danh sách ca sĩ</h3>
     @if (isAdminRole)
     {
         <div class="d-flex flex-row-reverse">
-            <a style="width: 100px;" class="d-block rounded-3 btn btn-success mx-1" href="/author/add">Thêm</a>
+            <a style="width: 100px; margin-bottom: 12px" class="d-block rounded-3 btn btn-success mx-1" href="/author/add">Thêm</a>
         </div>
     }
-    <table class="table">
+        <table class="table" style="background-color: white; border-radius: 4px;">
         <thead>
             <tr>
                 <th scope="col">Số thứ tự</th>
@@ -64,13 +65,19 @@
         </tbody>
         
     </table>
-    <div class="d-flex justify-content-end">
-        <a href="@previousPageLink" class="page-link rounded-3 @previousPageBtnEnable">Trang trước</a>
+        <div class="d-flex justify-content-end g-3" style="gap: 12px;">
+            <a href="@previousPageLink" class="page-link rounded-3 @previousPageBtnEnable">
+                <i class="fa-solid fa-backward-step"></i>
+            </a>
         <div class="page-link page-number rounded-3 text-black">@data.Page / @data.TotalPage</div>
-        <a href="@nextPageLink" class="page-link rounded-3 @nextPageEnable">Trang sau</a>
+        <a href="@nextPageLink" class="page-link rounded-3 @nextPageEnable">
+                <i class="fa-solid fa-forward-step"></i>
+        </a>
     </div>
 
 </div>
+</div>
+
 <style>
     .page-link {
         width: 120px;

@@ -36,11 +36,16 @@ namespace mp3.mvc.Controllers
         }
         private Guid getUserId()
         {
-            var Idclaim = HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier);
-            return Guid.Parse(Idclaim!.Value);
+            if (HttpContext.User.Identity != null && HttpContext.User.Identity.IsAuthenticated)
+            {
+                var Idclaim = HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier);
+                return Guid.Parse(Idclaim!.Value);
+            }
+
+            return Guid.Parse("00000000-0000-0000-0000-61446981112f");
         }
 
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Index(int page = 1, int pageSize = 10)
         {
             var model = await _mediaRepository.GetPurchasedItemList(getUserId());
@@ -64,7 +69,7 @@ namespace mp3.mvc.Controllers
             var total = await query.CountAsync();
 
             var items = await query
-                .OrderByDescending(p => p.CreatedAt)
+                .OrderByDescending(p => p.UpdatedAt)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -106,23 +111,30 @@ namespace mp3.mvc.Controllers
 
             return View(model);
         }
+
         public async Task<IActionResult> Play(Guid id)
         {
             var music = await _mediaRepository.GetByIdAsync(id);
-            // add view to history
-            var newView = new MediaViewHistory();
-            newView.MediaId = id;
-            newView.UserId = getUserId();
-
-            var isSpam = await _databaseContext.MediaViewHistory
-                .AnyAsync(p => p.UserId == newView.UserId && p.MediaId == newView.MediaId && p.CreatedAt >= DateTime.Now.AddMinutes(-30));
-            if (!isSpam)
+            if (HttpContext.User.Identity != null && HttpContext.User.Identity.IsAuthenticated)
             {
-                await _mediaViewHistoryRepository.InsertOne(newView);
+                // add view to history
+                var newView = new MediaViewHistory();
+                newView.MediaId = id;
+                newView.UserId = getUserId();
+
+                var isSpam = await _databaseContext.MediaViewHistory
+                    .AnyAsync(p => p.UserId == newView.UserId && p.MediaId == newView.MediaId && p.CreatedAt >= DateTime.Now.AddMinutes(-30));
+                if (!isSpam)
+                {
+                    await _mediaViewHistoryRepository.InsertOne(newView);
+                }
+
+                ViewBag.isFavouriteMedia = await _databaseContext.FavouriteCollections.AnyAsync(p => p.MediaId == id && p.UserId == getUserId());
             }
 
-            ViewBag.isFavouriteMedia = await _databaseContext.FavouriteCollections.AnyAsync(p => p.MediaId == id && p.UserId == getUserId());
-            
+            ViewData["TrendingList"] = await _mediaRepository.GetTrendingItemList();
+            ViewData["IsPremiumAccount"] = await _databaseContext.Users.Where(p => p.Id == getUserId()).Select(p => p.IsPremiumAccount).FirstOrDefaultAsync();
+
             return View(music);
         }
 
@@ -351,7 +363,10 @@ namespace mp3.mvc.Controllers
             if(request.Avatar != null && request.Avatar.Any())
             {
                 var mediaContents = await _databaseContext.MediaContents.Where(p => p.MediaId == request.Id).ToListAsync();
-                _databaseContext.Remove(mediaContents);
+                if(mediaContents.Any())
+                {
+                    _databaseContext.RemoveRange(mediaContents);
+                }
 
                 foreach(var item in request.Avatar)
                 {
@@ -410,7 +425,7 @@ namespace mp3.mvc.Controllers
 
             return View();
         }
-
+        [Authorize]
         public async Task<IActionResult> Like(Guid id)
         {
             var favour = new FavouriteCollection
@@ -427,7 +442,7 @@ namespace mp3.mvc.Controllers
             return RedirectToAction(nameof(Play), new { id });
             
         }
-
+        [Authorize]
         public async Task<IActionResult> Unlike(Guid id)
         {
             var favour = await _databaseContext.FavouriteCollections.FirstOrDefaultAsync(p => p.MediaId == id && p.UserId == getUserId());
@@ -439,6 +454,19 @@ namespace mp3.mvc.Controllers
             _notyfService.Success("Xóa khỏi danh sách yêu thích thành công", 2);
             return RedirectToAction(nameof(Play), new { id });
 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Premium()
+        {
+            // check nếu user hiện tại đã là account premium
+            ViewData["IsPremiumAccount"] = await _databaseContext.Users.Where(p => p.Id == getUserId())
+                .Select(p => p.IsPremiumAccount).FirstOrDefaultAsync();
+
+            // check nếu user hiện tại đang gửi request upgrade
+            ViewData["IsSendingRequest"] = await _databaseContext.PremiumUpgradeRequests.Where(p => p.UserId == getUserId() && !p.IsAccepted).AnyAsync();
+
+            return View();
         }
     }
 }

@@ -28,6 +28,9 @@ namespace App.PostgreSQL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("AvatarUrl")
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -176,6 +179,34 @@ namespace App.PostgreSQL.Migrations
                     b.ToTable("media_view_history");
                 });
 
+            modelBuilder.Entity("App.Domain.Entities.PremiumUpgradeRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("ExpiredDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool>("IsAccepted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PremiumUpgradeRequests");
+                });
+
             modelBuilder.Entity("App.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -207,6 +238,9 @@ namespace App.PostgreSQL.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<bool>("IsLocked")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsPremiumAccount")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Password")
@@ -296,6 +330,17 @@ namespace App.PostgreSQL.Migrations
                         .IsRequired();
 
                     b.Navigation("Media");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("App.Domain.Entities.PremiumUpgradeRequest", b =>
+                {
+                    b.HasOne("App.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

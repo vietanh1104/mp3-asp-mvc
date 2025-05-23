@@ -1,61 +1,33 @@
 ﻿@{
     var id = Guid.NewGuid();
+    var maxSongs = 5;
 }
 
-<div id="@id" class="carousel slide bg-dark" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        @for (int i = 0; i < Model.Count; i++)
-        {
-            var item = Model[i];
-            var itemId = item.Id;
-            var content = item.MediaContent[0];
-            if (i == 0)
-            {
-                <div class="carousel-item active">
-                    <div class="d-block w-100 d-flex justify-content-center align-items-center text-white">
-                        <a href="/media/play?id=@itemId">
-                            <img class="carousel-item-img" src="@content.Value" alt="First slide">
-                        </a>
-                        <div class="mx-4">
-                            <a href="/media/play?id=@itemId" class="text-decoration-none hover-text">@item.Name</a>
-                            <br />
-                            <a href="#b" class="text-decoration-none hover-text">@item.Author?.Name</a>
-                        </div>
-                    </div>
-
+@for (int i = 0; i < Model.Count && i < maxSongs; i++)
+{
+    var item = Model[i];
+    var itemId = item.Id;
+    var content = item.MediaContent[0];
+    if (i == 0)
+    {
+        <div class="col song-card" >
+            <div class="card" style="height: 332px; width: 234px">
+                <img src="@content.Value" style="height: 234px;object-fit:contain;" class="card-img-top" alt="Bài Hát 1">
+                <div class="card-bodys" style="text-align:center;  padding-top: 10px">
+                    <a class="card-text" href="/media/play?id=@itemId">@item.Name - @item.Author?.Name</a>
                 </div>
-            }
-            else
-            {
-                <div class="carousel-item">
-                    <div class="d-block w-100 d-flex justify-content-center align-items-center text-white">
-                        <a href="/media/play?id=@itemId">
-                            <img class="carousel-item-img" src="@content.Value" alt="First slide">
-                        </a>
-                        <div class="mx-4">
-                            <a href="/media/play?id=@itemId" class="text-decoration-none hover-text">@item.Name</a>
-                            <br />
-                            <a href="#b" class="text-decoration-none hover-text">@item.Author?.Name</a>
-                        </div>
-                    </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="col song-card">
+            <div class="card" style="height: 332px;  width: 234px">
+                <img src="@content.Value" style="height: 234px;object-fit:contain;" class="card-img-top" alt="Bài Hát 1" @*style="height: 252px;"*@>
+                <div class="card-bodys" style="text-align:center; padding-top: 10px">
+                    <a class="card-text" href="/media/play?id=@itemId">@item.Name - @item.Author?.Name</a>
                 </div>
-            }
-        }
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#@id" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#@id" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var myCarousel = new bootstrap.Carousel(document.getElementById(`${@id}`), {
-            interval: 3000
-        });
-    });
-</script>
+            </div>
+        </div>
+    }
+}

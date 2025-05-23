@@ -19,6 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Consts\ResourceConst.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AspNetCoreHero.ToastNotification" Version="1.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.29" />
@@ -34,13 +38,35 @@
 
   <ItemGroup>
     <Folder Include="Models\UserModels\" />
-    <Folder Include="wwwroot\images\icons\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Album\Nike\1.webp" />
+    <None Include="wwwroot\Album\Nike\11.webp" />
+    <None Include="wwwroot\Album\Nike\2.webp" />
+    <None Include="wwwroot\Album\Nike\3.webp" />
+    <None Include="wwwroot\Album\Nike\4.webp" />
+    <None Include="wwwroot\Album\Nike\6.webp" />
+    <None Include="wwwroot\Album\Nike\FX6700-1_110x110%402x.webp" />
+    <None Include="wwwroot\Album\Nike\FX6700-4_110x110%402x.webp" />
+    <None Include="wwwroot\Album\Nike\FX6700-6_110x110%402x.webp" />
+    <None Include="wwwroot\Album\Nike\FX6700-7_110x110%402x.webp" />
+    <None Include="wwwroot\Album\Nike\FX6700-8_110x110%402x.webp" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\App.Infrastructure\App.Infrastructure.csproj" />
     <ProjectReference Include="..\App.PostgreSQL\App.PostgreSQL.csproj" />
     <ProjectReference Include="..\App.SQLServer\App.SQLServer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\images\icons\facebook.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\icons\instagram.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

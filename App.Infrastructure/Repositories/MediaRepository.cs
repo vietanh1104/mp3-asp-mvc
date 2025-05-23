@@ -78,12 +78,19 @@ namespace App.Infrastructure.Repositories
         {
             try
             {
-                var query = _context.MediaViewHistory
+                /*var query = _context.MediaViewHistory
                     .GroupBy(p => p.MediaId)
                     .OrderByDescending(p => p.Count())
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize)
-                    .Select(g => _context.Media.Include(p => p.MediaContent).Include(p => p.Author).FirstOrDefault(m => m.Id == g.Key));
+                    .Select(g => _context.Media.Include(p => p.MediaContent).Include(p => p.Author).FirstOrDefault(m => m.Id == g.Key));*/
+
+                var query = _context.Media
+                    .Include(p => p.MediaContent)
+                    .Include(p => p.Author)
+                    .Include(p => p.Category)
+                    .Include(p => p.MediaViewHistory)
+                    .OrderByDescending(p => p.MediaViewHistory.Count);
 
                 return await query.ToListAsync();
             }

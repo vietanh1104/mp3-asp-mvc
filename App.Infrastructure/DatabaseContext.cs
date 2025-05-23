@@ -21,6 +21,7 @@ namespace App.Infrastructure
         public virtual DbSet<MediaContent> MediaContents { get; set; } = null!;
         public virtual DbSet<MediaViewHistory> MediaViewHistory { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<PremiumUpgradeRequest> PremiumUpgradeRequests { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
