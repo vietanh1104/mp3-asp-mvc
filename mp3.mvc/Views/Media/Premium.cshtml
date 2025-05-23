@@ -1,8 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Premium";
     ViewData["HomePage"] = "text-dark";
-    
+
     var isPremiumAccount = ViewData["IsPremiumAccount"];
+    var expiredDate = DateTime.Now.AddMonths(3);
 }
 
 <title> Mine Music - Premium</title>
@@ -16,15 +17,15 @@
         <div class="offer-section">
             <h1>29,500₫ cho 3 tháng dùng gói Premium</h1>
             <p>
-                Ưu đãi kết thúc vào ngày 28/01/2025. Nghe nhạc không quảng cáo và không cần kết nối mạng.<br>
+                Ưu đãi kết thúc vào ngày @expiredDate.Day/@expiredDate.Month/@expiredDate.Year. Nghe nhạc không quảng cáo và không cần kết nối mạng.<br>
                 Sau đó chỉ 59,000₫/tháng. Hủy bất cứ lúc nào.
             </p>
             <div class="buttons">
                 <a href="#" class="button">Mua Premium cao cấp</a>
                 <a href="#" class="button secondary">Xem tất cả các gói</a>
             </div>
-            <p>Chỉ áp dụng cho gói Premium cao cấp. 29,500 ₫ cho 3 tháng, sau đó là 59,000 ₫/tháng. Chỉ áp dụng ưu đãi nếu bạn chưa từng dùng gói Premium. <a href="#" style="color: #b3b3b3; text-decoration: underline;">Có áp dụng điều khoản.</a></p>
-            <p>Ưu đãi kết thúc vào ngày 28 tháng 01, 2025.</p>
+            <p>Chỉ áp dụng cho gói Premium cao cấp. 29,500 ₫ cho 3 tháng, sau đó là 59,000 ₫/tháng. Chỉ áp dụng ưu đãi nếu bạn chưa từng dùng gói Premium. <a href="/Home/Privacy" style="color: #b3b3b3; text-decoration: underline;">Có áp dụng điều khoản.</a></p>
+            <p>Ưu đãi kết thúc vào ngày @expiredDate.Day tháng @expiredDate.Month, @expiredDate.Year.</p>
         </div>
 
         <div class="footer">
@@ -84,7 +85,7 @@
                 }
 
                 <div class="terms">Có áp dụng điều khoản.</div>
-                <div class="terms">Ưu đãi kết thúc vào ngày 28 tháng 01, 2025.</div>
+                <div class="terms">Ưu đãi kết thúc vào ngày @expiredDate.Day tháng @expiredDate.Month, @expiredDate.Year</div>
             </div>
         </div>
     </div>

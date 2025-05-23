@@ -1,6 +1,5 @@
 ﻿using App.Application.Contracts.Infrastructure;
 using App.Common.Base;
-using App.Common.Helpers;
 using App.Domain.Entities;
 using App.Infrastructure;
 using AspNetCoreHero.ToastNotification.Abstractions;
@@ -32,8 +31,8 @@ namespace mp3.mvc.Controllers
         public async Task<IActionResult> Index(string searchText = "", int page = 1, int pageSize = 10)
         {
             var query = _databaseContext.Authors
-                .OrderBy(p => p.Name)
                 .Where(p => p.Id != ResourceConst.AnonymousAuthor)
+                .OrderBy(p => p.Name)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(searchText))
@@ -162,7 +161,7 @@ namespace mp3.mvc.Controllers
                 _notyfService.Success("Cập nhật thành công", 2);
                 return RedirectToAction(nameof(GetDetail), new { id = author.Id });
             }
-            _notyfService.Success("Cập nhật thất bại", 2);
+            _notyfService.Error("Cập nhật thất bại", 2);
             return RedirectToAction(nameof(Update), new { id = author.Id });
         }
 

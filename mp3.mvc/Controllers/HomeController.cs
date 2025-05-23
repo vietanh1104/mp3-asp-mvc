@@ -311,6 +311,7 @@ namespace mp3.mvc.Controllers
         public async Task<IActionResult> ListArtist()
         {
             var items = await _databaseContext.Authors
+                .Where(p => p.Id != ResourceConst.AnonymousAuthor)
                .OrderByDescending(p => p.Media.Sum(p => p.MediaViewHistory.Count))
                .Select(p => new AuthorSearchItemViewModel
                {
@@ -345,6 +346,7 @@ namespace mp3.mvc.Controllers
         public async Task<IActionResult> AuthorTab()
         {
             var items = await _databaseContext.Authors
+                .Where(p => p.Id != ResourceConst.AnonymousAuthor)
                .OrderByDescending(p => p.Media.Sum(p => p.MediaViewHistory.Count))
                .Select(p => new AuthorSearchItemViewModel
                {
@@ -372,7 +374,7 @@ namespace mp3.mvc.Controllers
             // gửi danh sách ca sĩ qua ViewData
             ViewData["AuthorList"] = items;
 
-            var items2 = await _databaseContext.Authors
+            var items2 = await _databaseContext.Authors.Where(p => p.Id != ResourceConst.AnonymousAuthor)
                .OrderByDescending(p => p.Media.OrderByDescending(p => p.CreatedAt).First() != null  ? p.Media.OrderByDescending(p => p.CreatedAt).First().CreatedAt : DateTime.MinValue)
                .Select(p => new AuthorSearchItemViewModel
                {

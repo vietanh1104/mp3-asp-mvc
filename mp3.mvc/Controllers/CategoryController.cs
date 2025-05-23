@@ -110,7 +110,7 @@ namespace mp3.mvc.Controllers
                 _notyfService.Success("Cập nhật thành công", 2);
                 return RedirectToAction(nameof(GetDetail), new { id = category.Id });
             }
-            _notyfService.Success("Cập nhật thất bại", 2);
+            _notyfService.Error("Cập nhật thất bại", 2);
             return RedirectToAction(nameof(Update), new { id = category.Id });
         }
 
