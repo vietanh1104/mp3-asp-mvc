@@ -123,7 +123,8 @@ namespace App.Infrastructure.Repositories
             var recommended = await _context.Media
                 .Where(m => (topAuthors.Contains(m.AuthorId) || topCategories.Contains(m.CategoryId))
                     && !m.IsHidden && !m.IsLocked)
-                .OrderBy(m => Guid.NewGuid()) // chậm với nhiều dữ liệu
+                //.OrderBy(m => Guid.NewGuid()) // chậm với nhiều dữ liệu
+                .OrderBy(x => EF.Functions.Random())
                 .Take(10)
                 .ToListAsync();
 
