@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using mp3.mvc.Consts;
 using mp3.mvc.Models;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace mp3.mvc.Controllers
 {
@@ -27,11 +28,23 @@ namespace mp3.mvc.Controllers
             _mediaRepository = mediaRepository;
             _databaseContext = databaseContext;
         }
+
+        private Guid getUserId()
+        {
+            if (HttpContext.User.Identity != null && HttpContext.User.Identity.IsAuthenticated)
+            {
+                var Idclaim = HttpContext.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier);
+                return Guid.Parse(Idclaim!.Value);
+            }
+
+            return ResourceConst.AnonymousUser;
+        }
+
         //[Authorize]
         public async Task<IActionResult> Index()
         {
             ViewData["HomePage"] = "text-dark";
-            ViewData["NewestList"] = await _databaseContext.Media
+            /*ViewData["NewestList"] = await _databaseContext.Media
                 .Include(p => p.Author)
                 .Include(p => p.Category)
                 .Include(p => p.MediaContent)
@@ -41,6 +54,8 @@ namespace mp3.mvc.Controllers
                 .IgnoreAutoIncludes()
                 .AsNoTracking()
                 .ToListAsync();
+*/
+            ViewData["NewestList"] = await _mediaRepository.GetSuggestedItemList(getUserId());
 
             ViewData["TrendingList"] = await _mediaRepository.GetTrendingItemList();
 
@@ -59,10 +74,10 @@ namespace mp3.mvc.Controllers
             return View();
         }
         //[Authorize]
-        public async Task<IActionResult> Search(int type = 0, string searchText= "", int page = 1, int pageSize = 8)
+        public async Task<IActionResult> Search(int type = 0, string searchText = "", int page = 1, int pageSize = 8)
         {
             ViewData["ExplorePage"] = "text-dark";
-            if(type == 0)
+            if (type == 0)
             {
                 var query = _databaseContext.Media
                 .Include(p => p.MediaContent)
@@ -74,7 +89,7 @@ namespace mp3.mvc.Controllers
                 {
                     query = query.Where(p => p.Name.ToLower().Contains(searchText.Trim().ToLower()));
                 }
-               
+
 
                 var total = await query.CountAsync();
 
@@ -85,7 +100,7 @@ namespace mp3.mvc.Controllers
 
                 ViewBag.Data = new BasePagination<Media>(total, page, pageSize, items);
             }
-            else if(type == 1)
+            else if (type == 1)
             {
                 var query = _databaseContext.Authors.AsQueryable();
 
@@ -107,14 +122,14 @@ namespace mp3.mvc.Controllers
                     })
                     .ToListAsync();
 
-                foreach(var item in items)
+                foreach (var item in items)
                 {
                     var views = await _databaseContext.MediaViewHistory
                         .Include(p => p.Media)
                         .Where(p => p.Media.AuthorId == item.Id)
                         .CountAsync();
 
-                    var numberOfTrack = await _databaseContext.Media.Where(p => p.AuthorId == item.Id).CountAsync();    
+                    var numberOfTrack = await _databaseContext.Media.Where(p => p.AuthorId == item.Id).CountAsync();
 
                     item.Views = views + 123;
                     item.NumberOfTracks = numberOfTrack;
@@ -180,7 +195,7 @@ namespace mp3.mvc.Controllers
 
             var categoryMediaViewData = new List<CategoryMediaViewModel>();
 
-            foreach(var  item in categoryMedia)
+            foreach (var item in categoryMedia)
             {
                 var media = await _databaseContext.Media
                 .Include(p => p.MediaContent)
@@ -206,13 +221,13 @@ namespace mp3.mvc.Controllers
             ViewData["searchText"] = searchText;
             ViewData["Type"] = type;
 
-            return View() ;
+            return View();
         }
 
         [HttpPost]
         public IActionResult SearchAction(int type = 0, string searchText = "", int page = 1, int pageSize = 8)
         {
-            return RedirectToAction("Search", new { type, searchText, page, pageSize});
+            return RedirectToAction("Search", new { type, searchText, page, pageSize });
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -375,7 +390,7 @@ namespace mp3.mvc.Controllers
             ViewData["AuthorList"] = items;
 
             var items2 = await _databaseContext.Authors.Where(p => p.Id != ResourceConst.AnonymousAuthor)
-               .OrderByDescending(p => p.Media.OrderByDescending(p => p.CreatedAt).First() != null  ? p.Media.OrderByDescending(p => p.CreatedAt).First().CreatedAt : DateTime.MinValue)
+               .OrderByDescending(p => p.Media.OrderByDescending(p => p.CreatedAt).First() != null ? p.Media.OrderByDescending(p => p.CreatedAt).First().CreatedAt : DateTime.MinValue)
                .Select(p => new AuthorSearchItemViewModel
                {
                    Id = p.Id,

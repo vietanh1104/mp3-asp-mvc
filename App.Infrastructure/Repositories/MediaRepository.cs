@@ -99,5 +99,35 @@ namespace App.Infrastructure.Repositories
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<List<Media>> GetSuggestedItemList(Guid userId, int pageSize = 8)
+        {
+            // lấy danh sách category và author mà user đã xem nhiều nhất
+            var topAuthors = await _context.MediaViewHistory
+                .Where(h => h.UserId == userId)
+                .GroupBy(h => h.Media.AuthorId)
+                .OrderByDescending(g => g.Count())
+                .Take(3)
+                .Select(g => g.Key)
+                .ToListAsync();
+
+            var topCategories = await _context.MediaViewHistory
+                .Where(h => h.UserId == userId)
+                .GroupBy(h => h.Media.CategoryId)
+                .OrderByDescending(g => g.Count())
+                .Take(3)
+                .Select(g => g.Key)
+                .ToListAsync();
+
+            // đề xuất các media mới theo top author hoặc category (chưa xem)
+            var recommended = await _context.Media
+                .Where(m => (topAuthors.Contains(m.AuthorId) || topCategories.Contains(m.CategoryId))
+                    && !m.IsHidden && !m.IsLocked)
+                .OrderBy(m => Guid.NewGuid()) // chậm với nhiều dữ liệu
+                .Take(10)
+                .ToListAsync();
+
+            return recommended;
+        }
     }
 }

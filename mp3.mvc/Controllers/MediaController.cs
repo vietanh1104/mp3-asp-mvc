@@ -6,7 +6,10 @@ using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using mp3.mvc.Consts;
 using mp3.mvc.Models;
+using NAudio.Wave;
+using System.IO;
 using System.Security.Claims;
 
 namespace mp3.mvc.Controllers
@@ -23,7 +26,7 @@ namespace mp3.mvc.Controllers
 
         public MediaController(ILogger<MediaController> logger, INotyfService notyfService, IMediaRepository mediaRepository,
             IMediaViewHistoryRepository mediaViewHistoryRepository,
-            IAuthorRepository authorRepository, 
+            IAuthorRepository authorRepository,
             DatabaseContext databaseContext, IWebHostEnvironment webHostEnvironment)
         {
             _logger = logger;
@@ -42,7 +45,7 @@ namespace mp3.mvc.Controllers
                 return Guid.Parse(Idclaim!.Value);
             }
 
-            return Guid.Parse("00000000-0000-0000-0000-61446981112f");
+            return ResourceConst.AnonymousUser;
         }
 
         //[Authorize]
@@ -53,9 +56,9 @@ namespace mp3.mvc.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Manage(string searchText= "", int page = 1, int pageSize = 10)
+        public async Task<IActionResult> Manage(string searchText = "", int page = 1, int pageSize = 10)
         {
-            var query =  _databaseContext.Media
+            var query = _databaseContext.Media
                 .Include(p => p.Category)
                 .Include(p => p.Author)
                 .Include(p => p.MediaContent).AsQueryable();
@@ -101,7 +104,7 @@ namespace mp3.mvc.Controllers
                 .Where(p => idData.Contains(p.Id))
                 .AsQueryable();
 
-            
+
 
             var items = await query
                 .OrderByDescending(p => p.CreatedAt)
@@ -148,12 +151,12 @@ namespace mp3.mvc.Controllers
                 .OrderByDescending(p => p.CreatedAt)
                 .Select(p => p.MediaId).FirstOrDefaultAsync();
 
-            if(media == Guid.Empty)
+            if (media == Guid.Empty)
             {
                 return RedirectToAction(nameof(Play), new { id });
             }
 
-            return RedirectToAction(nameof(Play), new {id = media });
+            return RedirectToAction(nameof(Play), new { id = media });
         }
 
         public async Task<IActionResult> Forward(Guid id)
@@ -166,7 +169,7 @@ namespace mp3.mvc.Controllers
                 .OrderBy(p => p.CreatedAt)
                 .Select(p => p.MediaId).FirstOrDefaultAsync();
 
-            if(media != Guid.Empty)
+            if (media != Guid.Empty)
             {
                 return RedirectToAction(nameof(Play), new { id = media });
             }
@@ -174,19 +177,19 @@ namespace mp3.mvc.Controllers
             var historyData = await _databaseContext.MediaViewHistory
                 .OrderByDescending(p => p.CreatedAt)
                 .Select(p => p.MediaId)
-                .Distinct()    
+                .Distinct()
                 .Take(30)
                 .ToListAsync();
 
             var nextMedia = await _databaseContext.MediaViewHistory
                 .GroupBy(p => p.MediaId)
-                .Select(p => new { MediaId = p.Key, Count = p.Count()})
+                .Select(p => new { MediaId = p.Key, Count = p.Count() })
                 .OrderBy(p => p.Count)
                 .Where(p => !historyData.Contains(p.MediaId))
                 .Select(p => p.MediaId)
                 .FirstOrDefaultAsync();
 
-            if(nextMedia == Guid.Empty)
+            if (nextMedia == Guid.Empty)
             {
                 nextMedia = await _databaseContext.Media.Where(p => !historyData.Contains(p.Id)).Select(p => p.Id).FirstOrDefaultAsync();
             }
@@ -275,7 +278,7 @@ namespace mp3.mvc.Controllers
             }
 
             await _databaseContext.AddAsync(mediaEntity);
-            foreach(var item in request.Avatar)
+            foreach (var item in request.Avatar)
             {
                 var mediaContentId = Guid.NewGuid();
                 var fileContentPath = $"/images/media/{mediaContentId}.jpg";
@@ -288,10 +291,25 @@ namespace mp3.mvc.Controllers
 
                 await _databaseContext.AddAsync(mediaContent);
 
-                using (var stream = new FileStream("wwwroot"+fileContentPath, FileMode.Create))
+                var fullFilePath = "wwwroot" + fileContentPath;
+
+                using (var stream = new FileStream("wwwroot" + fileContentPath, FileMode.Create))
                 {
                     await item.CopyToAsync(stream);
                 }
+
+                // check bitrate
+                using (var reader = new Mp3FileReader(fullFilePath))
+                {
+                    var bitrate = reader.Mp3WaveFormat.AverageBytesPerSecond * 8 / 1000;
+
+                    if (bitrate < 128)
+                    {
+                        _notyfService.Error("Thêm thất bại, tệp âm thanh không đủ tiêu chuẩn", 2);
+                        return RedirectToAction(nameof(Manage));
+                    }
+                }
+
             }
 
             var changeCount = await _databaseContext.SaveChangesAsync();
@@ -348,7 +366,7 @@ namespace mp3.mvc.Controllers
             mediaEntity.AuthorId = request.AuthorId;
             mediaEntity.CategoryId = request.CategoryId;
 
-            if(request.ContentFile != null)
+            if (request.ContentFile != null)
             {
                 System.IO.File.Delete("wwwroot" + mediaEntity.ContentUrl);
                 var filePath = $"/media/audio/{mediaEntity.Id}.mp3";
@@ -360,15 +378,15 @@ namespace mp3.mvc.Controllers
 
             _databaseContext.Update(mediaEntity);
 
-            if(request.Avatar != null && request.Avatar.Any())
+            if (request.Avatar != null && request.Avatar.Any())
             {
                 var mediaContents = await _databaseContext.MediaContents.Where(p => p.MediaId == request.Id).ToListAsync();
-                if(mediaContents.Any())
+                if (mediaContents.Any())
                 {
                     _databaseContext.RemoveRange(mediaContents);
                 }
 
-                foreach(var item in request.Avatar)
+                foreach (var item in request.Avatar)
                 {
                     var mediaContentId = Guid.NewGuid();
                     var fileContentPath = $"/images/media/{mediaContentId}.jpg";
@@ -440,7 +458,7 @@ namespace mp3.mvc.Controllers
 
             _notyfService.Success("Thêm vào danh sách yêu thích thành công", 2);
             return RedirectToAction(nameof(Play), new { id });
-            
+
         }
         [Authorize]
         public async Task<IActionResult> Unlike(Guid id)
