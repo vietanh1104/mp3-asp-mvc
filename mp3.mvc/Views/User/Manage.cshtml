@@ -23,8 +23,8 @@
             <thead>
                 <tr>
                     <th scope="col">Số thứ tự</th>
+                    <th scope="col">Tên hiển thị</th>
                     <th scope="col">Tên đăng nhập</th>
-                    <th scope="col">Tên hiểu thị</th>
                     <th scope="col">Email</th>
                     <th scope="col">Ngày tạo</th>
                     <th scope="col">Trạng thái</th>
@@ -42,10 +42,10 @@
                             @index
                         </td>
                         <td>
-                            @item.Username
+                            <partial name="./Common/User/_userAvatarPartial" model=@item />
                         </td>
                         <td>
-                            @item.DisplayName
+                            @item.Username
                         </td>
                         <td>
                             @item.Email

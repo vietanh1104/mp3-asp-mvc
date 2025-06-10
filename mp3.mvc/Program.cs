@@ -1,4 +1,5 @@
 using mp3.mvc.Configurations;
+using mp3.mvc.Services;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,8 @@ builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
 // Add service collection extensions
 services.AddServiceCollectionExtensions(builder.Configuration, env);
 
+builder.Services.AddHostedService<CheckExipredPremiumService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -36,7 +39,7 @@ else
     app.UseSwaggerUI(c =>
     {
         c.OAuthClientId("swagger");
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "MineMusic Api V1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "PoplyMusic Api V1");
     });
 }
 app.AddApplicationBuilderExtensions();

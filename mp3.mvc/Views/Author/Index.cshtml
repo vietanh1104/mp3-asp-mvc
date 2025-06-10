@@ -44,7 +44,7 @@
                         @index
                     </td>
                     <td>
-                        <a href="/author/getdetail?id=@item.Id" class="text-dark">@item.Name</a>
+                        <partial name="./Common/Author/_authorAvatarPartial" model=@item />
                     </td>
                     <td>
                         @item.NumberOfTracks

@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using mp3.mvc.Consts;
 using mp3.mvc.Models;
 using NAudio.Wave;
-using System.IO;
 using System.Security.Claims;
 
 namespace mp3.mvc.Controllers
@@ -61,6 +60,7 @@ namespace mp3.mvc.Controllers
             var query = _databaseContext.Media
                 .Include(p => p.Category)
                 .Include(p => p.Author)
+                .Include(p => p.User)
                 .Include(p => p.MediaContent).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(searchText))
@@ -303,13 +303,12 @@ namespace mp3.mvc.Controllers
                 {
                     var bitrate = reader.Mp3WaveFormat.AverageBytesPerSecond * 8 / 1000;
 
-                    if (bitrate < 128)
+                    if (bitrate < 320)
                     {
                         _notyfService.Error("Thêm thất bại, tệp âm thanh không đủ tiêu chuẩn", 2);
                         return RedirectToAction(nameof(Manage));
                     }
                 }
-
             }
 
             var changeCount = await _databaseContext.SaveChangesAsync();
@@ -486,5 +485,36 @@ namespace mp3.mvc.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> PersonalMediaList(string searchText = "", int page = 1, int pageSize = 10)
+        {
+            var userId = getUserId();
+            var query = _databaseContext.Media
+                .Include(p => p.Category)
+                .Include(p => p.Author)
+                .Include(p => p.MediaContent)
+                .Where(p => p.UserId == userId)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                query = query.Where(p => p.Name.ToLower().Contains(searchText.Trim().ToLower()));
+            }
+
+            var total = await query.CountAsync();
+
+            var items = await query
+            .OrderByDescending(p => p.UpdatedAt)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+            .ToListAsync();
+            ViewData["searchText"] = searchText;
+            ViewBag.Data = new BasePagination<Media>(total, page, pageSize, items);
+
+            return View();
+        }
+
     }
 }

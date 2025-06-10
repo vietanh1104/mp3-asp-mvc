@@ -1,0 +1,9 @@
+﻿@{
+    var name = string.IsNullOrWhiteSpace(Model.DisplayName) ? Model.Username : Model.DisplayName;
+}
+<div class="d-flex" style="">
+    <img src="@Model.AvatarUrl" style="border-radius:4px; height: 40px; width: 40px; object-fit:contain; overflow: hidden" class="card-img-top" alt="Ảnh đại diện">
+    <p class="card-bodys text-center">
+        @name
+    </p>
+</div>
