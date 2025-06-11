@@ -28,7 +28,8 @@
         </div>
     </div>
 
-    <partial name="./Common/_backgroundImagePartial" model=@Url.Content("~/images/kiennt-9-6-2025_hgfi2fd4e1aeea3b40e4a1a56b9a61e1fa4c_0a854963.png") />
+    <partial name="./Common/_backgroundImagePartial" model="@(new List<dynamic> { Url.Content("~/images/kiennt-9-6-2025_hgfi2fd4e1aeea3b40e4a1a56b9a61e1fa4c_0a854963.png"), 
+        Url.Content("~/images/kiennt-9-6-2025_hgfi2fd4e1aeea3b40e4a1a56b9a61e1fa4c_0a854963.png") })" />
 
     <div class="card-topvn position-relative p-3">
         <div class="cards" href="/Home/MostFavouriteMusic">
