@@ -10,6 +10,7 @@
 <title> Poply Music - Trang chủ</title>
 <head>
     <link rel="stylesheet" href="~/css/Home.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/MusicTab.css" asp-append-version="true" />
 </head>
 
 <!-- Khối phải (chiếm 8 cột) -->
@@ -27,9 +28,47 @@
         </div>
     </div>
 
+    <partial name="./Common/_backgroundImagePartial" model=@Url.Content("~/images/kiennt-9-6-2025_hgfi2fd4e1aeea3b40e4a1a56b9a61e1fa4c_0a854963.png") />
+
+    <div class="card-topvn position-relative p-3">
+        <div class="cards" href="/Home/MostFavouriteMusic">
+            <a href="/Home/MostFavouriteMusic">
+                <!-- Top Label with Icon -->
+                <div class="top-label">
+                    <img src="~/images/logo.png">
+                    <span>Top Bài Hát Việt Nam</span>
+                </div>
+
+                <!-- Title and Subtitle -->
+                <div class="content">
+                    <div class="title">Bài hát hàng đầu tại Việt Nam</div>
+                    <div class="subtitle">Danh sách phát • Poply Music</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="cardsd">
+            <a href="/Home/MostFavouriteMusic">
+
+                <!-- Top Label with Icon -->
+                <div class="top-labels">
+                    <img src="~/images/logo.png">
+                    <span>Top Bài Hát Việt Nam</span>
+                </div>
+
+                <!-- Title and Subtitle -->
+                <div class="contents">
+                    <div class="titles">Bài hát hàng đầu tại Việt Nam</div>
+                    <div class="subtitles">Danh sách phát • Poply Music</div>
+                </div>
+            </a>
+
+        </div>
+
+    </div>
 
     <!-- Đề xuất cho bạn -->
-    <div class="d-flex justify-content-between align-items-center mt-4">
+    <div class="d-flex justify-content-between align-items-center mt-4 position-relative">
         <h4 class="mb-0">Đề xuất cho bạn</h4>
         <div class="show-all">
             <a class="show-all" href="/Home/ListMusic">Hiển tất cả</a>
@@ -42,7 +81,7 @@
     </div>
 
     <!-- Bài hát yêu thích nhất -->
-    <div class="d-flex justify-content-between align-items-center mt-4">
+    <div class="d-flex justify-content-between align-items-center mt-4 position-relative">
         <h4 class="mb-0">Bài hát yêu thích</h4>
         <div class="show-all">
             <a class="show-all" href="/Home/MostFavouriteMusic">Hiển tất cả</a>
@@ -55,7 +94,7 @@
     </div>
 
     <!-- Nghệ Sĩ Yêu Thích -->
-    <div class="d-flex justify-content-between align-items-center mt-4" style="margin-bottom:12px">
+    <div class="d-flex justify-content-between align-items-center mt-4 position-relative" style="margin-bottom:12px">
         <h4 class="mb-0">Nghệ sĩ yêu thích</h4>
         <div class="show-all">
             <a class="show-all" href="/Home/ListArtist">Hiển tất cả</a>
@@ -67,7 +106,5 @@
         <partial name="./Common/Media/Carousel/_SlideslArtistPartial" model="authorList" />
 
     </div>
-
-
 
 </div>
