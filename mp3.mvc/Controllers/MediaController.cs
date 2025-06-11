@@ -313,12 +313,31 @@ namespace mp3.mvc.Controllers
 
             var changeCount = await _databaseContext.SaveChangesAsync();
 
+            var isPremium = HttpContext.User.Claims.FirstOrDefault(p => p.Type == "role").ToString() == "Premium";
+
+            if (isPremium)
+            {
+                if (changeCount > 0)
+                {
+                    _notyfService.Success("Thêm thành công", 2);
+                }
+                else
+                {
+                    _notyfService.Error("Thêm thất bại", 2);
+                }
+
+                return RedirectToAction(nameof(PersonalMediaList));
+            }
+                
             if (changeCount > 0)
             {
                 _notyfService.Success("Thêm thành công", 2);
-                return RedirectToAction(nameof(Manage));
             }
-            _notyfService.Error("Thêm thất bại", 2);
+            else
+            {
+                _notyfService.Error("Thêm thất bại", 2);
+            }
+            
             return RedirectToAction(nameof(Manage));
         }
 
